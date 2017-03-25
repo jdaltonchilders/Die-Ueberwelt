@@ -1,0 +1,37 @@
+{
+  "name": "die-ueberwelt",
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "webpack-dashboard -- npm run start",
+    "start": "webpack-dev-server --inline --hot --content-base build --config webpack.config.dev.js",
+    "build": "webpack -p --config webpack.config.prod.js",
+    "now-start": "serve ./build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "now": {
+    "alias": "spike"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jdaltonchilders/Team-Spike.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jdaltonchilders/Team-Spike/issues"
+  },
+  "homepage": "https://github.com/jdaltonchilders/Team-Spike#readme",
+  "dependencies": {
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
+    "babel-preset-es2015": "^6.24.0",
+    "prettier-webpack-plugin": "^0.0.2",
+    "serve": "^5.1.1",
+    "webpack": "^2.3.2",
+    "webpack-dev-server": "^2.4.2"
+  },
+  "devDependencies": {
+    "webpack-dashboard": "^0.3.0"
+  }
+}
