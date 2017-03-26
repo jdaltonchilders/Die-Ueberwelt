@@ -2,8 +2,9 @@
 
 class HeroHome extends Phaser.State {
   constructor() {
-    super();
     // exception thrown here when not called
+    super();
+
     // Tile Map
     this.map;
 
