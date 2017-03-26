@@ -1,15 +1,22 @@
 /*jshint esversion: 6 */
 
-var map;
-var floor;
-var walls;
-var underFurnitre;
-var furniture;
-var items;
-var aboveFurniture;
-var ceiling;
-
 class HeroHome extends Phaser.State {
+  constructor() {
+    super();
+    // exception thrown here when not called
+    // Tile Map
+    this.map;
+
+    // Tile Map Layers
+    this.floor;
+    this.walls;
+    this.underFurnitre;
+    this.furniture;
+    this.items;
+    this.aboveFurniture;
+    this.ceiling;
+  }
+
   preload() {
     // Load Tilemap
     this.game.load.tilemap('heroHome', 'assets/maps/HeroHome.json', null, Phaser.Tilemap.TILED_JSON);
@@ -21,21 +28,21 @@ class HeroHome extends Phaser.State {
 
   create() {
     // Create the Map
-    map = this.game.add.tilemap('heroHome');
-    map.addTilesetImage('inside', 'tiles_inside');
-    map.addTilesetImage('inside_changed', 'tiles_inside_ceiling');
+    this.map = this.game.add.tilemap('heroHome');
+    this.map.addTilesetImage('inside', 'tiles_inside');
+    this.map.addTilesetImage('inside_changed', 'tiles_inside_ceiling');
 
     // Create layers
-    floor = map.createLayer('Floor');
-    walls = map.createLayer('Walls');
-    underFurnitre = map.createLayer('UnderFurniture');
-    furniture = map.createLayer('Furniture');
-    items = map.createLayer('Items');
-    aboveFurniture = map.createLayer('AboveFurniture');
-    ceiling = map.createLayer('Ceiling');
+    this.floor = this.map.createLayer('Floor');
+    this.walls = this.map.createLayer('Walls');
+    this.underFurnitre = this.map.createLayer('UnderFurniture');
+    this.furniture = this.map.createLayer('Furniture');
+    this.items = this.map.createLayer('Items');
+    this.aboveFurniture = this.map.createLayer('AboveFurniture');
+    this.ceiling = this.map.createLayer('Ceiling');
 
     // Resize game world to match the floor
-    floor.resizeWorld();
+    this.floor.resizeWorld();
   }
 }
 
