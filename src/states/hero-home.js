@@ -23,7 +23,7 @@ class HeroHome extends Phaser.State {
     // Create the Map
     map = this.game.add.tilemap('heroHome');
     map.addTilesetImage('inside', 'tiles_inside');
-    map.addTilesetImage('inside_changed', 'tiles_inside');
+    map.addTilesetImage('inside_changed', 'tiles_inside_ceiling');
 
     // Create layers
     floor = map.createLayer('Floor');
