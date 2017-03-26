@@ -10,7 +10,7 @@ import HeroHome from './states/hero-home';
 
 class Game extends Phaser.Game {
   constructor() {
-    super('100%', '100%', Phaser.AUTO, 'gameArea');
+    super(800, 500, Phaser.AUTO, 'gameArea');
 
     // Add to the State Manager (key, state, autoStart)
     this.state.add('Boot', Boot, false);
