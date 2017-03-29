@@ -12,6 +12,21 @@ export default class Player {
     this.sprite.anchor.set(0.5, 0.5);
     this.game.physics.arcade.enable(this.sprite);
     this.sprite.body.collideWorldBounds = true;
+
+    // Configure player
+    this.nextFire = this.game.time.now + store.fireRate;
+    this.bulletSpeed = 300;
+
+    // Now create bullets group
+    this.bullets = this.game.add.group();
+    this.bullets.enableBody = true;
+    this.bullets.physicsBodyType = Phaser.Physics.ARCADE;
+    this.bullets.createMultiple(30, 'bullet', 0, false);
+    this.bullets.forEach(bullet => bullet.scale.set(0.5, 0.5));
+    this.bullets.setAll('anchor.x', 0);
+    this.bullets.setAll('anchor.y', 0.5);
+    this.bullets.setAll('outOfBoundsKill', true);
+    this.bullets.setAll('checkWorldBounds', true);
   }
 
   update() {
@@ -67,6 +82,27 @@ export default class Player {
       //  Stand still
       this.sprite.animations.stop();
       this.sprite.frame = 4;
+    }
+
+    // Fire if the mouse is being clicked
+    if (this.game.input.activePointer.isDown) this.fire();
+  }
+
+  fire() {
+    // If enough time has past since the last bullet firing
+    if (this.game.time.now > this.nextFire) {
+      // Then create the bullet
+      var bullet = this.bullets.getFirstExists(false);
+      if (bullet) {
+        // Set on player
+        bullet.reset(this.sprite.x, this.sprite.y);
+
+        // Rotate and move bullet toward mouse pointer
+        bullet.rotation = this.game.physics.arcade.moveToPointer(bullet, this.bulletSpeed, this.game.input.activePointer);
+
+        // Delay next bullet fire opportunity
+        this.nextFire = this.game.time.now + store.fireRate;
+      }
     }
   }
 }

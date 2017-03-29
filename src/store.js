@@ -1,1 +1,1 @@
-export default { speed: 100 };
+export default { speed: 100, fireRate: 500 };

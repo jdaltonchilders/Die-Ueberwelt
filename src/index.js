@@ -6,6 +6,7 @@ var playerController;
 
 function preload() {
   game.load.spritesheet('player', 'assets/images/chara2.png', 26, 36);
+  game.load.image('bullet', 'assets/images/bullet.png');
 }
 
 function create() {
