@@ -42,8 +42,10 @@ class HeroHome extends Phaser.State {
     this.aboveFurniture = this.map.createLayer('AboveFurniture');
     this.ceiling = this.map.createLayer('Ceiling');
 
-    // Resize game world to match the floor
+    // Resize game world to match the floor (DOESN'T SEEM TO WORK RIGHT NOW)
     this.floor.resizeWorld();
+    // TODO: Add collision layer to map
+    // TODO: Add collision detection
   }
 }
 
