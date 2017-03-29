@@ -6,16 +6,16 @@ class HeroHome extends Phaser.State {
     super();
 
     // Tile Map
-    this.map;
+    this.map = '';
 
     // Tile Map Layers
-    this.floor;
-    this.walls;
-    this.underFurnitre;
-    this.furniture;
-    this.items;
-    this.aboveFurniture;
-    this.ceiling;
+    this.floor = '';
+    this.walls = '';
+    this.underFurnitre = '';
+    this.furniture = '';
+    this.items = '';
+    this.aboveFurniture = '';
+    this.ceiling = '';
   }
 
   preload() {
