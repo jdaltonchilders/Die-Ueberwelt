@@ -41,49 +41,25 @@ export default class Player {
     var keyS = this.game.input.keyboard.addKey(Phaser.Keyboard.S);
     var keyD = this.game.input.keyboard.addKey(Phaser.Keyboard.D);
 
-    // Horizontal motion
-    if (keyA.isDown) {
-      this.sprite.animations.play('left');
-      if (keyW.isDown || keyS.isDown) {
-        this.sprite.body.velocity.x = (-store.speed) / Math.sqrt(2);
-      } else {
-        this.sprite.body.velocity.x = -store.speed;
-      }
+    if (keyW.isDown) {
+      this.sprite.animations.play('up', null, true);
+      this.sprite.body.velocity.y = -store.speed;
+      this.sprite.body.velocity.x = 0;
+    } else if (keyS.isDown) {
+      this.sprite.animations.play('down', null, true);
+      this.sprite.body.velocity.y = store.speed;
+      this.sprite.body.velocity.x = 0;
+    } else if (keyA.isDown) {
+      this.sprite.animations.play('left', null, true);
+      this.sprite.body.velocity.x = -store.speed;
+      this.sprite.body.velocity.y = 0;
     } else if (keyD.isDown) {
-      this.sprite.animations.play('right');
-      if (keyW.isDown || keyS.isDown) {
-        this.sprite.body.velocity.x = store.speed / Math.sqrt(2);
-      } else {
-        this.sprite.body.velocity.x = store.speed;
-      }
+      this.sprite.animations.play('right', null, true);
+      this.sprite.body.velocity.x = store.speed;
+      this.sprite.body.velocity.y = 0;
     } else {
       // TODO: Should we use drag instead here?
       this.sprite.body.velocity.x = 0;
-    }
-
-    // Vertical motion
-    if (keyW.isDown) {
-      // Are we also moving sideways?
-      this.sprite.animations.play('up');
-      if (keyA.isDown) {
-        this.sprite.body.velocity.y = (-store.speed) / Math.sqrt(2);
-      } else if (keyD.isDown) {
-        this.sprite.body.velocity.y = (-store.speed) / Math.sqrt(2);
-      } else {
-        this.sprite.body.velocity.y = -store.speed;
-      }
-    } else if (keyS.isDown) {
-      // Are we also moving sideways?
-      this.sprite.animations.play('down');
-      if (keyA.isDown) {
-        this.sprite.body.velocity.y = store.speed / Math.sqrt(2);
-      } else if (keyD.isDown) {
-        this.sprite.body.velocity.y = store.speed / Math.sqrt(2);
-      } else {
-        this.sprite.body.velocity.y = store.speed;
-      }
-    } else {
-      // TODO: Should we use drag instead here?
       this.sprite.body.velocity.y = 0;
     }
 
