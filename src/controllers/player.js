@@ -13,6 +13,12 @@ export default class Player {
     this.game.physics.arcade.enable(this.sprite);
     this.sprite.body.collideWorldBounds = true;
 
+    // Create animations
+    this.sprite.animations.add('up', [ 36, 37, 38, 37 ], 5, true);
+    this.sprite.animations.add('right', [ 24, 25, 26, 25 ], 5, true);
+    this.sprite.animations.add('left', [ 12, 13, 14, 13 ], 5, true);
+    this.sprite.animations.add('down', [ 0, 1, 2, 1 ], 5, true);
+
     // Configure player
     this.nextFire = this.game.time.now + store.fireRate;
     this.bulletSpeed = 300;
@@ -37,12 +43,14 @@ export default class Player {
 
     // Horizontal motion
     if (keyA.isDown) {
+      this.sprite.animations.play('left');
       if (keyW.isDown || keyS.isDown) {
         this.sprite.body.velocity.x = (-store.speed) / Math.sqrt(2);
       } else {
         this.sprite.body.velocity.x = -store.speed;
       }
     } else if (keyD.isDown) {
+      this.sprite.animations.play('right');
       if (keyW.isDown || keyS.isDown) {
         this.sprite.body.velocity.x = store.speed / Math.sqrt(2);
       } else {
@@ -56,6 +64,7 @@ export default class Player {
     // Vertical motion
     if (keyW.isDown) {
       // Are we also moving sideways?
+      this.sprite.animations.play('up');
       if (keyA.isDown) {
         this.sprite.body.velocity.y = (-store.speed) / Math.sqrt(2);
       } else if (keyD.isDown) {
@@ -65,6 +74,7 @@ export default class Player {
       }
     } else if (keyS.isDown) {
       // Are we also moving sideways?
+      this.sprite.animations.play('down');
       if (keyA.isDown) {
         this.sprite.body.velocity.y = store.speed / Math.sqrt(2);
       } else if (keyD.isDown) {
@@ -80,8 +90,17 @@ export default class Player {
     // Stop motion
     if (!keyA.isDown && !keyD.isDown && !keyW.isDown && !keyS.isDown) {
       //  Stand still
+      const animationName = this.sprite.animations.currentAnim.name;
+      if (animationName === 'down') {
+        this.sprite.frame = 1;
+      } else if (animationName === 'left') {
+        this.sprite.frame = 13;
+      } else if (animationName === 'right') {
+        this.sprite.frame = 25;
+      } else if (animationName === 'up') {
+        this.sprite.frame = 37;
+      }
       this.sprite.animations.stop();
-      this.sprite.frame = 4;
     }
 
     // Fire if the mouse is being clicked
