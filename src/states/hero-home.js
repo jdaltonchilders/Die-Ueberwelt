@@ -11,6 +11,7 @@ class HeroHome extends Phaser.State {
     // Tile Map Layers
     this.floor = null;
     this.walls = null;
+    this.doors = null;
     this.underFurnitre = null;
     this.furniture = null;
     this.items = null;
@@ -25,6 +26,7 @@ class HeroHome extends Phaser.State {
     // Load Tilesets
     this.game.load.image('tiles_inside', 'assets/images/tiles/inside.png');
     this.game.load.image('tiles_inside_ceiling', 'assets/images/tiles/inside_changed.png');
+    this.game.load.image('tiles_door', 'assets/images/tiles/doors.png');
   }
 
   create() {
@@ -32,10 +34,12 @@ class HeroHome extends Phaser.State {
     this.map = this.game.add.tilemap('heroHome');
     this.map.addTilesetImage('inside', 'tiles_inside');
     this.map.addTilesetImage('inside_changed', 'tiles_inside_ceiling');
+    this.map.addTilesetImage('doors', 'tiles_door');
 
     // Create layers
     this.floor = this.map.createLayer('Floor');
     this.walls = this.map.createLayer('Walls');
+    this.doors = this.map.createLayer('Door');
     this.underFurnitre = this.map.createLayer('UnderFurniture');
     this.furniture = this.map.createLayer('Furniture');
     this.items = this.map.createLayer('Items');
