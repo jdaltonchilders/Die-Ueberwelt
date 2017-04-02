@@ -2,7 +2,7 @@
 
 import Player from '../controllers/player';
 
-class HeroHome extends Phaser.State {
+export default class HeroHome extends Phaser.State {
   constructor() {
     // exception thrown here when not called
     super();
@@ -20,10 +20,17 @@ class HeroHome extends Phaser.State {
     this.aboveFurniture = null;
     this.ceiling = null;
 
-    // Collision Layers
-    this.collisionTrigger = null;
+    // Collision Trigger Layers
+    this.returnFromWorld = null;
+    this.exitHouse = null;
+
+    // Collision Trigger Layer Rect
+    this.returnFromWorldRect = null;
+    this.exitHouseRect = null;
 
     //Player
+    this.player = null;
+    this.playerPosition = null;
     this.playerController = null;
   }
 
@@ -42,6 +49,9 @@ class HeroHome extends Phaser.State {
   }
 
   create() {
+    // Enable the Arcade Physics system
+    this.game.physics.startSystem(Phaser.Physics.ARCADE);
+
     // Create the Map
     this.map = this.game.add.tilemap('heroHome');
     this.map.addTilesetImage('inside', 'tiles_inside');
@@ -58,20 +68,44 @@ class HeroHome extends Phaser.State {
     this.aboveFurniture = this.map.createLayer('AboveFurniture');
     this.ceiling = this.map.createLayer('Ceiling');
 
-    // Create Collision Layer
+    // https://www.programmingmind.com/phaser/topdown-layers-moving-and-collision
+    // Create Collision Trigger Layer
+    this.returnFromWorld = this.map.objects.CollisionTrigger.find(object => object.name == 'ReturnFromWorld');
+    this.exitHouse = this.map.objects.CollisionTrigger.find(object => object.name == 'ExitHouse');
+
+    // Create Collision Trigger Layer Rect
+    this.returnFromWorldRect = new Phaser.Rectangle(this.returnFromWorld.x, this.returnFromWorld.y, this.returnFromWorld.width, this.returnFromWorld.height);
+    this.exitHouseRect = new Phaser.Rectangle(this.exitHouse.x, this.exitHouse.y, this.exitHouse.width, this.exitHouse.height);
+
     // Resize game world to match the floor (DOESN'T SEEM TO WORK RIGHT NOW)
     this.floor.resizeWorld();
 
     // Create the Player
-    this.playerController = new Player(this.game, 0, 0);
-    // TODO: Add collision layer to map
-    // TODO: Add collision detection
+    this.player = new Player(this.game, this.returnFromWorldRect.x, this.returnFromWorldRect.y);
+
+    /**
+    * TODO: Figure out how to make this work right.
+    * Currently without this bit we have an error with
+    * the camera.
+    * Error: TypeError: this.game.camera.target.postUpdate is not a function
+    */
+    this.game.physics.ARCADE(this.player);
+
+    // Camera follows player
+    this.game.camera.follow(this.player);
   }
 
   update() {
-    // Update the Player (calls update in player controller)
-    this.playerController.update();
+    // Handle Player Update
+    this.player.update();
+
+    // Update Player Position
+    this.playerPosition = new Phaser.Rectangle(this.player.sprite.worldPosition.x, this.player.sprite.worldPosition.y, 0, 0);
+
+    // Check if Exit House contains the Player
+    if (this.exitHouseRect.contains(this.playerPosition.x, this.playerPosition.y)) {
+      // Load the Hero Island State
+      this.game.state.start('HeroIsland');
+    }
   }
 }
-
-export default HeroHome;
