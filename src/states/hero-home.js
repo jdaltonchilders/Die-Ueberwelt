@@ -1,5 +1,7 @@
 /*jshint esversion: 6 */
 
+import Player from '../controllers/player';
+
 class HeroHome extends Phaser.State {
   constructor() {
     // exception thrown here when not called
@@ -17,6 +19,12 @@ class HeroHome extends Phaser.State {
     this.items = null;
     this.aboveFurniture = null;
     this.ceiling = null;
+
+    // Collision Layers
+    this.collisionTrigger = null;
+
+    //Player
+    this.playerController = null;
   }
 
   preload() {
@@ -27,6 +35,10 @@ class HeroHome extends Phaser.State {
     this.game.load.image('tiles_inside', 'assets/images/tiles/inside.png');
     this.game.load.image('tiles_inside_ceiling', 'assets/images/tiles/inside_changed.png');
     this.game.load.image('tiles_door', 'assets/images/tiles/doors.png');
+
+    // Load Player
+    this.game.load.spritesheet('player', 'assets/images/chara2.png', 26, 36);
+    this.game.load.image('bullet', 'assets/images/bullet.png');
   }
 
   create() {
@@ -46,10 +58,19 @@ class HeroHome extends Phaser.State {
     this.aboveFurniture = this.map.createLayer('AboveFurniture');
     this.ceiling = this.map.createLayer('Ceiling');
 
+    // Create Collision Layer
     // Resize game world to match the floor (DOESN'T SEEM TO WORK RIGHT NOW)
     this.floor.resizeWorld();
+
+    // Create the Player
+    this.playerController = new Player(this.game, 0, 0);
     // TODO: Add collision layer to map
     // TODO: Add collision detection
+  }
+
+  update() {
+    // Update the Player (calls update in player controller)
+    this.playerController.update();
   }
 }
 

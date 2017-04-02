@@ -1,3 +1,5 @@
+/*jshint esversion: 6 */
+
 import store from '../store';
 
 export default class Player {
