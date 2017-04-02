@@ -1,18 +1,26 @@
-import Player from './controllers/player';
+/*jshint esversion: 6 */
 
-const game = new Phaser.Game(800, 500, Phaser.AUTO, 'gameArea', { preload, create, update });
+// General Game States
+import Boot from './states/boot';
+import Preload from './states/preload';
 
-var playerController;
+// Hero Island States
+import HeroIsland from './states/hero-island';
+import HeroHome from './states/hero-home';
 
-function preload() {
-  game.load.spritesheet('player', 'assets/images/chara2.png', 26, 36);
-  game.load.image('bullet', 'assets/images/bullet.png');
+class Game extends Phaser.Game {
+  constructor() {
+    super(800, 500, Phaser.AUTO, 'gameArea');
+
+    // Add to the State Manager (key, state, autoStart)
+    this.state.add('Boot', Boot, false);
+    this.state.add('Preload', Preload, false);
+    this.state.add('HeroHome', HeroHome, false);
+    this.state.add('HeroIsland', HeroIsland, false);
+
+    // Start state (state, clearWorld (boolean), clearCache(boolean))
+    this.state.start('Boot');
+  }
 }
 
-function create() {
-  playerController = new Player(game, 0, 0);
-}
-
-function update() {
-  playerController.update();
-}
+new Game();
