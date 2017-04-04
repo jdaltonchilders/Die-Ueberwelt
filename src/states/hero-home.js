@@ -69,14 +69,16 @@ class HeroHome extends Phaser.State {
     // TODO: Add collision detection
     // Items testing
     this.item = new Item(this.game, 48, 48, 'itemName', 'player', this.playerController.sprite);
+    this.item2 = new Item(this.game, 72, 106, 'itemName2', 'player', this.playerController.sprite);
   }
 
   update() {
     // Update the Player (calls update in player controller)
     this.playerController.update();
 
-    // Update the item
+    // Update the items
     this.item.update();
+    this.item2.update();
   }
 }
 

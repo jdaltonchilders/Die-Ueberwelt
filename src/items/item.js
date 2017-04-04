@@ -14,6 +14,8 @@ export default class Item {
     this.sprite = this.game.add.sprite(spawnX, spawnY, spriteKey);
     this.sprite.anchor.set(0.5, 0.5);
     this.game.physics.arcade.enable(this.sprite);
+
+    this.collectible = true;
   }
 
   update() {
@@ -23,9 +25,13 @@ export default class Item {
 
   onOverlap(player, sprite) {
     // When overlapped, add this item to their inventory
-    if (this.sprite.alive) store.inventory.push(this.name);
+    if (!this.collectible) return;
+    this.collectible = false;
+    store.inventory.push(this.name);
+    this.placePortrait(16 + 32 * (store.inventory.length - 1), this.game.height - 16);
+  }
 
-    // And delete this item
-    this.sprite.kill();
+  placePortrait(x, y) {
+    this.sprite.reset(x, y);
   }
 }
