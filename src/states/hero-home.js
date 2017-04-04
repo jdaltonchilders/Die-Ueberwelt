@@ -1,5 +1,6 @@
 /*jshint esversion: 6 */
 
+import Item from '../items/item';
 import Player from '../controllers/player';
 
 class HeroHome extends Phaser.State {
@@ -23,7 +24,7 @@ class HeroHome extends Phaser.State {
     // Collision Layers
     this.collisionTrigger = null;
 
-    //Player
+    // Player
     this.playerController = null;
   }
 
@@ -66,11 +67,16 @@ class HeroHome extends Phaser.State {
     this.playerController = new Player(this.game, 0, 0);
     // TODO: Add collision layer to map
     // TODO: Add collision detection
+    // Items testing
+    this.item = new Item(this.game, 48, 48, 'itemName', 'player', this.playerController.sprite);
   }
 
   update() {
     // Update the Player (calls update in player controller)
     this.playerController.update();
+
+    // Update the item
+    this.item.update();
   }
 }
 
