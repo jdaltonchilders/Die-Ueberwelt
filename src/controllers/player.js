@@ -12,6 +12,7 @@ export default class Player {
     // Create the player sprite
     this.sprite = this.game.add.sprite(spawnX, spawnY, 'player');
     this.sprite.anchor.set(0.5, 0.5);
+    this.sprite.smoothed = false;
     this.game.physics.arcade.enable(this.sprite);
     this.sprite.body.collideWorldBounds = true;
 
