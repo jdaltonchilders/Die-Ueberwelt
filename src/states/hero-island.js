@@ -23,6 +23,7 @@ export default class HeroIsland extends Phaser.State {
     this.items = null;
     this.doors = null;
     this.trees = null;
+    this.collision = null;
 
     // Collision Trigger Layers
     this.enterHeroHouse = null;
@@ -81,6 +82,7 @@ export default class HeroIsland extends Phaser.State {
     this.items = this.map.createLayer('Items');
     this.doors = this.map.createLayer('Doors');
     this.trees = this.map.createLayer('Trees');
+    this.collision = this.map.createLayer('Collision');
 
     // Create Collision Trigger Layer
     this.enterHeroHouse = this.map.objects.CollisionTrigger.find(object => object.name == 'EnterHeroHouse');
