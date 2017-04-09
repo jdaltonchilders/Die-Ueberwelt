@@ -33,5 +33,6 @@ export default class Item {
 
   placePortrait(x, y) {
     this.sprite.reset(x, y);
+    this.sprite.fixedToCamera = true;
   }
 }
