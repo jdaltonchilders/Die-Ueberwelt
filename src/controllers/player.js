@@ -12,8 +12,12 @@ export default class Player {
     // Create the player sprite
     this.sprite = this.game.add.sprite(spawnX, spawnY, 'player');
     this.sprite.anchor.set(0.5, 0.5);
-    this.game.physics.p2.enable(this.sprite);
+    this.sprite.smoothed = false;
+
+    // Customize Physics
+    this.game.physics.arcade.enable(this.sprite, true);
     this.sprite.body.collideWorldBounds = true;
+    this.sprite.body.setSize(18, 12, 4, 28);
 
     // Create animations
     this.sprite.animations.add('up', [ 36, 37, 38, 37 ], 5, true);
@@ -28,7 +32,7 @@ export default class Player {
     // Now create bullets group
     this.bullets = this.game.add.group();
     this.bullets.enableBody = true;
-    this.bullets.physicsBodyType = Phaser.Physics.P2JS;
+    this.bullets.physicsBodyType = Phaser.Physics.ARCADE;
     this.bullets.createMultiple(30, 'bullet', 0, false);
     this.bullets.forEach(bullet => bullet.scale.set(0.5, 0.5));
     this.bullets.setAll('anchor.x', 0);

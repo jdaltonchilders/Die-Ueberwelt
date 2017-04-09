@@ -56,8 +56,7 @@ export default class HeroHome extends Phaser.State {
 
   create() {
     // Enable the Arcade Physics system
-    this.game.physics.startSystem(Phaser.Physics.P2JS);
-    this.game.physics.p2.setImpactEvents(true);
+    this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
     // Create the Map
     this.map = this.game.add.tilemap('heroHome');
@@ -75,16 +74,6 @@ export default class HeroHome extends Phaser.State {
     this.aboveFurniture = this.map.createLayer('AboveFurniture');
     this.ceiling = this.map.createLayer('Ceiling');
 
-    // Create Collision Groups
-    this.playerCG = this.game.physics.p2.createCollisionGroup();
-    this.collisionCG = this.game.physics.p2.createCollisionGroup();
-
-    // Create Collision Between Player and Border
-    this.collisions = this.game.physics.p2.convertCollisionObjects(this.map, 'Collision', true);
-    for (var collision in this.collisions) {
-      this.collisions[collision].setCollisionGroup(this.collisionCG);
-      this.collisions[collision].collides(this.playerCG);
-    }
     // https://www.programmingmind.com/phaser/topdown-layers-moving-and-collision
     // Create Collision Trigger Layer
     this.returnFromWorld = this.map.objects.CollisionTrigger.find(object => object.name == 'ReturnFromWorld');
@@ -99,26 +88,33 @@ export default class HeroHome extends Phaser.State {
 
     // Create the Player
     this.player = new Player(this.game, this.returnFromWorldRect.x, this.returnFromWorldRect.y);
-    console.log(this.player);
-    console.log(this.player.sprite.body);
-    this.player.sprite.body.setCollisionGroup(this.playerCG);
 
-    //
-    /**
-    * TODO: Figure out how to make this work right.
-    * Currently without this bit we have an error with
-    * the camera.
-    * Error: TypeError: this.game.camera.target.postUpdate is not a function
-    */
-    // We need to enable physics on the player
-    console.log(this.game.camera);
+    // Collide with Player
+    var mapTileLength = this.map.tiles.length - 1;
+    this.map.setCollisionBetween(1, mapTileLength, true, this.walls);
+    this.map.setCollisionBetween(1, mapTileLength, true, this.doors);
+    this.map.setCollisionBetween(1, mapTileLength, true, this.underFurnitre);
+    this.map.setCollisionBetween(1, mapTileLength, true, this.furniture);
+    this.map.setCollisionBetween(1, mapTileLength, true, this.items);
+    this.map.setCollisionBetween(1, mapTileLength, true, this.aboveFurniture);
+    this.map.setCollisionBetween(1, mapTileLength, true, this.ceiling);
+
     // Camera follows player
-    // this.game.camera.follow(this.player);
+    this.game.camera.follow(this.player.sprite);
   }
 
   update() {
     // Handle Player Update
     this.player.update();
+
+    // Collide with Layers
+    this.game.physics.arcade.collide(this.player.sprite, this.walls);
+    this.game.physics.arcade.collide(this.player.sprite, this.doors);
+    this.game.physics.arcade.collide(this.player.sprite, this.underFurnitre);
+    this.game.physics.arcade.collide(this.player.sprite, this.furniture);
+    this.game.physics.arcade.collide(this.player.sprite, this.items);
+    this.game.physics.arcade.collide(this.player.sprite, this.aboveFurniture);
+    this.game.physics.arcade.collide(this.player.sprite, this.ceiling);
 
     // Update Player Position
     this.playerPosition = new Phaser.Rectangle(this.player.sprite.worldPosition.x, this.player.sprite.worldPosition.y, 0, 0);
@@ -133,5 +129,6 @@ export default class HeroHome extends Phaser.State {
   render() {
     // this.game.debug.cameraInfo(this.game.camera, 32, 32);
     // this.game.debug.spriteCoords(this.player, 32, 500);
+    this.game.debug.body(this.player.sprite);
   }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="17" height="20" tilewidth="16" tileheight="16" nextobjectid="47">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="17" height="20" tilewidth="16" tileheight="16" nextobjectid="48">
  <tileset firstgid="1" name="inside_changed" tilewidth="16" tileheight="16" tilecount="105" columns="15">
   <image source="../build/assets/images/tiles/inside_changed.png" width="240" height="112"/>
  </tileset>
@@ -204,25 +204,8 @@
 65,2684354594,2684354594,2684354594,2684354594,2684354594,2684354594,2684354594,2684354594,2684354594,2684354594,2684354594,2684354594,2684354594,2684354594,2684354594,64
 </data>
  </layer>
- <objectgroup name="Collision">
-  <object id="29" x="32" y="54">
-   <polyline points="0,0 0,6.63636 16,6.54545 15.9091,0 0.181818,-0.181818"/>
-  </object>
-  <object id="30" x="79.9091" y="53.9091">
-   <polyline points="0,0 0,6.63636 16,6.54545 15.9091,0 0.181818,-0.181818"/>
-  </object>
-  <object id="31" x="160" y="52.8182">
-   <polyline points="0,0 0,6.63636 16,6.54545 15.9091,0 0.181818,-0.181818"/>
-  </object>
-  <object id="32" x="161" y="113.61">
-   <polyline points="0,0 0,25.5721 14,25.2218 13.9205,0 0.159091,-0.700606"/>
-  </object>
-  <object id="33" x="176" y="112.045">
-   <polyline points="0,0 0,23.8909 15.7273,23.5636 15.638,0 0.178719,-0.654545"/>
-  </object>
- </objectgroup>
  <objectgroup name="CollisionTrigger">
-  <object id="45" name="ExitHouse" x="128.091" y="55" width="16" height="18.0909"/>
+  <object id="45" name="ExitHouse" x="128.091" y="44" width="16" height="11.3347"/>
   <object id="46" name="ReturnFromWorld" x="133" y="89.7273" width="5.81818" height="6.18182"/>
  </objectgroup>
 </map>
