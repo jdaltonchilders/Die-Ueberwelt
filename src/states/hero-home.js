@@ -1,6 +1,7 @@
 /*jshint esversion: 6 */
 
 import Player from '../controllers/player';
+import Boss from '../controllers/boss';
 
 class HeroHome extends Phaser.State {
   constructor() {
@@ -25,6 +26,7 @@ class HeroHome extends Phaser.State {
 
     //Player
     this.playerController = null;
+    this.bossController = null;
   }
 
   preload() {
@@ -35,10 +37,6 @@ class HeroHome extends Phaser.State {
     this.game.load.image('tiles_inside', 'assets/images/tiles/inside.png');
     this.game.load.image('tiles_inside_ceiling', 'assets/images/tiles/inside_changed.png');
     this.game.load.image('tiles_door', 'assets/images/tiles/doors.png');
-
-    // Load Player
-    this.game.load.spritesheet('player', 'assets/images/chara2.png', 26, 36);
-    this.game.load.image('bullet', 'assets/images/bullet.png');
   }
 
   create() {
@@ -62,6 +60,8 @@ class HeroHome extends Phaser.State {
     // Resize game world to match the floor (DOESN'T SEEM TO WORK RIGHT NOW)
     this.floor.resizeWorld();
 
+    this.bossController = new Boss(this.game, 100, 100);
+
     // Create the Player
     this.playerController = new Player(this.game, 0, 0);
     // TODO: Add collision layer to map
@@ -71,6 +71,7 @@ class HeroHome extends Phaser.State {
   update() {
     // Update the Player (calls update in player controller)
     this.playerController.update();
+    this.bossController.update();
   }
 }
 
