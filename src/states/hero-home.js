@@ -1,6 +1,6 @@
 /*jshint esversion: 6 */
 
-import Item from '../items/item';
+import Pickaxe from '../items/pickaxe';
 import Player from '../controllers/player';
 
 class HeroHome extends Phaser.State {
@@ -40,6 +40,9 @@ class HeroHome extends Phaser.State {
     // Load Player
     this.game.load.spritesheet('player', 'assets/images/chara2.png', 26, 36);
     this.game.load.image('bullet', 'assets/images/bullet.png');
+
+    // Test: Load item
+    this.game.load.image('Pickaxe', 'assets/images/pickaxe.png');
   }
 
   create() {
@@ -68,8 +71,8 @@ class HeroHome extends Phaser.State {
     // TODO: Add collision layer to map
     // TODO: Add collision detection
     // Items testing
-    this.item = new Item(this.game, 48, 48, 'itemName', 'player', this.playerController.sprite);
-    this.item2 = new Item(this.game, 72, 106, 'itemName2', 'player', this.playerController.sprite);
+    this.item = Pickaxe(this.game, 48, 48, this.playerController.sprite);
+    this.item2 = Pickaxe(this.game, 72, 106, this.playerController.sprite);
   }
 
   update() {
