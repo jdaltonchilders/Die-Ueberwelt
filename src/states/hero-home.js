@@ -1,6 +1,7 @@
 /*jshint esversion: 6 */
 
 import Pickaxe from '../items/pickaxe';
+import Boulder from '../controllers/boulder';
 import Player from '../controllers/player';
 
 class HeroHome extends Phaser.State {
@@ -41,8 +42,9 @@ class HeroHome extends Phaser.State {
     this.game.load.spritesheet('player', 'assets/images/chara2.png', 26, 36);
     this.game.load.image('bullet', 'assets/images/bullet.png');
 
-    // Test: Load item
+    // Test: Load items
     this.game.load.image('Pickaxe', 'assets/images/pickaxe.png');
+    this.game.load.image('boulder', 'assets/images/boulder.png');
   }
 
   create() {
@@ -62,6 +64,9 @@ class HeroHome extends Phaser.State {
     this.aboveFurniture = this.map.createLayer('AboveFurniture');
     this.ceiling = this.map.createLayer('Ceiling');
 
+    // Create map objects
+    this.boulder = new Boulder(this.game, 100, 120);
+
     // Create Collision Layer
     // Resize game world to match the floor (DOESN'T SEEM TO WORK RIGHT NOW)
     this.floor.resizeWorld();
@@ -76,12 +81,19 @@ class HeroHome extends Phaser.State {
   }
 
   update() {
+    // Map objects first
+    this.boulder.update(this.playerController.sprite);
+
     // Update the Player (calls update in player controller)
     this.playerController.update();
 
     // Update the items
     this.item.update();
     this.item2.update();
+  }
+
+  render() {
+    this.game.debug.body(this.playerController.sprite);
   }
 }
 

@@ -13,8 +13,11 @@ export default class Player {
     this.sprite = this.game.add.sprite(spawnX, spawnY, 'player');
     this.sprite.anchor.set(0.5, 0.5);
     this.sprite.smoothed = false;
+
+    // Customize physics
     this.game.physics.arcade.enable(this.sprite);
     this.sprite.body.collideWorldBounds = true;
+    this.sprite.body.setSize(18, 12, 4, 28);
 
     // Create animations
     this.sprite.animations.add('up', [ 36, 37, 38, 37 ], 5, true);

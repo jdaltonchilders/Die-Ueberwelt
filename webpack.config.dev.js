@@ -13,7 +13,7 @@ module.exports = {
     filename: 'bundle.js'
   },
   plugins: [
-    new prettierPlugin({ singleQuote: true, printWidth: 160 }),
+    // new prettierPlugin({ singleQuote: true, printWidth: 160 }),
     new DashboardPlugin()
   ],
   module: {
