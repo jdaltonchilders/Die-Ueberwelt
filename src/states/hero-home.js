@@ -60,10 +60,13 @@ class HeroHome extends Phaser.State {
     // Resize game world to match the floor (DOESN'T SEEM TO WORK RIGHT NOW)
     this.floor.resizeWorld();
 
-    this.bossController = new Boss(this.game, 100, 100);
+    this.bossController = new Boss(this.game, 0, 0);
 
     // Create the Player
     this.playerController = new Player(this.game, 0, 0);
+
+    // Attach player as target to boss
+    this.bossController.setTarget(this.playerController.sprite);
     // TODO: Add collision layer to map
     // TODO: Add collision detection
   }
@@ -72,6 +75,11 @@ class HeroHome extends Phaser.State {
     // Update the Player (calls update in player controller)
     this.playerController.update();
     this.bossController.update();
+  }
+
+  render() {
+    this.game.debug.body(this.playerController.sprite);
+    this.game.debug.body(this.bossController.sprite);
   }
 }
 

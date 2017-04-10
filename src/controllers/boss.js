@@ -38,51 +38,41 @@ export default class Boss {
   }
 
   update() {
-    var keyA = this.game.input.keyboard.addKey(Phaser.Keyboard.A);
-    var keyW = this.game.input.keyboard.addKey(Phaser.Keyboard.W);
-    var keyS = this.game.input.keyboard.addKey(Phaser.Keyboard.S);
-    var keyD = this.game.input.keyboard.addKey(Phaser.Keyboard.D);
+    const idealDistance = 100;
+    const topRight = this.game.math.degToRad(315);
+    const topLeft = this.game.math.degToRad(225);
+    const bottomLeft = this.game.math.degToRad(135);
+    const bottomRight = this.game.math.degToRad(45);
 
-    if (keyW.isDown) {
-      this.sprite.animations.play('up', null, true);
-      this.sprite.body.velocity.y = -store.speed;
-      this.sprite.body.velocity.x = 0;
-    } else if (keyS.isDown) {
-      this.sprite.animations.play('down', null, true);
-      this.sprite.body.velocity.y = store.speed;
-      this.sprite.body.velocity.x = 0;
-    } else if (keyA.isDown) {
-      this.sprite.animations.play('left', null, true);
-      this.sprite.body.velocity.x = -store.speed;
-      this.sprite.body.velocity.y = 0;
-    } else if (keyD.isDown) {
-      this.sprite.animations.play('right', null, true);
-      this.sprite.body.velocity.x = store.speed;
-      this.sprite.body.velocity.y = 0;
+    // Get angle and distance between target and boss
+    var distance = this.game.math.distance(this.sprite.x, this.sprite.y, this.target.x, this.target.y);
+    var targetAngle = this.game.math.angleBetween(this.sprite.x, this.sprite.y, this.target.x, this.target.y);
+    if (targetAngle < 0) targetAngle += this.game.math.degToRad(360);
+
+    // Face and move appropriately
+    if (targetAngle < bottomRight) {
+      this.faceRight();
+      if (distance > idealDistance) this.moveRight();
+    } else if (targetAngle > bottomRight && targetAngle < bottomLeft) {
+      this.faceDown();
+      if (distance > idealDistance) this.moveDown();
+    } else if (targetAngle > bottomLeft && targetAngle < topLeft) {
+      this.faceLeft();
+      if (distance > idealDistance) this.moveLeft();
+    } else if (targetAngle > topLeft && targetAngle < topRight) {
+      this.faceUp();
+      if (distance > idealDistance) this.moveUp();
     } else {
-      // TODO: Should we use drag instead here?
-      this.sprite.body.velocity.x = 0;
-      this.sprite.body.velocity.y = 0;
+      this.faceRight();
+      if (distance > idealDistance) this.moveRight();
     }
 
-    // Stop motion
-    if (!keyA.isDown && !keyD.isDown && !keyW.isDown && !keyS.isDown) {
-      //  Stand still
-      const animationName = this.sprite.animations.currentAnim.name;
-      if (animationName === 'down') {
-        this.sprite.frame = 1;
-      } else if (animationName === 'left') {
-        this.sprite.frame = 13;
-      } else if (animationName === 'right') {
-        this.sprite.frame = 25;
-      } else if (animationName === 'up') {
-        this.sprite.frame = 37;
-      }
-      this.sprite.animations.stop();
+    if (distance <= idealDistance) {
+      this.stopMoving();
     }
 
-    // Fire if the mouse is being clicked
-    if (this.game.input.activePointer.isDown) this.fire();
+    // Always try to attack
+    this.fire();
   }
 
   fire() {
@@ -91,15 +81,70 @@ export default class Boss {
       // Then create the bullet
       var bullet = this.bullets.getFirstExists(false);
       if (bullet) {
-        // Set on player
+        // Set on sprite
         bullet.reset(this.sprite.x, this.sprite.y);
+        bullet.anchor.set(0.5, 0.5);
 
-        // Rotate and move bullet toward mouse pointer
-        bullet.rotation = this.game.physics.arcade.moveToPointer(bullet, this.bulletSpeed, this.game.input.activePointer);
+        // Rotate and move bullet toward target
+        bullet.rotation = this.game.physics.arcade.moveToObject(bullet, this.target, this.bulletSpeed, 2000);
 
         // Delay next bullet fire opportunity
         this.nextFire = this.game.time.now + store.fireRate;
       }
     }
+  }
+
+  setTarget(sprite) {
+    this.target = sprite;
+  }
+
+  moveDown() {
+    this.sprite.animations.play('down', null, true);
+    this.sprite.body.velocity.y = store.speed;
+    this.sprite.body.velocity.x = 0;
+  }
+
+  moveLeft() {
+    this.sprite.animations.play('left', null, true);
+    this.sprite.body.velocity.x = -store.speed;
+    this.sprite.body.velocity.y = 0;
+  }
+
+  moveRight() {
+    this.sprite.animations.play('right', null, true);
+    this.sprite.body.velocity.x = store.speed;
+    this.sprite.body.velocity.y = 0;
+  }
+
+  moveUp() {
+    this.sprite.animations.play('up', null, true);
+    this.sprite.body.velocity.y = -store.speed;
+    this.sprite.body.velocity.x = 0;
+  }
+
+  stopMoving() {
+    // TODO: Should we use drag instead here?
+    this.sprite.body.velocity.x = 0;
+    this.sprite.body.velocity.y = 0;
+  }
+
+  faceDown() {
+    this.sprite.frame = 1;
+    this.sprite.animations.stop();
+  }
+
+  faceLeft() {
+    this.sprite.frame = 13;
+    this.sprite.animations.stop();
+  }
+
+  faceRight() {
+    this.sprite.frame = 25;
+    this.sprite.animations.stop();
+  }
+
+  faceUp() {
+    this.sprite.frame = 37;
+    this.sprite.animations.stop();
   }
 }
