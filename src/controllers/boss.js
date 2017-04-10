@@ -23,18 +23,19 @@ export default class Boss {
 
     // Configure player
     this.nextFire = this.game.time.now + store.fireRate;
-    this.bulletSpeed = 300;
+    this.bulletSpeed = 700;
 
     // Now create bullets group
     this.bullets = this.game.add.group();
     this.bullets.enableBody = true;
     this.bullets.physicsBodyType = Phaser.Physics.ARCADE;
-    this.bullets.createMultiple(30, 'bullet', 0, false);
+    this.bullets.createMultiple(30, 'boss1bullet', 0, false);
     this.bullets.forEach(bullet => bullet.scale.set(0.5, 0.5));
     this.bullets.setAll('anchor.x', 0);
     this.bullets.setAll('anchor.y', 0.5);
     this.bullets.setAll('outOfBoundsKill', true);
     this.bullets.setAll('checkWorldBounds', true);
+    this.bullets.callAll('animations.add', 'animations', 'move', [ 0, 1, 2, 3 ], 7, true);
   }
 
   update() {
@@ -85,8 +86,9 @@ export default class Boss {
         bullet.reset(this.sprite.x, this.sprite.y);
         bullet.anchor.set(0.5, 0.5);
 
-        // Rotate and move bullet toward target
-        bullet.rotation = this.game.physics.arcade.moveToObject(bullet, this.target, this.bulletSpeed, 2000);
+        // Move bullet toward target
+        this.game.physics.arcade.moveToObject(bullet, this.target, this.bulletSpeed, 2000);
+        bullet.animations.play('move');
 
         // Delay next bullet fire opportunity
         this.nextFire = this.game.time.now + store.fireRate;
