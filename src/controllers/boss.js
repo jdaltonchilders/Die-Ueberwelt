@@ -9,33 +9,50 @@ export default class Boss {
     const spawnX = x || 0;
     const spawnY = y || 0;
 
+    this.phase = 1;
+
     // Create the first boss sprite
-    this.sprite = this.game.add.sprite(spawnX, spawnY, 'boss1');
+    this.sprite = this.game.add.sprite(spawnX, spawnY, 'boss');
     this.sprite.anchor.set(0.5, 0.5);
     this.game.physics.arcade.enable(this.sprite);
     this.sprite.body.collideWorldBounds = true;
 
     // Create animations
-    this.sprite.animations.add('up', [ 36, 37, 38, 37 ], 5, true);
-    this.sprite.animations.add('right', [ 24, 25, 26, 25 ], 5, true);
-    this.sprite.animations.add('left', [ 12, 13, 14, 13 ], 5, true);
-    this.sprite.animations.add('down', [ 0, 1, 2, 1 ], 5, true);
+    this.sprite.animations.add('2_up', [ 39, 40, 41, 40 ], 5, true);
+    this.sprite.animations.add('2_right', [ 27, 28, 29, 28 ], 5, true);
+    this.sprite.animations.add('2_left', [ 15, 16, 17, 16 ], 5, true);
+    this.sprite.animations.add('2_down', [ 3, 4, 5, 4 ], 5, true);
+    this.sprite.animations.add('1_up', [ 36, 37, 38, 36 ], 5, true);
+    this.sprite.animations.add('1_right', [ 24, 25, 26, 25 ], 5, true);
+    this.sprite.animations.add('1_left', [ 12, 13, 14, 13 ], 5, true);
+    this.sprite.animations.add('1_down', [ 0, 1, 2, 1 ], 5, true);
 
     // Configure player
     this.nextFire = this.game.time.now + store.fireRate;
-    this.bulletSpeed = 700;
+    this.bulletspeed = 700;
 
-    // Now create bullets group
-    this.bullets = this.game.add.group();
-    this.bullets.enableBody = true;
-    this.bullets.physicsBodyType = Phaser.Physics.ARCADE;
-    this.bullets.createMultiple(30, 'boss1bullet', 0, false);
-    this.bullets.forEach(bullet => bullet.scale.set(0.5, 0.5));
-    this.bullets.setAll('anchor.x', 0);
-    this.bullets.setAll('anchor.y', 0.5);
-    this.bullets.setAll('outOfBoundsKill', true);
-    this.bullets.setAll('checkWorldBounds', true);
-    this.bullets.callAll('animations.add', 'animations', 'move', [ 0, 1, 2, 3 ], 7, true);
+    // Now create bullets groups
+    this.waterBullets = this.game.add.group();
+    this.waterBullets.enableBody = true;
+    this.waterBullets.physicsBodyType = Phaser.Physics.ARCADE;
+    this.waterBullets.createMultiple(30, 'boss1bullet', 0, false);
+    this.waterBullets.forEach(bullet => bullet.scale.set(0.5, 0.5));
+    this.waterBullets.setAll('anchor.x', 0);
+    this.waterBullets.setAll('anchor.y', 0.5);
+    this.waterBullets.setAll('outOfBoundsKill', true);
+    this.waterBullets.setAll('checkWorldBounds', true);
+    this.waterBullets.callAll('animations.add', 'animations', 'move', [ 0, 1, 2, 3 ], 7, true);
+
+    this.fireBullets = this.game.add.group();
+    this.fireBullets.enableBody = true;
+    this.fireBullets.physicsBodyType = Phaser.Physics.ARCADE;
+    this.fireBullets.createMultiple(30, 'boss2bullet', 0, false);
+    this.fireBullets.forEach(bullet => bullet.scale.set(0.5, 0.5));
+    this.fireBullets.setAll('anchor.x', 0);
+    this.fireBullets.setAll('anchor.y', 0.5);
+    this.fireBullets.setAll('outOfBoundsKill', true);
+    this.fireBullets.setAll('checkWorldBounds', true);
+    this.fireBullets.callAll('animations.add', 'animations', 'move', [ 0, 1, 2, 3 ], 7, true);
   }
 
   update() {
@@ -50,26 +67,35 @@ export default class Boss {
     var targetAngle = this.game.math.angleBetween(this.sprite.x, this.sprite.y, this.target.x, this.target.y);
     if (targetAngle < 0) targetAngle += this.game.math.degToRad(360);
 
-    // Face and move appropriately
-    if (targetAngle < bottomRight) {
-      this.faceRight();
-      if (distance > idealDistance) this.moveRight();
-    } else if (targetAngle > bottomRight && targetAngle < bottomLeft) {
-      this.faceDown();
-      if (distance > idealDistance) this.moveDown();
-    } else if (targetAngle > bottomLeft && targetAngle < topLeft) {
-      this.faceLeft();
-      if (distance > idealDistance) this.moveLeft();
-    } else if (targetAngle > topLeft && targetAngle < topRight) {
-      this.faceUp();
-      if (distance > idealDistance) this.moveUp();
+    // Move toward player if we need to
+    if (distance > idealDistance) {
+      if (targetAngle < bottomRight) {
+        this.moveRight();
+      } else if (targetAngle > bottomRight && targetAngle < bottomLeft) {
+        this.moveDown();
+      } else if (targetAngle > bottomLeft && targetAngle < topLeft) {
+        this.moveLeft();
+      } else if (targetAngle > topLeft && targetAngle < topRight) {
+        this.moveUp();
+      } else {
+        this.moveRight();
+      }
     } else {
-      this.faceRight();
-      if (distance > idealDistance) this.moveRight();
-    }
-
-    if (distance <= idealDistance) {
+      // Stop moving if we're at the right distance
       this.stopMoving();
+
+      // Face appropriately
+      if (targetAngle < bottomRight) {
+        this.faceRight();
+      } else if (targetAngle > bottomRight && targetAngle < bottomLeft) {
+        this.faceDown();
+      } else if (targetAngle > bottomLeft && targetAngle < topLeft) {
+        this.faceLeft();
+      } else if (targetAngle > topLeft && targetAngle < topRight) {
+        this.faceUp();
+      } else {
+        this.faceRight();
+      }
     }
 
     // Always try to attack
@@ -80,7 +106,10 @@ export default class Boss {
     // If enough time has past since the last bullet firing
     if (this.game.time.now > this.nextFire) {
       // Then create the bullet
-      var bullet = this.bullets.getFirstExists(false);
+      var bullet = undefined;
+      if (this.phase === 1) bullet = this.waterBullets.getFirstExists(false);
+      else bullet = this.fireBullets.getFirstExists(false);
+
       if (bullet) {
         // Set on sprite
         bullet.reset(this.sprite.x, this.sprite.y);
@@ -101,25 +130,25 @@ export default class Boss {
   }
 
   moveDown() {
-    this.sprite.animations.play('down', null, true);
+    this.sprite.animations.play(`${this.phase}_down`, null, true);
     this.sprite.body.velocity.y = store.speed;
     this.sprite.body.velocity.x = 0;
   }
 
   moveLeft() {
-    this.sprite.animations.play('left', null, true);
+    this.sprite.animations.play(`${this.phase}_left`, null, true);
     this.sprite.body.velocity.x = -store.speed;
     this.sprite.body.velocity.y = 0;
   }
 
   moveRight() {
-    this.sprite.animations.play('right', null, true);
+    this.sprite.animations.play(`${this.phase}_right`, null, true);
     this.sprite.body.velocity.x = store.speed;
     this.sprite.body.velocity.y = 0;
   }
 
   moveUp() {
-    this.sprite.animations.play('up', null, true);
+    this.sprite.animations.play(`${this.phase}_up`, null, true);
     this.sprite.body.velocity.y = -store.speed;
     this.sprite.body.velocity.x = 0;
   }
@@ -131,22 +160,26 @@ export default class Boss {
   }
 
   faceDown() {
-    this.sprite.frame = 1;
+    if (this.phase === 1) this.sprite.frame = 1;
+    else this.sprite.frame = 4;
     this.sprite.animations.stop();
   }
 
   faceLeft() {
-    this.sprite.frame = 13;
+    if (this.phase === 1) this.sprite.frame = 13;
+    else this.sprite.frame = 16;
     this.sprite.animations.stop();
   }
 
   faceRight() {
-    this.sprite.frame = 25;
+    if (this.phase === 1) this.sprite.frame = 25;
+    else this.sprite.frame = 28;
     this.sprite.animations.stop();
   }
 
   faceUp() {
-    this.sprite.frame = 37;
+    if (this.phase === 1) this.sprite.frame = 37;
+    else this.sprite.frame = 40;
     this.sprite.animations.stop();
   }
 }
