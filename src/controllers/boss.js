@@ -131,7 +131,7 @@ export default class Boss {
 
       if (bullet) {
         // Set on sprite
-        bullet.reset(this.sprite.x, this.sprite.y);
+        bullet.reset(this.sprite.x, this.sprite.y + 20);
         bullet.anchor.set(0.5, 0.5);
 
         // Move bullet toward target

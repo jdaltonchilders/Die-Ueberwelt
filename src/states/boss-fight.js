@@ -2,6 +2,7 @@
 
 import Player from '../controllers/player';
 import Boss from '../controllers/boss';
+import Boulder from '../controllers/boulder';
 
 export default class BossFight extends Phaser.State {
   constructor() {
@@ -67,6 +68,15 @@ export default class BossFight extends Phaser.State {
     // Resize game world to match the ground
     this.ground.resizeWorld();
 
+    // Create map objects
+    const maxBoulders = 50;
+    this.boulders = [];
+    while (this.boulders.length < maxBoulders) {
+      const x = this.game.rnd.between(1, 24) * 32;
+      const y = this.game.rnd.between(2, 24) * 32;
+      this.boulders.push(new Boulder(this.game, x, y));
+    }
+
     // Create boss
     this.bossController = new Boss(this.game, this.game.world.centerX, this.game.world.centerY);
 
@@ -87,6 +97,13 @@ export default class BossFight extends Phaser.State {
   }
 
   update() {
+    // Update map objects
+    // Lol demo soon
+    const bullets = [...this.bossController.waterBullets.children, ...this.bossController.fireBullets.children, ...this.playerController.bullets.children];
+    this.boulders.forEach(boulder => {
+      boulder.update(this.playerController.sprite, bullets);
+    });
+
     // Update boss
     this.bossController.update();
 

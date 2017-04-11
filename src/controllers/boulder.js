@@ -19,18 +19,30 @@ export default class Boulder {
     this.sprite.body.immovable = true;
   }
 
-  update(player) {
+  update(player, bullets) {
     var keySpace = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
     this.game.physics.arcade.collide(player, this.sprite);
 
     if (keySpace.isDown) {
       if (
+        store.inventory.indexOf('Pickaxe' !== -1) &&
         this.game.physics.arcade.distanceBetween(player, this.sprite) < 50
       ) {
         this.sprite.kill();
       }
     }
+
+    // Lol demo soon
+    bullets.forEach(bullet => {
+      this.game.physics.arcade.overlap(
+        bullet,
+        this.sprite,
+        (bullet, boulder) => {
+          bullet.kill();
+        }
+      );
+    });
   }
 
   fire() {
