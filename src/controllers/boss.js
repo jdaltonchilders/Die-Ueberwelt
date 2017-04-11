@@ -87,6 +87,7 @@ export default class Boss {
     var grid = new pathfinding.Grid(this.boulderGrid);
     var finder = new pathfinding.AStarFinder();
     var path = finder.findPath(selfX, selfY, targetX, targetY, grid);
+    console.log(path);
 
     // Get angle and distance between target and boss
     var distance = this.game.math.distance(this.sprite.x, this.sprite.y, this.target.x, this.target.y);
@@ -95,9 +96,16 @@ export default class Boss {
 
     // Determine the direction to target
     var direction = 'right';
-    if (targetAngle > bottomRight && targetAngle < bottomLeft) direction = 'down';
-    else if (targetAngle > bottomLeft && targetAngle < topLeft) direction = 'left';
-    else if (targetAngle > topLeft && targetAngle < topRight) direction = 'up';
+    const thisStep = path[0];
+    const nextStep = path[1];
+
+    console.log(thisStep, nextStep)
+
+    if (thisStep && nextStep) {
+      if (nextStep[0] < thisStep[0]) direction = 'left';
+      if (nextStep[1] > thisStep[1]) direction = 'down';
+      if (nextStep[1] < thisStep[1]) direction = 'up';
+    }
 
     // Move toward player if we need to
     if (distance > this.idealDistance) {
