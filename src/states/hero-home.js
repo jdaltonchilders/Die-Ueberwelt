@@ -104,7 +104,7 @@ export default class HeroHome extends Phaser.State {
     this.backgroundMusic = this.game.add.audio('mainBackground');
 
     // Setting volume and loop
-    this.backgroundMusic.play('', 1, 0.3, true);
+    this.backgroundMusic.play('', 1, 0.7, true);
 
     // Create pickaxe
     this.pickaxe = Pickaxe(this.game, 7 * 32, 6 * 32, this.player.sprite);

@@ -75,7 +75,7 @@ export default class BossFight extends Phaser.State {
     this.backgroundMusic = this.game.add.audio('arenaBackground');
 
     // Setting volume and loop
-    this.backgroundMusic.play('', 1, 0.075, true);
+    this.backgroundMusic.play('', 1, 0.2, true);
 
     // Create map objects
     const maxBoulders = 50;
