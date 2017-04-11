@@ -1,6 +1,7 @@
 /*jshint esversion: 6 */
 
 import store from '../store';
+import HealthBar from '../HealthBar';
 
 export default class Player {
   constructor(game, x, y) {
@@ -38,6 +39,10 @@ export default class Player {
     this.bullets.setAll('anchor.y', 0.5);
     this.bullets.setAll('outOfBoundsKill', true);
     this.bullets.setAll('checkWorldBounds', true);
+
+    // Now create health bar
+    this.healthBar = new HealthBar(this.game, { x: 125, y: game.height - 20 });
+    this.healthBar.setPercent(100 * store.health / store.maxHealth);
   }
 
   update() {
@@ -109,7 +114,7 @@ export default class Player {
   onHit(sprite, bullet) {
     store.health -= bullet.damage;
     if (store.health < 0) store.health = 0;
+    this.healthBar.setPercent(100 * store.health / store.maxHealth);
     bullet.kill();
-    console.log(store.health);
   }
 }

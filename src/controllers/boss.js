@@ -1,6 +1,7 @@
 /*jshint esversion: 6 */
 
 import store from '../store';
+import HealthBar from '../HealthBar';
 
 export default class Boss {
   constructor(game, x, y) {
@@ -35,6 +36,7 @@ export default class Boss {
     this.idealDistance = 200;
     this.buffer = 50;
     this.health = 100;
+    this.maxHealth = 100;
 
     // Now create bullets groups
     this.waterBullets = this.game.add.group();
@@ -60,6 +62,10 @@ export default class Boss {
     this.fireBullets.setAll('checkWorldBounds', true);
     this.fireBullets.setAll('damage', 1);
     this.fireBullets.callAll('animations.add', 'animations', 'move', [ 0, 1, 2, 3 ], 7, true);
+
+    // Now create health bar
+    this.healthBar = new HealthBar(this.game, { x: game.width - 125, y: 20 });
+    this.healthBar.setPercent(100 * this.health / this.maxHealth);
   }
 
   update() {
@@ -205,7 +211,7 @@ export default class Boss {
   onHit(sprite, bullet) {
     this.health -= store.damage;
     if (this.health < 0) this.health = 0;
+    this.healthBar.setPercent(100 * this.health / this.maxHealth);
     bullet.kill();
-    console.log(this.health);
   }
 }
