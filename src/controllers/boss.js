@@ -2,6 +2,7 @@
 
 import store from '../store';
 import HealthBar from '../HealthBar';
+import pathfinding from 'pathfinding';
 
 export default class Boss {
   constructor(game, x, y) {
@@ -75,6 +76,17 @@ export default class Boss {
     const topLeft = this.game.math.degToRad(225);
     const bottomLeft = this.game.math.degToRad(135);
     const bottomRight = this.game.math.degToRad(45);
+
+    // Snap to grid
+    const selfX = Math.floor((this.sprite.x + 16) / 32);
+    const selfY = Math.floor((this.sprite.y + 16) / 32);
+    const targetX = Math.floor((this.target.x + 16) / 32);
+    const targetY = Math.floor((this.target.y + 16) / 32);
+
+    // Get shortest path to player
+    var grid = new pathfinding.Grid(this.boulderGrid);
+    var finder = new pathfinding.AStarFinder();
+    var path = finder.findPath(selfX, selfY, targetX, targetY, grid);
 
     // Get angle and distance between target and boss
     var distance = this.game.math.distance(this.sprite.x, this.sprite.y, this.target.x, this.target.y);
