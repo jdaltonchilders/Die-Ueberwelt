@@ -43,7 +43,7 @@ export default class HeroHome extends Phaser.State {
 
   preload() {
     // Load Tilemap
-    this.game.load.tilemap('heroHome', 'assets/maps/HeroHome.json', null, Phaser.Tilemap.TILED_JSON);
+    this.game.load.tilemap('heroHome', 'assets/maps/heroHome.json', null, Phaser.Tilemap.TILED_JSON);
 
     // Load Tilesets
     this.game.load.image('tiles_inside', 'assets/images/tiles/inside.png');
