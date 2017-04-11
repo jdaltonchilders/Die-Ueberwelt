@@ -16,6 +16,15 @@ export default class Item {
     this.game.physics.arcade.enable(this.sprite);
 
     this.collectible = true;
+
+  }
+  preload() {
+    // Load Audio
+    this.game.load.audio('item_pickup','assets/audio/action/item_pickup.ogg');
+  }
+  create() {
+    // Create Audio for item pickup
+    this.itemPickup = this.game.add.audio('item_pickup');
   }
 
   update() {
