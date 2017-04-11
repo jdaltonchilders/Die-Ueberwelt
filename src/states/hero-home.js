@@ -8,37 +8,6 @@ export default class HeroHome extends Phaser.State {
   constructor() {
     // exception thrown here when not called
     super();
-
-    // Tile Map
-    this.map = null;
-
-    // Tile Map Layers
-    this.floor = null;
-    this.walls = null;
-    this.doors = null;
-    this.underFurnitre = null;
-    this.furniture = null;
-    this.items = null;
-    this.aboveFurniture = null;
-    this.ceiling = null;
-
-    // Collision Trigger Layers
-    this.returnFromWorld = null;
-    this.exitHouse = null;
-
-    // Collision Trigger Layer Rect
-    this.returnFromWorldRect = null;
-    this.exitHouseRect = null;
-
-    // Collision Border Layer
-    this.collision = null;
-    this.collisions = null;
-    this.collisionCG = null;
-
-    // Player
-    this.player = null;
-    this.playerPosition = null;
-    this.playerCG = null;
   }
 
   preload() {
