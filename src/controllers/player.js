@@ -15,6 +15,9 @@ export default class Player {
     this.game.physics.arcade.enable(this.sprite);
     this.sprite.body.collideWorldBounds = true;
 
+    // Hacky
+    this.sprite.controller = this;
+
     // Create animations
     this.sprite.animations.add('up', [ 36, 37, 38, 37 ], 5, true);
     this.sprite.animations.add('right', [ 24, 25, 26, 25 ], 5, true);
@@ -101,5 +104,12 @@ export default class Player {
         this.nextFire = this.game.time.now + store.fireRate;
       }
     }
+  }
+
+  onHit(sprite, bullet) {
+    store.health -= bullet.damage;
+    if (store.health < 0) store.health = 0;
+    bullet.kill();
+    console.log(store.health);
   }
 }

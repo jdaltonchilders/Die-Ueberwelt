@@ -67,6 +67,7 @@ class HeroHome extends Phaser.State {
 
     // Attach player as target to boss
     this.bossController.setTarget(this.playerController.sprite);
+    this.bossController.setPlayerBullets(this.playerController.bullets);
     // TODO: Add collision layer to map
     // TODO: Add collision detection
   }

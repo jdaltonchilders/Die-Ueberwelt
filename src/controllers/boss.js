@@ -9,6 +9,7 @@ export default class Boss {
     const spawnX = x || 0;
     const spawnY = y || 0;
 
+    // Phase 1: water, 2: fire
     this.phase = 1;
 
     // Create the first boss sprite
@@ -27,9 +28,13 @@ export default class Boss {
     this.sprite.animations.add('1_left', [ 12, 13, 14, 13 ], 5, true);
     this.sprite.animations.add('1_down', [ 0, 1, 2, 1 ], 5, true);
 
-    // Configure player
+    // Configure boss
     this.nextFire = this.game.time.now + store.fireRate;
-    this.bulletspeed = 700;
+    this.bulletSpeed = 700;
+    this.movementSpeed = 150;
+    this.idealDistance = 200;
+    this.buffer = 50;
+    this.health = 100;
 
     // Now create bullets groups
     this.waterBullets = this.game.add.group();
@@ -41,6 +46,7 @@ export default class Boss {
     this.waterBullets.setAll('anchor.y', 0.5);
     this.waterBullets.setAll('outOfBoundsKill', true);
     this.waterBullets.setAll('checkWorldBounds', true);
+    this.waterBullets.setAll('damage', 1);
     this.waterBullets.callAll('animations.add', 'animations', 'move', [ 0, 1, 2, 3 ], 7, true);
 
     this.fireBullets = this.game.add.group();
@@ -52,11 +58,11 @@ export default class Boss {
     this.fireBullets.setAll('anchor.y', 0.5);
     this.fireBullets.setAll('outOfBoundsKill', true);
     this.fireBullets.setAll('checkWorldBounds', true);
+    this.fireBullets.setAll('damage', 1);
     this.fireBullets.callAll('animations.add', 'animations', 'move', [ 0, 1, 2, 3 ], 7, true);
   }
 
   update() {
-    const idealDistance = 100;
     const topRight = this.game.math.degToRad(315);
     const topLeft = this.game.math.degToRad(225);
     const bottomLeft = this.game.math.degToRad(135);
@@ -67,36 +73,41 @@ export default class Boss {
     var targetAngle = this.game.math.angleBetween(this.sprite.x, this.sprite.y, this.target.x, this.target.y);
     if (targetAngle < 0) targetAngle += this.game.math.degToRad(360);
 
+    // Determine the direction to target
+    var direction = 'right';
+    if (targetAngle > bottomRight && targetAngle < bottomLeft) direction = 'down';
+    else if (targetAngle > bottomLeft && targetAngle < topLeft) direction = 'left';
+    else if (targetAngle > topLeft && targetAngle < topRight) direction = 'up';
+
     // Move toward player if we need to
-    if (distance > idealDistance) {
-      if (targetAngle < bottomRight) {
-        this.moveRight();
-      } else if (targetAngle > bottomRight && targetAngle < bottomLeft) {
-        this.moveDown();
-      } else if (targetAngle > bottomLeft && targetAngle < topLeft) {
-        this.moveLeft();
-      } else if (targetAngle > topLeft && targetAngle < topRight) {
-        this.moveUp();
-      } else {
-        this.moveRight();
-      }
+    if (distance > this.idealDistance) {
+      if (direction === 'right') this.moveRight();
+      else if (direction === 'down') this.moveDown();
+      else if (direction === 'left') this.moveLeft();
+      else if (direction === 'up') this.moveUp();
+    } else if (distance < this.idealDistance - this.buffer) {
+      // Or move away from player
+      if (direction === 'right') this.moveLeft(true);
+      else if (direction === 'down') this.moveUp(true);
+      else if (direction === 'left') this.moveRight(true);
+      else if (direction === 'up') this.moveDown(true);
     } else {
       // Stop moving if we're at the right distance
       this.stopMoving();
 
       // Face appropriately
-      if (targetAngle < bottomRight) {
-        this.faceRight();
-      } else if (targetAngle > bottomRight && targetAngle < bottomLeft) {
-        this.faceDown();
-      } else if (targetAngle > bottomLeft && targetAngle < topLeft) {
-        this.faceLeft();
-      } else if (targetAngle > topLeft && targetAngle < topRight) {
-        this.faceUp();
-      } else {
-        this.faceRight();
-      }
+      if (direction === 'right') this.faceRight();
+      else if (direction === 'down') this.faceDown();
+      else if (direction === 'left') this.faceLeft();
+      else if (direction === 'up') this.faceUp();
     }
+
+    // Collide with player bullets
+    this.game.physics.arcade.overlap(this.sprite, this.playerBullets, this.onHit, null, this);
+
+    // Kinda hairy but yolo
+    this.game.physics.arcade.overlap(this.target, this.waterBullets, this.target.controller.onHit, null, this.target.controller);
+    this.game.physics.arcade.overlap(this.target, this.fireBullets, this.target.controller.onHit, null, this.target.controller);
 
     // Always try to attack
     this.fire();
@@ -125,31 +136,39 @@ export default class Boss {
     }
   }
 
+  setPlayerBullets(bullets) {
+    this.playerBullets = bullets;
+  }
+
   setTarget(sprite) {
     this.target = sprite;
   }
 
-  moveDown() {
-    this.sprite.animations.play(`${this.phase}_down`, null, true);
-    this.sprite.body.velocity.y = store.speed;
+  moveDown(inverted) {
+    if (!inverted) this.sprite.animations.play(`${this.phase}_down`, null, true);
+    else this.sprite.animations.play(`${this.phase}_up`, null, true);
+    this.sprite.body.velocity.y = this.movementSpeed;
     this.sprite.body.velocity.x = 0;
   }
 
-  moveLeft() {
-    this.sprite.animations.play(`${this.phase}_left`, null, true);
-    this.sprite.body.velocity.x = -store.speed;
+  moveLeft(inverted) {
+    if (!inverted) this.sprite.animations.play(`${this.phase}_left`, null, true);
+    else this.sprite.animations.play(`${this.phase}_right`, null, true);
+    this.sprite.body.velocity.x = -this.movementSpeed;
     this.sprite.body.velocity.y = 0;
   }
 
-  moveRight() {
-    this.sprite.animations.play(`${this.phase}_right`, null, true);
-    this.sprite.body.velocity.x = store.speed;
+  moveRight(inverted) {
+    if (!inverted) this.sprite.animations.play(`${this.phase}_right`, null, true);
+    else this.sprite.animations.play(`${this.phase}_left`, null, true);
+    this.sprite.body.velocity.x = this.movementSpeed;
     this.sprite.body.velocity.y = 0;
   }
 
-  moveUp() {
-    this.sprite.animations.play(`${this.phase}_up`, null, true);
-    this.sprite.body.velocity.y = -store.speed;
+  moveUp(inverted) {
+    if (!inverted) this.sprite.animations.play(`${this.phase}_up`, null, true);
+    else this.sprite.animations.play(`${this.phase}_down`, null, true);
+    this.sprite.body.velocity.y = -this.movementSpeed;
     this.sprite.body.velocity.x = 0;
   }
 
@@ -181,5 +200,12 @@ export default class Boss {
     if (this.phase === 1) this.sprite.frame = 37;
     else this.sprite.frame = 40;
     this.sprite.animations.stop();
+  }
+
+  onHit(sprite, bullet) {
+    this.health -= store.damage;
+    if (this.health < 0) this.health = 0;
+    bullet.kill();
+    console.log(this.health);
   }
 }
