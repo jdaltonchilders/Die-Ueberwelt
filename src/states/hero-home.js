@@ -2,6 +2,7 @@
 
 import Player from '../controllers/player';
 import Boss from '../controllers/boss';
+import Pickaxe from '../items/pickaxe';
 
 export default class HeroHome extends Phaser.State {
   constructor() {
@@ -96,6 +97,9 @@ export default class HeroHome extends Phaser.State {
     this.map.setCollisionBetween(1, mapTileLength, true, this.aboveFurniture);
     this.map.setCollisionBetween(1, mapTileLength, true, this.ceiling);
 
+    // Create pickaxe
+    this.pickaxe = Pickaxe(this.game, 7 * 32, 6 * 32, this.player.sprite);
+
     // Camera follows player
     this.game.camera.follow(this.player.sprite);
   }
@@ -103,6 +107,8 @@ export default class HeroHome extends Phaser.State {
   update() {
     // Handle Player Update
     this.player.update();
+
+    this.pickaxe.update();
 
     // Collide with Layers
     this.game.physics.arcade.collide(this.player.sprite, this.walls);

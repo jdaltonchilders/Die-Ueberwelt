@@ -47,6 +47,15 @@ export default class Player {
     // Now create health bar
     this.healthBar = new HealthBar(this.game, { x: 125, y: game.height - 20, isFixedToCamera: true });
     this.healthBar.setPercent(100 * store.health / store.maxHealth);
+
+    // Now create items
+    // HACK: This won't scale. Sorry :^) kill me
+    console.log(store);
+    if (store.inventory.indexOf("Pickaxe") !== -1) {
+      this.pickaxe = this.game.add.sprite(16, this.game.height - 56, "Pickaxe");
+      this.pickaxe.anchor.set(0.5, 0.5)
+      this.pickaxe.fixedToCamera = true;
+    }
   }
 
   update() {

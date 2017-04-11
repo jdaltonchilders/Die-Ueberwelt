@@ -28,11 +28,11 @@ export default class Item {
     if (!this.collectible) return;
     this.collectible = false;
     store.inventory.push(this.name);
-    this.placePortrait(16 + 32 * (store.inventory.length - 1), this.game.height - 16);
+    this.placePortrait();
   }
 
-  placePortrait(x, y) {
-    this.sprite.reset(x, y);
+  placePortrait() {
+    this.sprite.reset(16 + 32 * (store.inventory.length - 1), this.game.height - 56);
     this.sprite.fixedToCamera = true;
   }
 }
