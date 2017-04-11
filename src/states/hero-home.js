@@ -1,10 +1,9 @@
 /*jshint esversion: 6 */
 
-import Pickaxe from '../items/pickaxe';
-import Boulder from '../controllers/boulder';
 import Player from '../controllers/player';
+import Boss from '../controllers/boss';
 
-class HeroHome extends Phaser.State {
+export default class HeroHome extends Phaser.State {
   constructor() {
     // exception thrown here when not called
     super();
@@ -22,11 +21,23 @@ class HeroHome extends Phaser.State {
     this.aboveFurniture = null;
     this.ceiling = null;
 
-    // Collision Layers
-    this.collisionTrigger = null;
+    // Collision Trigger Layers
+    this.returnFromWorld = null;
+    this.exitHouse = null;
+
+    // Collision Trigger Layer Rect
+    this.returnFromWorldRect = null;
+    this.exitHouseRect = null;
+
+    // Collision Border Layer
+    this.collision = null;
+    this.collisions = null;
+    this.collisionCG = null;
 
     // Player
-    this.playerController = null;
+    this.player = null;
+    this.playerPosition = null;
+    this.playerCG = null;
   }
 
   preload() {
@@ -37,17 +48,13 @@ class HeroHome extends Phaser.State {
     this.game.load.image('tiles_inside', 'assets/images/tiles/inside.png');
     this.game.load.image('tiles_inside_ceiling', 'assets/images/tiles/inside_changed.png');
     this.game.load.image('tiles_door', 'assets/images/tiles/doors.png');
-
-    // Load Player
-    this.game.load.spritesheet('player', 'assets/images/chara2.png', 26, 36);
-    this.game.load.image('bullet', 'assets/images/bullet.png');
-
-    // Test: Load items
-    this.game.load.image('Pickaxe', 'assets/images/pickaxe.png');
-    this.game.load.image('boulder', 'assets/images/boulder.png');
+    this.game.load.image('tiles_sky', 'assets/images/tiles/sky.png');
   }
 
   create() {
+    // Enable the Arcade Physics system
+    this.game.physics.startSystem(Phaser.Physics.ARCADE);
+
     // Create the Map
     this.map = this.game.add.tilemap('heroHome');
     this.map.addTilesetImage('inside', 'tiles_inside');
@@ -64,37 +71,61 @@ class HeroHome extends Phaser.State {
     this.aboveFurniture = this.map.createLayer('AboveFurniture');
     this.ceiling = this.map.createLayer('Ceiling');
 
-    // Create map objects
-    this.boulder = new Boulder(this.game, 100, 120);
+    // https://www.programmingmind.com/phaser/topdown-layers-moving-and-collision
+    // Create Collision Trigger Layer
+    this.returnFromWorld = this.map.objects.CollisionTrigger.find(object => object.name == 'ReturnFromWorld');
+    this.exitHouse = this.map.objects.CollisionTrigger.find(object => object.name == 'ExitHouse');
 
-    // Create Collision Layer
+    // Create Collision Trigger Layer Rect
+    this.returnFromWorldRect = new Phaser.Rectangle(this.returnFromWorld.x, this.returnFromWorld.y, this.returnFromWorld.width, this.returnFromWorld.height);
+    this.exitHouseRect = new Phaser.Rectangle(this.exitHouse.x, this.exitHouse.y, this.exitHouse.width, this.exitHouse.height);
+
     // Resize game world to match the floor (DOESN'T SEEM TO WORK RIGHT NOW)
     this.floor.resizeWorld();
 
     // Create the Player
-    this.playerController = new Player(this.game, 0, 0);
-    // TODO: Add collision layer to map
-    // TODO: Add collision detection
-    // Items testing
-    this.item = Pickaxe(this.game, 48, 48, this.playerController.sprite);
-    this.item2 = Pickaxe(this.game, 72, 106, this.playerController.sprite);
+    this.player = new Player(this.game, this.returnFromWorldRect.x, this.returnFromWorldRect.y);
+
+    // Collide with Player
+    var mapTileLength = this.map.tiles.length - 1;
+    this.map.setCollisionBetween(1, mapTileLength, true, this.walls);
+    this.map.setCollisionBetween(1, mapTileLength, true, this.doors);
+    this.map.setCollisionBetween(1, mapTileLength, true, this.underFurnitre);
+    this.map.setCollisionBetween(1, mapTileLength, true, this.furniture);
+    this.map.setCollisionBetween(1, mapTileLength, true, this.items);
+    this.map.setCollisionBetween(1, mapTileLength, true, this.aboveFurniture);
+    this.map.setCollisionBetween(1, mapTileLength, true, this.ceiling);
+
+    // Camera follows player
+    this.game.camera.follow(this.player.sprite);
   }
 
   update() {
-    // Map objects first
-    this.boulder.update(this.playerController.sprite);
+    // Handle Player Update
+    this.player.update();
 
-    // Update the Player (calls update in player controller)
-    this.playerController.update();
+    // Collide with Layers
+    this.game.physics.arcade.collide(this.player.sprite, this.walls);
+    this.game.physics.arcade.collide(this.player.sprite, this.doors);
+    this.game.physics.arcade.collide(this.player.sprite, this.underFurnitre);
+    this.game.physics.arcade.collide(this.player.sprite, this.furniture);
+    this.game.physics.arcade.collide(this.player.sprite, this.items);
+    this.game.physics.arcade.collide(this.player.sprite, this.aboveFurniture);
+    this.game.physics.arcade.collide(this.player.sprite, this.ceiling);
 
-    // Update the items
-    this.item.update();
-    this.item2.update();
+    // Update Player Position
+    this.playerPosition = new Phaser.Rectangle(this.player.sprite.worldPosition.x, this.player.sprite.worldPosition.y, 0, 0);
+
+    // Check if Exit House contains the Player
+    if (this.exitHouseRect.contains(this.playerPosition.x, this.playerPosition.y)) {
+      // Load the Hero Island State
+      this.game.state.start('HeroIsland');
+    }
   }
 
   render() {
-    this.game.debug.body(this.playerController.sprite);
+    // this.game.debug.cameraInfo(this.game.camera, 32, 32);
+    // this.game.debug.spriteCoords(this.player, 32, 500);
+    this.game.debug.body(this.player.sprite);
   }
 }
-
-export default HeroHome;
