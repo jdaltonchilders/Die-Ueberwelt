@@ -1,5 +1,6 @@
 /*jshint esversion: 6 */
 import Player from '../controllers/player';
+import Boss from '../controllers/boss';
 
 export default class HeroHome extends Phaser.State {
   constructor() {
@@ -35,7 +36,6 @@ export default class HeroHome extends Phaser.State {
     //Player
     this.player = null;
     this.playerPosition = null;
-    this.playerController = null;
     this.playerCG = null;
   }
 
@@ -48,10 +48,6 @@ export default class HeroHome extends Phaser.State {
     this.game.load.image('tiles_inside_ceiling', 'assets/images/tiles/inside_changed.png');
     this.game.load.image('tiles_door', 'assets/images/tiles/doors.png');
     this.game.load.image('tiles_sky', 'assets/images/tiles/sky.png');
-
-    // Load Player
-    this.game.load.spritesheet('player', 'assets/images/chara2.png', 26, 36);
-    this.game.load.image('bullet', 'assets/images/bullet.png');
   }
 
   create() {

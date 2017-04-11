@@ -1,6 +1,7 @@
 /*jshint esversion: 6 */
 
 import store from '../store';
+import HealthBar from '../HealthBar';
 
 export default class Player {
   constructor(game, x, y) {
@@ -18,6 +19,9 @@ export default class Player {
     this.game.physics.arcade.enable(this.sprite, true);
     this.sprite.body.collideWorldBounds = true;
     this.sprite.body.setSize(18, 12, 4, 28);
+
+    // Hacky
+    this.sprite.controller = this;
 
     // Create animations
     this.sprite.animations.add('up', [ 36, 37, 38, 37 ], 5, true);
@@ -39,6 +43,10 @@ export default class Player {
     this.bullets.setAll('anchor.y', 0.5);
     this.bullets.setAll('outOfBoundsKill', true);
     this.bullets.setAll('checkWorldBounds', true);
+
+    // Now create health bar
+    this.healthBar = new HealthBar(this.game, { x: 125, y: game.height - 20 });
+    this.healthBar.setPercent(100 * store.health / store.maxHealth);
   }
 
   update() {
@@ -105,5 +113,12 @@ export default class Player {
         this.nextFire = this.game.time.now + store.fireRate;
       }
     }
+  }
+
+  onHit(sprite, bullet) {
+    store.health -= bullet.damage;
+    if (store.health < 0) store.health = 0;
+    this.healthBar.setPercent(100 * store.health / store.maxHealth);
+    bullet.kill();
   }
 }
