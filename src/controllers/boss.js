@@ -18,6 +18,7 @@ export default class Boss {
     this.sprite.anchor.set(0.5, 0.5);
     this.game.physics.arcade.enable(this.sprite);
     this.sprite.body.collideWorldBounds = true;
+    this.sprite.body.setSize(70, 70, 25, 55);
 
     // Create animations
     this.sprite.animations.add('2_up', [ 39, 40, 41, 40 ], 5, true);
@@ -30,8 +31,9 @@ export default class Boss {
     this.sprite.animations.add('1_down', [ 0, 1, 2, 1 ], 5, true);
 
     // Configure boss
-    this.nextFire = this.game.time.now + store.fireRate;
-    this.bulletSpeed = 700;
+    this.fireRate = 250;
+    this.nextFire = this.game.time.now + this.fireRate;
+    this.bulletSpeed = 400;
     this.movementSpeed = 150;
     this.idealDistance = 200;
     this.buffer = 50;
@@ -60,11 +62,11 @@ export default class Boss {
     this.fireBullets.setAll('anchor.y', 0.5);
     this.fireBullets.setAll('outOfBoundsKill', true);
     this.fireBullets.setAll('checkWorldBounds', true);
-    this.fireBullets.setAll('damage', 1);
+    this.fireBullets.setAll('damage', 2);
     this.fireBullets.callAll('animations.add', 'animations', 'move', [ 0, 1, 2, 3 ], 7, true);
 
     // Now create health bar
-    this.healthBar = new HealthBar(this.game, { x: game.width - 125, y: 20 });
+    this.healthBar = new HealthBar(this.game, { x: game.width - 125, y: 20, isFixedToCamera: true });
     this.healthBar.setPercent(100 * this.health / this.maxHealth);
   }
 
@@ -121,7 +123,7 @@ export default class Boss {
 
   fire() {
     // If enough time has past since the last bullet firing
-    if (this.game.time.now > this.nextFire) {
+    if (this.game.time.now > this.nextFire && this.sprite.alive && this.target.alive) {
       // Then create the bullet
       var bullet = undefined;
       if (this.phase === 1) bullet = this.waterBullets.getFirstExists(false);
@@ -133,11 +135,11 @@ export default class Boss {
         bullet.anchor.set(0.5, 0.5);
 
         // Move bullet toward target
-        this.game.physics.arcade.moveToObject(bullet, this.target, this.bulletSpeed, 2000);
+        this.game.physics.arcade.moveToObject(bullet, this.target, this.bulletSpeed);
         bullet.animations.play('move');
 
         // Delay next bullet fire opportunity
-        this.nextFire = this.game.time.now + store.fireRate;
+        this.nextFire = this.game.time.now + this.fireRate;
       }
     }
   }
@@ -210,8 +212,18 @@ export default class Boss {
 
   onHit(sprite, bullet) {
     this.health -= store.damage;
-    if (this.health < 0) this.health = 0;
     this.healthBar.setPercent(100 * this.health / this.maxHealth);
+
+    if (this.health <= 50) {
+      this.phase = 2;
+    }
+
+    if (this.health <= 0) {
+      this.health = 0;
+      sprite.kill;
+      this.healthBar.kill();
+    }
+
     bullet.kill();
   }
 }

@@ -1,6 +1,7 @@
 /*jshint esversion: 6 */
 
 import Player from '../controllers/player';
+import Boss from '../controllers/boss';
 
 export default class BossFight extends Phaser.State {
   constructor() {
@@ -66,8 +67,15 @@ export default class BossFight extends Phaser.State {
     // Resize game world to match the ground
     this.ground.resizeWorld();
 
+    // Create boss
+    this.bossController = new Boss(this.game, this.game.world.centerX, this.game.world.centerY);
+
     // Create the Player
     this.playerController = new Player(this.game, this.entranceFromOverworldRect.x, this.entranceFromOverworldRect.y);
+
+    // Attach player to boss
+    this.bossController.setTarget(this.playerController.sprite);
+    this.bossController.setPlayerBullets(this.playerController.bullets);
 
     // Collide with Player
     var mapTileLength = this.map.tiles.length - 1;
@@ -79,6 +87,9 @@ export default class BossFight extends Phaser.State {
   }
 
   update() {
+    // Update boss
+    this.bossController.update();
+
     // Handle Player Update
     this.playerController.update();
 
@@ -91,6 +102,7 @@ export default class BossFight extends Phaser.State {
   }
 
   render() {
+    this.game.debug.body(this.bossController.sprite);
     this.game.debug.body(this.playerController.sprite);
   }
 }
