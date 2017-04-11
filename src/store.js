@@ -1,3 +1,3 @@
 /*jshint esversion: 6 */
 
-export default { speed: 100, fireRate: 500, damage: 1, health: 50, maxHealth: 50 };
+export default { speed: 100, fireRate: 500, inventory: [], damage: 1, health: 50, maxHealth: 50 };

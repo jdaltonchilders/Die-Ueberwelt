@@ -1,4 +1,5 @@
 /*jshint esversion: 6 */
+
 import Player from '../controllers/player';
 import Boss from '../controllers/boss';
 
@@ -33,7 +34,7 @@ export default class HeroHome extends Phaser.State {
     this.collisions = null;
     this.collisionCG = null;
 
-    //Player
+    // Player
     this.player = null;
     this.playerPosition = null;
     this.playerCG = null;
