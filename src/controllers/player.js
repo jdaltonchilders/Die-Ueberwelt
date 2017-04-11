@@ -53,7 +53,7 @@ export default class Player {
     console.log(store);
     if (store.inventory.indexOf("Pickaxe") !== -1) {
       this.pickaxe = this.game.add.sprite(16, this.game.height - 56, "Pickaxe");
-      this.pickaxe.anchor.set(0.5, 0.5)
+      this.pickaxe.anchor.set(0.5, 0.5);
       this.pickaxe.fixedToCamera = true;
     }
   }

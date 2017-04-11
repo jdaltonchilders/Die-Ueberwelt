@@ -149,4 +149,8 @@ export default class HeroIsland extends Phaser.State {
       this.game.state.start('BossFight');
     }
   }
+
+  shutdown() {
+    this.game.sound.stopAll();
+  }
 }

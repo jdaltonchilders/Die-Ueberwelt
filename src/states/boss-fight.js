@@ -38,6 +38,9 @@ export default class BossFight extends Phaser.State {
     // Load Player
     this.game.load.spritesheet('player', 'assets/images/chara2.png', 26, 36);
     this.game.load.image('bullet', 'assets/images/bullet.png');
+
+    // Load Audio
+    this.game.load.audio('arenaBackground', 'assets/audio/landscape/madGod.ogg');
   }
 
   create() {
@@ -67,6 +70,12 @@ export default class BossFight extends Phaser.State {
 
     // Resize game world to match the ground
     this.ground.resizeWorld();
+
+    // Create Audio for town
+    this.backgroundMusic = this.game.add.audio('arenaBackground');
+
+    // Setting volume and loop
+    this.backgroundMusic.play('', 1, 0.075, true);
 
     // Create map objects
     const maxBoulders = 50;
@@ -121,5 +130,9 @@ export default class BossFight extends Phaser.State {
   render() {
     this.game.debug.body(this.bossController.sprite);
     this.game.debug.body(this.playerController.sprite);
+  }
+
+  shutdown() {
+    this.game.sound.stopAll();
   }
 }
