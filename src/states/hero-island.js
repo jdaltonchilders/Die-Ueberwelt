@@ -12,6 +12,7 @@ export default class HeroIsland extends Phaser.State {
 
     // Tile Map Layers
     this.sky = null;
+    this.fringe = null;
     this.islandSide = null;
     this.ground = null;
     this.roads = null;
@@ -28,10 +29,12 @@ export default class HeroIsland extends Phaser.State {
     // Collision Trigger Layers
     this.enterHeroHouse = null;
     this.returnFromHeroHouse = null;
+    this.bossFight = null;
 
     // Collision Trigger Layer Rect
     this.enterHeroHouseRect = null;
     this.returnFromHeroHouseRect = null;
+    this.bossFightRect = null;
 
     //Player
     this.player = null;
@@ -71,6 +74,7 @@ export default class HeroIsland extends Phaser.State {
 
     // Create layers
     this.sky = this.map.createLayer('Sky');
+    this.fringe = this.map.createLayer('Fringe');
     this.islandSide = this.map.createLayer('IslandSide');
     this.ground = this.map.createLayer('Ground');
     this.roads = this.map.createLayer('Roads');
@@ -86,6 +90,7 @@ export default class HeroIsland extends Phaser.State {
     // Create Collision Trigger Layer
     this.enterHeroHouse = this.map.objects.CollisionTrigger.find(object => object.name == 'EnterHeroHouse');
     this.returnFromHeroHouse = this.map.objects.CollisionTrigger.find(object => object.name == 'ReturnFromHeroHouse');
+    this.bossFight = this.map.objects.CollisionTrigger.find(object => object.name == 'BossFight');
 
     // Create Collision Trigger Layer Rect
     this.enterHeroHouseRect = new Phaser.Rectangle(this.enterHeroHouse.x, this.enterHeroHouse.y, this.enterHeroHouse.width, this.enterHeroHouse.height);
@@ -95,6 +100,7 @@ export default class HeroIsland extends Phaser.State {
       this.returnFromHeroHouse.width,
       this.returnFromHeroHouse.height
     );
+    this.bossFightRect = new Phaser.Rectangle(this.bossFight.x, this.bossFight.y, this.bossFight.width, this.bossFight.height);
 
     // Resize game world to match the floor (DOESN'T SEEM TO WORK RIGHT NOW)
     this.ground.resizeWorld();
@@ -139,6 +145,12 @@ export default class HeroIsland extends Phaser.State {
     if (this.enterHeroHouseRect.contains(this.playerPosition.x, this.playerPosition.y)) {
       // Load the Hero Island State
       this.game.state.start('HeroHome');
+    }
+
+    // Check if Boss Fight contains the Player
+    if (this.bossFightRect.contains(this.playerPosition.x, this.playerPosition.y)) {
+      // Load the Boss Fight State
+      this.game.state.start('BossFight');
     }
   }
 }
