@@ -13,8 +13,12 @@ export default class Player {
     // Create the player sprite
     this.sprite = this.game.add.sprite(spawnX, spawnY, 'player');
     this.sprite.anchor.set(0.5, 0.5);
-    this.game.physics.arcade.enable(this.sprite);
+    this.sprite.smoothed = false;
+
+    // Customize Physics
+    this.game.physics.arcade.enable(this.sprite, true);
     this.sprite.body.collideWorldBounds = true;
+    this.sprite.body.setSize(18, 12, 4, 28);
 
     // Hacky
     this.sprite.controller = this;
