@@ -45,8 +45,17 @@ export default class Player {
     this.bullets.setAll('checkWorldBounds', true);
 
     // Now create health bar
-    this.healthBar = new HealthBar(this.game, { x: 125, y: game.height - 20 });
+    this.healthBar = new HealthBar(this.game, { x: 125, y: game.height - 20, isFixedToCamera: true });
     this.healthBar.setPercent(100 * store.health / store.maxHealth);
+
+    // Now create items
+    // HACK: This won't scale. Sorry :^) kill me
+    console.log(store);
+    if (store.inventory.indexOf("Pickaxe") !== -1) {
+      this.pickaxe = this.game.add.sprite(16, this.game.height - 56, "Pickaxe");
+      this.pickaxe.anchor.set(0.5, 0.5);
+      this.pickaxe.fixedToCamera = true;
+    }
   }
 
   update() {
@@ -99,7 +108,7 @@ export default class Player {
 
   fire() {
     // If enough time has past since the last bullet firing
-    if (this.game.time.now > this.nextFire) {
+    if (this.game.time.now > this.nextFire && this.sprite.alive) {
       // Then create the bullet
       var bullet = this.bullets.getFirstExists(false);
       if (bullet) {
@@ -117,8 +126,14 @@ export default class Player {
 
   onHit(sprite, bullet) {
     store.health -= bullet.damage;
-    if (store.health < 0) store.health = 0;
     this.healthBar.setPercent(100 * store.health / store.maxHealth);
+
+    if (store.health < 0) {
+      store.health = 0;
+      this.sprite.kill();
+      this.healthBar.kill();
+    }
+
     bullet.kill();
   }
 }

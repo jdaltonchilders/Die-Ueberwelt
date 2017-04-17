@@ -53,10 +53,6 @@ export default class HeroIsland extends Phaser.State {
     this.game.load.image('tiles_outside_custom', 'assets/images/tiles/outside_custom.png');
     this.game.load.image('tiles_water', 'assets/images/tiles/water.png');
     this.game.load.image('tiles_sky', 'assets/images/tiles/sky.png');
-
-    // Load Player
-    this.game.load.spritesheet('player', 'assets/images/chara2.png', 26, 36);
-    this.game.load.image('bullet', 'assets/images/bullet.png');
   }
 
   create() {
@@ -152,5 +148,9 @@ export default class HeroIsland extends Phaser.State {
       // Load the Boss Fight State
       this.game.state.start('BossFight');
     }
+  }
+
+  shutdown() {
+    this.game.sound.stopAll();
   }
 }

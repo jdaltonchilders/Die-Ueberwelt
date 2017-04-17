@@ -2,6 +2,7 @@
 
 import Player from '../controllers/player';
 import Boss from '../controllers/boss';
+import Pickaxe from '../items/pickaxe';
 
 export default class HeroHome extends Phaser.State {
   constructor() {
@@ -49,6 +50,9 @@ export default class HeroHome extends Phaser.State {
     this.game.load.image('tiles_inside_ceiling', 'assets/images/tiles/inside_changed.png');
     this.game.load.image('tiles_door', 'assets/images/tiles/doors.png');
     this.game.load.image('tiles_sky', 'assets/images/tiles/sky.png');
+
+    // Load Audio
+    this.game.load.audio('mainBackground','assets/audio/landscape/middle_earth_dawn.ogg');
   }
 
   create() {
@@ -96,6 +100,15 @@ export default class HeroHome extends Phaser.State {
     this.map.setCollisionBetween(1, mapTileLength, true, this.aboveFurniture);
     this.map.setCollisionBetween(1, mapTileLength, true, this.ceiling);
 
+    // Create Audio for town
+    this.backgroundMusic = this.game.add.audio('mainBackground');
+
+    // Setting volume and loop
+    this.backgroundMusic.play('', 1, 0.7, true);
+
+    // Create pickaxe
+    this.pickaxe = Pickaxe(this.game, 7 * 32, 6 * 32, this.player.sprite);
+
     // Camera follows player
     this.game.camera.follow(this.player.sprite);
   }
@@ -103,6 +116,8 @@ export default class HeroHome extends Phaser.State {
   update() {
     // Handle Player Update
     this.player.update();
+
+    this.pickaxe.update();
 
     // Collide with Layers
     this.game.physics.arcade.collide(this.player.sprite, this.walls);
@@ -126,6 +141,7 @@ export default class HeroHome extends Phaser.State {
   render() {
     // this.game.debug.cameraInfo(this.game.camera, 32, 32);
     // this.game.debug.spriteCoords(this.player, 32, 500);
-    this.game.debug.body(this.player.sprite);
+    // this.game.debug.body(this.player.sprite);
   }
+
 }
