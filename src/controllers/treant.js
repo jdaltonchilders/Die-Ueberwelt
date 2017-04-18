@@ -3,7 +3,7 @@
 import store from '../store';
 import HealthBar from '../HealthBar';
 
-export default class Wolf {
+export default class Treant {
   constructor(game, x, y) {
     this.game = game;
 
@@ -11,27 +11,27 @@ export default class Wolf {
     const spawnY = y || 0;
 
     // Create the monster sprite
-    this.sprite = this.game.add.sprite(spawnX, spawnY, 'wolf');
+    this.sprite = this.game.add.sprite(spawnX, spawnY, 'treant');
     this.sprite.anchor.set(0.5, 0.5);
     this.game.physics.arcade.enable(this.sprite);
     this.sprite.body.collideWorldBounds = true;
-    this.sprite.body.setSize(30, 35, 16, 25);
+    this.sprite.body.setSize(37, 45, 5, 5);
 
     // Create animations
-    this.sprite.animations.add('up', [9, 10, 11, 10], 6, true);
-    this.sprite.animations.add('right', [6, 7, 8, 7], 6, true);
-    this.sprite.animations.add('left', [3, 4, 5, 4], 6, true);
-    this.sprite.animations.add('down', [0, 1, 2, 1], 6, true);
+    this.sprite.animations.add('up', [9, 10, 11, 10], 3, true);
+    this.sprite.animations.add('right', [6, 7, 8, 7], 3, true);
+    this.sprite.animations.add('left', [3, 4, 5, 4], 3, true);
+    this.sprite.animations.add('down', [0, 1, 2, 1], 3, true);
 
     // Configure boss
-    this.fireRate = 300;
+    this.fireRate = 600;
     this.nextFire = this.game.time.now + this.fireRate;
     this.attackRange = 30;
-    this.damage = 1;
-    this.movementSpeed = 225;
-    this.idealDistance = 10;
+    this.damage = 3;
+    this.movementSpeed = 55;
+    this.idealDistance = 20;
     this.buffer = 10;
-    this.maxHealth = 20;
+    this.maxHealth = 40;
     this.health = this.maxHealth;
 
     // Now create health bar

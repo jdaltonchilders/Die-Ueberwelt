@@ -2,7 +2,7 @@
 
 import Player from '../controllers/player';
 import Boss from '../controllers/boss';
-import Wolf from '../controllers/wolf';
+import Treant from '../controllers/treant';
 import Boulder from '../controllers/boulder';
 
 export default class BossFight extends Phaser.State {
@@ -88,7 +88,7 @@ export default class BossFight extends Phaser.State {
     }
 
     // Create boss
-    this.bossController = new Wolf(this.game, this.game.world.centerX, this.game.world.centerY);
+    this.bossController = new Treant(this.game, this.game.world.centerX, this.game.world.centerY);
 
     // Create the Player
     this.playerController = new Player(this.game, this.entranceFromOverworldRect.x, this.entranceFromOverworldRect.y);
