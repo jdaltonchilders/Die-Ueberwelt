@@ -8,6 +8,9 @@ class Preload extends Phaser.State {
 
     // Load items
     this.game.load.image('Pickaxe', 'assets/images/pickaxe.png');
+    this.game.load.image('Staff', 'assets/images/staff.png');
+    this.game.load.image('Shoes', 'assets/images/shoes.png');
+    this.game.load.image('Robe', 'assets/images/robe.png');
     this.game.load.image('boulder', 'assets/images/boulder.png');
 
     // Load monsters
