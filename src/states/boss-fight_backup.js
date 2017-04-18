@@ -2,7 +2,6 @@
 
 import Player from '../controllers/player';
 import Boss from '../controllers/boss';
-import Wolf from '../controllers/wolf';
 import Boulder from '../controllers/boulder';
 
 export default class BossFight extends Phaser.State {
@@ -88,7 +87,7 @@ export default class BossFight extends Phaser.State {
     }
 
     // Create boss
-    this.bossController = new Wolf(this.game, this.game.world.centerX, this.game.world.centerY);
+    this.bossController = new Boss(this.game, this.game.world.centerX, this.game.world.centerY);
 
     // Create the Player
     this.playerController = new Player(this.game, this.entranceFromOverworldRect.x, this.entranceFromOverworldRect.y);
@@ -109,7 +108,7 @@ export default class BossFight extends Phaser.State {
   update() {
     // Update map objects
     // Lol demo soon
-    const bullets = [...this.playerController.bullets.children];
+    const bullets = [...this.bossController.waterBullets.children, ...this.bossController.fireBullets.children, ...this.playerController.bullets.children];
     this.boulders.forEach(boulder => {
       boulder.update(this.playerController.sprite, bullets);
     });

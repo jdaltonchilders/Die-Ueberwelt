@@ -124,8 +124,8 @@ export default class Player {
     }
   }
 
-  onHit(sprite, bullet) {
-    store.health -= bullet.damage;
+  hurt(damage) {
+    store.health -= damage;
     this.healthBar.setPercent(100 * store.health / store.maxHealth);
 
     if (store.health < 0) {
@@ -133,6 +133,10 @@ export default class Player {
       this.sprite.kill();
       this.healthBar.kill();
     }
+  }
+
+  onHit(sprite, bullet) {
+    this.hurt(bullet.damage);
 
     bullet.kill();
   }
