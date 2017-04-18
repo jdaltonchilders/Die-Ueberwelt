@@ -180,15 +180,26 @@
                  "width":12.1423,
                  "x":3.73611,
                  "y":155.36
+                }, 
+                {
+                 "height":38.8475234703787,
+                 "id":93,
+                 "name":"EnterAncientForest",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":50.1780511492392,
+                 "x":54.2246681774038,
+                 "y":76.8857235351246
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "width":0,
          "x":0,
          "y":0
         }],
- "nextobjectid":93,
+ "nextobjectid":94,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tileheight":16,
@@ -196,7 +207,7 @@
         {
          "columns":12,
          "firstgid":1,
-         "image":"..\/images\/tiles\/doors.png",
+         "image":"..\/..\/..\/..\/team-spike\/build\/assets\/images\/tiles\/doors.png",
          "imageheight":256,
          "imagewidth":192,
          "margin":0,
@@ -209,7 +220,7 @@
         {
          "columns":55,
          "firstgid":193,
-         "image":"..\/images\/tiles\/house.png",
+         "image":"..\/..\/..\/..\/team-spike\/build\/assets\/images\/tiles\/house.png",
          "imageheight":560,
          "imagewidth":880,
          "margin":0,
@@ -222,7 +233,7 @@
         {
          "columns":56,
          "firstgid":2118,
-         "image":"..\/images\/tiles\/outside.png",
+         "image":"..\/..\/..\/..\/team-spike\/build\/assets\/images\/tiles\/outside.png",
          "imageheight":448,
          "imagewidth":896,
          "margin":0,
@@ -235,7 +246,7 @@
         {
          "columns":44,
          "firstgid":3686,
-         "image":"..\/images\/tiles\/water.png",
+         "image":"..\/..\/..\/..\/team-spike\/build\/assets\/images\/tiles\/water.png",
          "imageheight":880,
          "imagewidth":704,
          "margin":0,
@@ -248,7 +259,7 @@
         {
          "columns":64,
          "firstgid":6106,
-         "image":"..\/images\/tiles\/sky.png",
+         "image":"..\/..\/..\/..\/team-spike\/build\/assets\/images\/tiles\/sky.png",
          "imageheight":768,
          "imagewidth":1024,
          "margin":0,
@@ -261,7 +272,7 @@
         {
          "columns":56,
          "firstgid":9178,
-         "image":"..\/images\/tiles\/outside_custom.png",
+         "image":"..\/..\/..\/..\/team-spike\/build\/assets\/images\/tiles\/outside_custom.png",
          "imageheight":448,
          "imagewidth":896,
          "margin":0,

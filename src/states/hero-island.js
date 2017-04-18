@@ -53,7 +53,8 @@ export default class HeroIsland extends Phaser.State {
     this.enterHeroHouse = this.map.objects.CollisionTrigger.find(object => object.name == 'EnterHeroHouse');
     this.returnFromHeroHouse = this.map.objects.CollisionTrigger.find(object => object.name == 'ReturnFromHeroHouse');
     this.bossFight = this.map.objects.CollisionTrigger.find(object => object.name == 'BossFight');
-
+    this.enterAncientForest = this.map.objects.CollisionTrigger.find(object => object.name == 'EnterAncientForest');
+    console.log(this.enterAncientForest);
     // Create Collision Trigger Layer Rect
     this.enterHeroHouseRect = new Phaser.Rectangle(this.enterHeroHouse.x, this.enterHeroHouse.y, this.enterHeroHouse.width, this.enterHeroHouse.height);
     this.returnFromHeroHouseRect = new Phaser.Rectangle(
@@ -63,6 +64,7 @@ export default class HeroIsland extends Phaser.State {
       this.returnFromHeroHouse.height
     );
     this.bossFightRect = new Phaser.Rectangle(this.bossFight.x, this.bossFight.y, this.bossFight.width, this.bossFight.height);
+    this.enterAncientForestRect = new Phaser.Rectangle(this.enterAncientForest.x, this.enterAncientForest.y, this.enterAncientForest.width, this.enterAncientForest.height);
 
     // Resize game world to match the floor (DOESN'T SEEM TO WORK RIGHT NOW)
     this.ground.resizeWorld();
@@ -73,7 +75,8 @@ export default class HeroIsland extends Phaser.State {
     // Collide with Player
     var mapTileLength = this.map.tiles.length - 1;
     this.map.setCollisionBetween(1, mapTileLength, true, this.collisionLayer);
-
+    console.log(this.bossFightRect);
+    console.log(this.enterAncientForestRect);
     // Camera follows player
     this.game.camera.follow(this.player.sprite);
   }
@@ -98,6 +101,13 @@ export default class HeroIsland extends Phaser.State {
     if (this.bossFightRect.contains(this.playerPosition.x, this.playerPosition.y)) {
       // Load the Boss Fight State
       this.game.state.start('BossFight');
+    }
+
+    // Check if Ancient Forest contains the Player
+    if (this.enterAncientForestRect.contains(this.playerPosition.x, this.playerPosition.y)) {
+      console.log('Take me home Peter Pan!');
+      // Load the Ancient Forest State
+      this.game.state.start('AncientForest');
     }
   }
 

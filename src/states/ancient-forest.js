@@ -38,45 +38,40 @@ export default class AncientForest extends Phaser.State {
     this.ground = this.map.createLayer('Ground');
     this.road = this.map.createLayer('Road');
     this.bridges = this.map.createLayer('Bridges');
-    this.fences = this.map.createLayer('Fences');
-    this.graveyard = this.map.createLayer('Graveyard');
-    this.houses = this.map.createLayer('Houses');
-    this.items = this.map.createLayer('Items');
-    this.doors = this.map.createLayer('Doors');
-    this.trees = this.map.createLayer('Trees');
+    this.castle = this.map.createLayer('Castle');
+    this.door = this.map.createLayer('Door');
+    this.trees = this.map.createLayer('TreeBackground');
+    this.trees = this.map.createLayer('TreeMiddleGround');
+    this.trees = this.map.createLayer('TreeForeGround');
+    this.trees = this.map.createLayer('TreeeForeGroundFront');
+    this.collisionLayer = this.map.createLayer('CollisionLayer');
 
     // Create Collision Trigger Layer
-    this.enterHeroHouse = this.map.objects.CollisionTrigger.find(object => object.name == 'EnterHeroHouse');
-    this.returnFromHeroHouse = this.map.objects.CollisionTrigger.find(object => object.name == 'ReturnFromHeroHouse');
-    this.bossFight = this.map.objects.CollisionTrigger.find(object => object.name == 'BossFight');
+    this.enterForest = this.map.objects.CollisionTrigger.find(object => object.name == 'EnterForest');
+    this.exitForest = this.map.objects.CollisionTrigger.find(object => object.name == 'ExitForest');
+    this.enterTheDungeon = this.map.objects.CollisionTrigger.find(object => object.name == 'EnterTheDungeon');
+    this.returnFromDungeon = this.map.objects.CollisionTrigger.find(object => object.name == 'ReturnFromDungeon');
 
     // Create Collision Trigger Layer Rect
-    this.enterHeroHouseRect = new Phaser.Rectangle(this.enterHeroHouse.x, this.enterHeroHouse.y, this.enterHeroHouse.width, this.enterHeroHouse.height);
-    this.returnFromHeroHouseRect = new Phaser.Rectangle(
-      this.returnFromHeroHouse.x,
-      this.returnFromHeroHouse.y,
-      this.returnFromHeroHouse.width,
-      this.returnFromHeroHouse.height
+    this.enterForestRect = new Phaser.Rectangle(this.enterForest.x, this.enterForest.y, this.enterForest.width, this.enterForest.height);
+    this.exitForestRect = new Phaser.Rectangle(
+      this.exitForest.x,
+      this.exitForest.y,
+      this.exitForest.width,
+      this.exitForest.height
     );
-    this.bossFightRect = new Phaser.Rectangle(this.bossFight.x, this.bossFight.y, this.bossFight.width, this.bossFight.height);
+    this.enterTheDungeonRect = new Phaser.Rectangle(this.enterTheDungeon.x, this.enterTheDungeon.y, this.enterTheDungeon.width, this.enterTheDungeon.height);
+    this.returnFromDungeonRect = new Phaser.Rectangle(this.returnFromDungeon.x, this.returnFromDungeon.y, this.returnFromDungeon.width, this.returnFromDungeon.height);
 
     // Resize game world to match the floor (DOESN'T SEEM TO WORK RIGHT NOW)
     this.ground.resizeWorld();
-    this.sky.resizeWorld();
 
     // Create the Player
-    this.player = new Player(this.game, this.returnFromHeroHouseRect.x, this.returnFromHeroHouseRect.y);
+    this.player = new Player(this.game, this.enterForestRect.x, this.enterForestRect.y);
 
     // Collide with Player
     var mapTileLength = this.map.tiles.length - 1;
-    this.map.setCollisionBetween(1, mapTileLength, true, this.sky);
-    this.map.setCollisionBetween(1, mapTileLength, true, this.islandSide);
-    this.map.setCollisionBetween(1, mapTileLength, true, this.water);
-    this.map.setCollisionBetween(1, mapTileLength, true, this.fences);
-    this.map.setCollisionBetween(1, mapTileLength, true, this.graveyard);
-    this.map.setCollisionBetween(1, mapTileLength, true, this.houses);
-    this.map.setCollisionBetween(1, mapTileLength, true, this.items);
-    this.map.setCollisionBetween(1, mapTileLength, true, this.trees);
+    this.map.setCollisionBetween(1, mapTileLength, true, this.collisionLayer);
 
     // Camera follows player
     this.game.camera.follow(this.player.sprite);
@@ -87,28 +82,15 @@ export default class AncientForest extends Phaser.State {
     this.player.update();
 
     // Collide with Layers
-    this.game.physics.arcade.collide(this.player.sprite, this.sky);
-    this.game.physics.arcade.collide(this.player.sprite, this.islandSide);
-    this.game.physics.arcade.collide(this.player.sprite, this.water);
-    this.game.physics.arcade.collide(this.player.sprite, this.fences);
-    this.game.physics.arcade.collide(this.player.sprite, this.graveyard);
-    this.game.physics.arcade.collide(this.player.sprite, this.houses);
-    this.game.physics.arcade.collide(this.player.sprite, this.items);
-    this.game.physics.arcade.collide(this.player.sprite, this.trees);
+    this.game.physics.arcade.collide(this.player.sprite, this.collisionLayer);
 
     // Update Player Position
     this.playerPosition = new Phaser.Rectangle(this.player.sprite.worldPosition.x, this.player.sprite.worldPosition.y, 0, 0);
 
     // Check if Exit House contains the Player
-    if (this.enterHeroHouseRect.contains(this.playerPosition.x, this.playerPosition.y)) {
+    if (this.exitForestRect.contains(this.playerPosition.x, this.playerPosition.y)) {
       // Load the Hero Island State
-      this.game.state.start('HeroHome');
-    }
-
-    // Check if Boss Fight contains the Player
-    if (this.bossFightRect.contains(this.playerPosition.x, this.playerPosition.y)) {
-      // Load the Boss Fight State
-      this.game.state.start('BossFight');
+      this.game.state.start('HeroIsland');
     }
   }
 

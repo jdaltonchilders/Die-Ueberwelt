@@ -8,6 +8,9 @@ import Preload from './states/preload';
 import HeroIsland from './states/hero-island';
 import HeroHome from './states/hero-home';
 
+// Ancient Forest States
+import AncientForest from './states/ancient-forest';
+
 // Boss Fight State
 import BossFight from './states/boss-fight';
 
@@ -22,6 +25,9 @@ class Game extends Phaser.Game {
     // Hero States
     this.state.add('HeroHome', HeroHome, false);
     this.state.add('HeroIsland', HeroIsland, false);
+
+    // Ancient Forest States
+    this.state.add('AncientForest', AncientForest, false);
 
     // Boss States
     this.state.add('BossFight', BossFight, false);
