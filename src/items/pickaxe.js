@@ -1,4 +1,4 @@
-import Item from './item';
+import Item from '../gui/item';
 
 export default (game, x, y, player) => {
   var item = new Item(game, x, y, 'Pickaxe', 'Pickaxe', player);

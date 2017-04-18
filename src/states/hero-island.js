@@ -6,40 +6,6 @@ export default class HeroIsland extends Phaser.State {
   constructor() {
     // Exception thrown here when not called
     super();
-
-    // Tile Map
-    this.map = null;
-
-    // Tile Map Layers
-    this.sky = null;
-    this.fringe = null;
-    this.islandSide = null;
-    this.ground = null;
-    this.roads = null;
-    this.water = null;
-    this.bridges = null;
-    this.fences = null;
-    this.graveyard = null;
-    this.houses = null;
-    this.items = null;
-    this.doors = null;
-    this.trees = null;
-    this.collision = null;
-
-    // Collision Trigger Layers
-    this.enterHeroHouse = null;
-    this.returnFromHeroHouse = null;
-    this.bossFight = null;
-
-    // Collision Trigger Layer Rect
-    this.enterHeroHouseRect = null;
-    this.returnFromHeroHouseRect = null;
-    this.bossFightRect = null;
-
-    //Player
-    this.player = null;
-    this.playerPosition = null;
-    this.playerController = null;
   }
 
   preload() {
@@ -70,7 +36,6 @@ export default class HeroIsland extends Phaser.State {
 
     // Create layers
     this.sky = this.map.createLayer('Sky');
-    this.fringe = this.map.createLayer('Fringe');
     this.islandSide = this.map.createLayer('IslandSide');
     this.ground = this.map.createLayer('Ground');
     this.roads = this.map.createLayer('Roads');
@@ -82,6 +47,7 @@ export default class HeroIsland extends Phaser.State {
     this.items = this.map.createLayer('Items');
     this.doors = this.map.createLayer('Doors');
     this.trees = this.map.createLayer('Trees');
+    this.collisionLayer = this.map.createLayer('CollisionLayer');
 
     // Create Collision Trigger Layer
     this.enterHeroHouse = this.map.objects.CollisionTrigger.find(object => object.name == 'EnterHeroHouse');
@@ -100,21 +66,13 @@ export default class HeroIsland extends Phaser.State {
 
     // Resize game world to match the floor (DOESN'T SEEM TO WORK RIGHT NOW)
     this.ground.resizeWorld();
-    this.sky.resizeWorld();
 
     // Create the Player
     this.player = new Player(this.game, this.returnFromHeroHouseRect.x, this.returnFromHeroHouseRect.y);
 
     // Collide with Player
     var mapTileLength = this.map.tiles.length - 1;
-    this.map.setCollisionBetween(1, mapTileLength, true, this.sky);
-    this.map.setCollisionBetween(1, mapTileLength, true, this.islandSide);
-    this.map.setCollisionBetween(1, mapTileLength, true, this.water);
-    this.map.setCollisionBetween(1, mapTileLength, true, this.fences);
-    this.map.setCollisionBetween(1, mapTileLength, true, this.graveyard);
-    this.map.setCollisionBetween(1, mapTileLength, true, this.houses);
-    this.map.setCollisionBetween(1, mapTileLength, true, this.items);
-    this.map.setCollisionBetween(1, mapTileLength, true, this.trees);
+    this.map.setCollisionBetween(1, mapTileLength, true, this.collisionLayer);
 
     // Camera follows player
     this.game.camera.follow(this.player.sprite);
@@ -125,14 +83,7 @@ export default class HeroIsland extends Phaser.State {
     this.player.update();
 
     // Collide with Layers
-    this.game.physics.arcade.collide(this.player.sprite, this.sky);
-    this.game.physics.arcade.collide(this.player.sprite, this.islandSide);
-    this.game.physics.arcade.collide(this.player.sprite, this.water);
-    this.game.physics.arcade.collide(this.player.sprite, this.fences);
-    this.game.physics.arcade.collide(this.player.sprite, this.graveyard);
-    this.game.physics.arcade.collide(this.player.sprite, this.houses);
-    this.game.physics.arcade.collide(this.player.sprite, this.items);
-    this.game.physics.arcade.collide(this.player.sprite, this.trees);
+    this.game.physics.arcade.collide(this.player.sprite, this.collisionLayer);
 
     // Update Player Position
     this.playerPosition = new Phaser.Rectangle(this.player.sprite.worldPosition.x, this.player.sprite.worldPosition.y, 0, 0);

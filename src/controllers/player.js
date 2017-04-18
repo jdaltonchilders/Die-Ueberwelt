@@ -1,7 +1,7 @@
 /*jshint esversion: 6 */
 
 import store from '../store';
-import HealthBar from '../HealthBar';
+import HealthBar from '../gui/healthbar';
 
 export default class Player {
   constructor(game, x, y) {
