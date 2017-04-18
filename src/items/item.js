@@ -35,6 +35,8 @@ export default class Item {
   onOverlap(player, sprite) {
     // When overlapped, add this item to their inventory
     if (!this.collectible) return;
+    console.log(this);
+    this.itemPickup.play('', 1, 0.7, true);
     this.collectible = false;
     store.inventory.push(this.name);
     this.placePortrait();
