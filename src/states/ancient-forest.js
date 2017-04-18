@@ -1,6 +1,8 @@
 /*jshint esversion: 6 */
 
 import Player from '../controllers/player';
+import Treant from '../controllers/treant';
+import Wolf from '../controllers/wolf';
 
 export default class AncientForest extends Phaser.State {
   constructor() {
@@ -66,8 +68,26 @@ export default class AncientForest extends Phaser.State {
     // Resize game world to match the floor (DOESN'T SEEM TO WORK RIGHT NOW)
     this.ground.resizeWorld();
 
+    // Create the monsters
+    this.monsters = [
+      new Treant(this.game, 140, 420),
+      new Treant(this.game, 500, 140),
+      new Treant(this.game, 300, 80),
+      new Wolf(this.game, 200, 500),
+      new Wolf(this.game, 600, 700),
+      new Wolf(this.game, 800, 600),
+    ];
+
     // Create the Player
+    // We do this after monsters so the monsters will
+    // appear below the player's health bar when they overlap
     this.player = new Player(this.game, this.enterForestRect.x, this.enterForestRect.y);
+
+    // Attach player parts to monster controllers
+    this.monsters.forEach(monster => {
+      monster.setTarget(this.player.sprite);
+      monster.setPlayerBullets(this.player.bullets);
+    });
 
     // Collide with Player
     var mapTileLength = this.map.tiles.length - 1;
@@ -83,6 +103,12 @@ export default class AncientForest extends Phaser.State {
 
     // Collide with Layers
     this.game.physics.arcade.collide(this.player.sprite, this.collisionLayer);
+
+    // Update all monsters
+    this.monsters.forEach(monster => {
+      monster.update();
+      this.game.physics.arcade.collide(monster.sprite, this.collisionLayer);
+    });
 
     // Update Player Position
     this.playerPosition = new Phaser.Rectangle(this.player.sprite.worldPosition.x, this.player.sprite.worldPosition.y, 0, 0);

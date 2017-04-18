@@ -3,6 +3,7 @@
 import Player from '../controllers/player';
 import Boss from '../controllers/boss';
 import Pickaxe from '../items/pickaxe';
+import store from '../store';
 
 export default class HeroHome extends Phaser.State {
   constructor() {
@@ -76,7 +77,8 @@ export default class HeroHome extends Phaser.State {
     this.backgroundMusic.play('', 1, 0.7, true);
 
     // Create pickaxe
-    this.pickaxe = Pickaxe(this.game, 7 * 32, 6 * 32, this.player.sprite);
+    if (store.inventory.indexOf("Pickaxe") === -1)
+      this.pickaxe = Pickaxe(this.game, 7 * 32, 6 * 32, this.player.sprite);
 
     // Camera follows player
     this.game.camera.follow(this.player.sprite);
@@ -86,6 +88,7 @@ export default class HeroHome extends Phaser.State {
     // Handle Player Update
     this.player.update();
 
+    if (this.pickaxe)
     this.pickaxe.update();
 
     // Collide with Layers
