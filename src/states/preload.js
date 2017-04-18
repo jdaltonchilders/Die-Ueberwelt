@@ -10,6 +10,9 @@ class Preload extends Phaser.State {
     this.game.load.image('Pickaxe', 'assets/images/pickaxe.png');
     this.game.load.image('boulder', 'assets/images/boulder.png');
 
+    // Load monsters
+    this.game.load.spritesheet('wolf', 'assets/images/monster_wolf1.png', 64, 66);
+    this.game.load.spritesheet('treant', 'assets/images/monster_golem2.png', 47, 50);
     // Load boss
     this.game.load.spritesheet('boss', 'assets/images/elemental.png', 120, 129);
     this.game.load.spritesheet('boss1bullet', 'assets/images/waterbullet.png', 40, 56);
