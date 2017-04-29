@@ -1,7 +1,7 @@
 /*jshint esversion: 6 */
 
-import store from '../store';
-import HealthBar from '../gui/healthbar';
+import store from "../store";
+import HealthBar from "../gui/healthbar";
 
 export default class Wolf {
   constructor(game, x, y) {
@@ -11,19 +11,19 @@ export default class Wolf {
     const spawnY = y || 0;
 
     // Create the monster sprite
-    this.sprite = this.game.add.sprite(spawnX, spawnY, 'wolf');
+    this.sprite = this.game.add.sprite(spawnX, spawnY, "wolf");
     this.sprite.anchor.set(0.5, 0.5);
     this.game.physics.arcade.enable(this.sprite);
     this.sprite.body.collideWorldBounds = true;
     this.sprite.body.setSize(30, 35, 16, 25);
 
     // Create animations
-    this.sprite.animations.add('up', [9, 10, 11, 10], 6, true);
-    this.sprite.animations.add('right', [6, 7, 8, 7], 6, true);
-    this.sprite.animations.add('left', [3, 4, 5, 4], 6, true);
-    this.sprite.animations.add('down', [0, 1, 2, 1], 6, true);
+    this.sprite.animations.add("up", [ 9, 10, 11, 10 ], 6, true);
+    this.sprite.animations.add("right", [ 6, 7, 8, 7 ], 6, true);
+    this.sprite.animations.add("left", [ 3, 4, 5, 4 ], 6, true);
+    this.sprite.animations.add("down", [ 0, 1, 2, 1 ], 6, true);
 
-    // Configure boss
+    // Configure wolf
     this.fireRate = 300;
     this.nextFire = this.game.time.now + this.fireRate;
     this.attackRange = 30;
@@ -33,6 +33,8 @@ export default class Wolf {
     this.buffer = 10;
     this.maxHealth = 20;
     this.health = this.maxHealth;
+    this.spotted = false;
+    this.visibleRange = 250;
 
     // Now create health bar
     this.healthBar = new HealthBar(this.game, {
@@ -46,6 +48,12 @@ export default class Wolf {
   }
 
   update() {
+    // Relocate healthbar
+    this.healthBar.setPosition(
+      this.sprite.x,
+      this.sprite.y - this.sprite.body.height / 2
+    );
+
     const topRight = this.game.math.degToRad(315);
     const topLeft = this.game.math.degToRad(225);
     const bottomLeft = this.game.math.degToRad(135);
@@ -66,35 +74,44 @@ export default class Wolf {
     );
     if (targetAngle < 0) targetAngle += this.game.math.degToRad(360);
 
+    // Skip if we can't see player yet
+    if (!this.spotted) {
+      if (distance < this.visibleRange) {
+        this.spotted = true;
+        console.log("Wolf spotted the player!");
+      }
+      return;
+    }
+
     // Determine the direction to target
-    var direction = 'right';
+    var direction = "right";
     if (targetAngle > bottomRight && targetAngle < bottomLeft)
-      direction = 'down';
+      direction = "down";
     else if (targetAngle > bottomLeft && targetAngle < topLeft)
-      direction = 'left';
-    else if (targetAngle > topLeft && targetAngle < topRight) direction = 'up';
+      direction = "left";
+    else if (targetAngle > topLeft && targetAngle < topRight) direction = "up";
 
     // Move toward player if we need to
     if (distance > this.idealDistance) {
-      if (direction === 'right') this.moveRight();
-      else if (direction === 'down') this.moveDown();
-      else if (direction === 'left') this.moveLeft();
-      else if (direction === 'up') this.moveUp();
+      if (direction === "right") this.moveRight();
+      else if (direction === "down") this.moveDown();
+      else if (direction === "left") this.moveLeft();
+      else if (direction === "up") this.moveUp();
     } else if (distance < this.idealDistance - this.buffer) {
       // Or move away from player
-      if (direction === 'right') this.moveLeft(true);
-      else if (direction === 'down') this.moveUp(true);
-      else if (direction === 'left') this.moveRight(true);
-      else if (direction === 'up') this.moveDown(true);
+      if (direction === "right") this.moveLeft(true);
+      else if (direction === "down") this.moveUp(true);
+      else if (direction === "left") this.moveRight(true);
+      else if (direction === "up") this.moveDown(true);
     } else {
       // Stop moving if we're at the right distance
       this.stopMoving();
 
       // Face appropriately
-      if (direction === 'right') this.faceRight();
-      else if (direction === 'down') this.faceDown();
-      else if (direction === 'left') this.faceLeft();
-      else if (direction === 'up') this.faceUp();
+      if (direction === "right") this.faceRight();
+      else if (direction === "down") this.faceDown();
+      else if (direction === "left") this.faceLeft();
+      else if (direction === "up") this.faceUp();
     }
 
     // Collide with player bullets
@@ -106,9 +123,6 @@ export default class Wolf {
       this
     );
 
-    // Relocate healthbar
-    this.healthBar.setPosition(this.sprite.x, this.sprite.y - this.sprite.body.height / 2);
-
     // Always try to attack
     this.fire();
   }
@@ -117,9 +131,15 @@ export default class Wolf {
     // If enough time has past since the last bullet firing
     if (
       this.game.time.now > this.nextFire &&
-      this.sprite.alive &&
-      this.target.alive &&
-      this.game.math.distance(this.sprite.x, this.sprite.y, this.target.x, this.target.y) < this.attackRange
+        this.sprite.alive &&
+        this.target.alive &&
+        this.game.math.distance(
+          this.sprite.x,
+          this.sprite.y,
+          this.target.x,
+          this.target.y
+        ) <
+          this.attackRange
     ) {
       // Then hurt the player (we're melee, not ranged)
       this.target.controller.hurt(this.damage);
