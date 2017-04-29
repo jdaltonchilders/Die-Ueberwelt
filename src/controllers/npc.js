@@ -1,7 +1,7 @@
 /*jshint esversion: 6 */
 
 export default class NPC {
-  constructor(game, key, x, y, strategy) {
+  constructor(game, name, x, y, strategy) {
     this.game = game;
     this.strategy = strategy;
 
@@ -10,7 +10,7 @@ export default class NPC {
     const spawnY = y || 0;
 
     // Create the player sprite
-    this.sprite = this.game.add.sprite(spawnX, spawnY, key);
+    this.sprite = this.game.add.sprite(spawnX, spawnY, 'npc');
     this.sprite.anchor.set(0.5, 0.5);
     this.sprite.smoothed = false;
 
@@ -19,12 +19,48 @@ export default class NPC {
     this.sprite.body.collideWorldBounds = true;
     this.sprite.body.setSize(18, 12, 4, 28);
 
-    // TODO: How does this fit in with multiple keys?
     // Create animations
-    this.sprite.animations.add("up", [ 36, 37, 38, 37 ], 5, true);
-    this.sprite.animations.add("right", [ 24, 25, 26, 25 ], 5, true);
-    this.sprite.animations.add("left", [ 12, 13, 14, 13 ], 5, true);
-    this.sprite.animations.add("down", [ 0, 1, 2, 1 ], 5, true);
+    if (name === "Old Guy") {
+      this.sprite.animations.add("up", [ 36, 37, 38, 37 ], 5, true);
+      this.sprite.animations.add("right", [ 24, 25, 26, 25 ], 5, true);
+      this.sprite.animations.add("left", [ 12, 13, 14, 13 ], 5, true);
+      this.sprite.animations.add("down", [ 0, 1, 2, 1 ], 5, true);
+    } else if (name === "Merchant") {
+      this.sprite.animations.add("up", [ 39, 40, 41, 40 ], 5, true);
+      this.sprite.animations.add("right", [ 27, 28, 29, 28 ], 5, true);
+      this.sprite.animations.add("left", [ 15, 16, 17, 16 ], 5, true);
+      this.sprite.animations.add("down", [ 3, 4, 5, 4 ], 5, true);
+    } else if (name === "Rookie") {
+      this.sprite.animations.add("up", [ 42, 43, 44, 43 ], 5, true);
+      this.sprite.animations.add("right", [ 30, 31, 32, 31 ], 5, true);
+      this.sprite.animations.add("left", [ 18, 19, 20, 19 ], 5, true);
+      this.sprite.animations.add("down", [ 6, 7, 8, 7 ], 5, true);
+    } else if (name === "Beard") {
+      this.sprite.animations.add("up", [ 45, 46, 47, 46 ], 5, true);
+      this.sprite.animations.add("right", [ 33, 34, 35, 34 ], 5, true);
+      this.sprite.animations.add("left", [ 21, 22, 23, 22 ], 5, true);
+      this.sprite.animations.add("down", [ 9, 10, 11, 10 ], 5, true);
+    } else if (name === "Green") {
+      this.sprite.animations.add("up", [ 84, 85, 86, 85 ], 5, true);
+      this.sprite.animations.add("right", [ 72, 73, 74, 73 ], 5, true);
+      this.sprite.animations.add("left", [ 60, 61, 62, 61 ], 5, true);
+      this.sprite.animations.add("down", [ 48, 49, 50, 49 ], 5, true);
+    } else if (name === "Red") {
+      this.sprite.animations.add("up", [ 87, 88, 89, 88 ], 5, true);
+      this.sprite.animations.add("right", [ 75, 76, 77, 76 ], 5, true);
+      this.sprite.animations.add("left", [ 63, 64, 65, 64 ], 5, true);
+      this.sprite.animations.add("down", [ 51, 52, 53, 52 ], 5, true);
+    } else if (name === "Blue") {
+      this.sprite.animations.add("up", [ 90, 91, 92, 91 ], 5, true);
+      this.sprite.animations.add("right", [ 78, 79, 80, 79 ], 5, true);
+      this.sprite.animations.add("left", [ 66, 67, 68, 67 ], 5, true);
+      this.sprite.animations.add("down", [ 54, 55, 56, 55 ], 5, true);
+    } else if (name === "Farmer") {
+      this.sprite.animations.add("up", [ 93, 94, 95, 94 ], 5, true);
+      this.sprite.animations.add("right", [ 81, 82, 83, 82 ], 5, true);
+      this.sprite.animations.add("left", [ 69, 70, 71, 70 ], 5, true);
+      this.sprite.animations.add("down", [ 57, 58, 59, 58 ], 5, true);
+    }
 
     // Configure movement
     this.movementDelay = 1000;

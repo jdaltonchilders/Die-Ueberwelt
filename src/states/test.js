@@ -120,8 +120,14 @@ export default class Test extends Phaser.State {
 
     // Start testing some cool stuff
     this.npcs = [
-      new NPC(this.game, "player", 100, 100, "sideways"),
-      new NPC(this.game, "player", 100, 100, "circle")
+      new NPC(this.game, "Old Guy", 100, 100, "circle"),
+      new NPC(this.game, "Merchant", 200, 100, "circle"),
+      new NPC(this.game, "Rookie", 300, 100, "circle"),
+      new NPC(this.game, "Beard", 400, 100, "circle"),
+      new NPC(this.game, "Green", 100, 200, "circle"),
+      new NPC(this.game, "Red", 200, 200, "circle"),
+      new NPC(this.game, "Blue", 300, 200, "circle"),
+      new NPC(this.game, "Farmer", 400, 200, "circle")
     ];
   }
 
