@@ -108,6 +108,10 @@ export default class Test extends Phaser.State {
       this.returnFromHeroHouseRect.x,
       this.returnFromHeroHouseRect.y
     );
+    this.player.sprite.inputEnabled = true;
+    this.player.sprite.events.onInputDown.add(() => {
+      console.log(this.player.sprite.x, this.player.sprite.y);
+    });
 
     // Collide with Player
     var mapTileLength = this.map.tiles.length - 1;
@@ -144,6 +148,13 @@ export default class Test extends Phaser.State {
       new NPC(this.game, "Red", 232, 232, "line"),
       new NPC(this.game, "Blue", 332, 232, "line"),
       new NPC(this.game, "Farmer", 432, 232, "line"),
+      /* Real ones */
+      new NPC(this.game, "Old Guy", 1030, 300),
+      new NPC(this.game, "Rookie", 842, 680, "line"),
+      new NPC(this.game, "Merchant", 770, 474),
+      new NPC(this.game, "Beard", 984, 150),
+      new NPC(this.game, "Farmer", 296, 941, "line"),
+      new NPC(this.game, "Green", 430, 900, "circle"),
     ];
   }
 

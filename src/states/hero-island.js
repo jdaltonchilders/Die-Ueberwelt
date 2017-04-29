@@ -1,6 +1,7 @@
 /*jshint esversion: 6 */
 
 import Player from '../controllers/player';
+import NPC from '../controllers/npc';
 
 export default class HeroIsland extends Phaser.State {
   constructor() {
@@ -69,6 +70,16 @@ export default class HeroIsland extends Phaser.State {
     // Resize game world to match the floor (DOESN'T SEEM TO WORK RIGHT NOW)
     this.ground.resizeWorld();
 
+    // Create NPCs
+    this.npcs = [
+      new NPC(this.game, "Old Guy", 1030, 300),
+      new NPC(this.game, "Rookie", 842, 680, "line"),
+      new NPC(this.game, "Merchant", 770, 474),
+      new NPC(this.game, "Beard", 984, 150),
+      new NPC(this.game, "Farmer", 296, 941, "line"),
+      new NPC(this.game, "Green", 430, 900, "circle"),
+    ];
+
     // Create the Player
     this.player = new Player(this.game, this.returnFromHeroHouseRect.x, this.returnFromHeroHouseRect.y);
 
@@ -82,6 +93,9 @@ export default class HeroIsland extends Phaser.State {
   }
 
   update() {
+    // Update NPCs
+    this.npcs.forEach(npc => npc.update());
+
     // Handle Player Update
     this.player.update();
 
