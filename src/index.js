@@ -14,6 +14,9 @@ import AncientForest from './states/ancient-forest';
 // Boss Fight State
 import BossFight from './states/boss-fight';
 
+// Rad test state, yo
+import Test from './states/test';
+
 class Game extends Phaser.Game {
   constructor() {
     super(800, 500, Phaser.AUTO, 'gameArea');
@@ -31,6 +34,9 @@ class Game extends Phaser.Game {
 
     // Boss States
     this.state.add('BossFight', BossFight, false);
+
+    // Ya got a kickin' test state, dawg
+    this.state.add('Test', Test, false);
 
     // Start state (state, clearWorld (boolean), clearCache(boolean))
     this.state.start('Boot');
