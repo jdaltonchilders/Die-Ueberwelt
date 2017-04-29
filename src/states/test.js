@@ -127,7 +127,23 @@ export default class Test extends Phaser.State {
       new NPC(this.game, "Green", 100, 200, "circle"),
       new NPC(this.game, "Red", 200, 200, "circle"),
       new NPC(this.game, "Blue", 300, 200, "circle"),
-      new NPC(this.game, "Farmer", 400, 200, "circle")
+      new NPC(this.game, "Farmer", 400, 200, "circle"),
+      new NPC(this.game, "Old Guy", 132, 132),
+      new NPC(this.game, "Merchant", 232, 132),
+      new NPC(this.game, "Rookie", 332, 132),
+      new NPC(this.game, "Beard", 432, 132),
+      new NPC(this.game, "Green", 132, 232),
+      new NPC(this.game, "Red", 232, 232),
+      new NPC(this.game, "Blue", 332, 232),
+      new NPC(this.game, "Farmer", 432, 232),
+      new NPC(this.game, "Old Guy", 132, 132, "line"),
+      new NPC(this.game, "Merchant", 232, 132, "line"),
+      new NPC(this.game, "Rookie", 332, 132, "line"),
+      new NPC(this.game, "Beard", 432, 132, "line"),
+      new NPC(this.game, "Green", 132, 232, "line"),
+      new NPC(this.game, "Red", 232, 232, "line"),
+      new NPC(this.game, "Blue", 332, 232, "line"),
+      new NPC(this.game, "Farmer", 432, 232, "line"),
     ];
   }
 
