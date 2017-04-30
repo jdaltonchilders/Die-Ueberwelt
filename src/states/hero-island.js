@@ -276,11 +276,11 @@ export default class HeroIsland extends Phaser.State {
     // Create NPCs
     this.npcs = [
       new NPC(this.game, 'Old Guy', 1030, 300),
-      new NPC(this.game, 'Rookie', 842, 680, 'line'),
+      new NPC(this.game, 'Rookie', 842, 680, 'long line'),
       new NPC(this.game, 'Merchant', 770, 474),
       new NPC(this.game, 'Beard', 984, 150),
-      new NPC(this.game, 'Farmer', 296, 941, 'line'),
-      new NPC(this.game, 'Green', 430, 900, 'circle')
+      new NPC(this.game, 'Farmer', 296, 941, 'vertical medium line'),
+      new NPC(this.game, 'Green', 430, 880, 'u')
     ];
 
     // Finish Create Layers
