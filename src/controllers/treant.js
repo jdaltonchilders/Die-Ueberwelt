@@ -1,7 +1,7 @@
 /*jshint esversion: 6 */
 
-import store from '../store';
-import HealthBar from '../gui/healthbar';
+import store from "../store";
+import HealthBar from "../gui/healthbar";
 
 export default class Treant {
   constructor(game, x, y) {
@@ -11,17 +11,17 @@ export default class Treant {
     const spawnY = y || 0;
 
     // Create the monster sprite
-    this.sprite = this.game.add.sprite(spawnX, spawnY, 'treant');
+    this.sprite = this.game.add.sprite(spawnX, spawnY, "treant");
     this.sprite.anchor.set(0.5, 0.5);
     this.game.physics.arcade.enable(this.sprite);
     this.sprite.body.collideWorldBounds = true;
     this.sprite.body.setSize(37, 45, 5, 5);
 
     // Create animations
-    this.sprite.animations.add('up', [9, 10, 11, 10], 3, true);
-    this.sprite.animations.add('right', [6, 7, 8, 7], 3, true);
-    this.sprite.animations.add('left', [3, 4, 5, 4], 3, true);
-    this.sprite.animations.add('down', [0, 1, 2, 1], 3, true);
+    this.sprite.animations.add("up", [ 9, 10, 11, 10 ], 3, true);
+    this.sprite.animations.add("right", [ 6, 7, 8, 7 ], 3, true);
+    this.sprite.animations.add("left", [ 3, 4, 5, 4 ], 3, true);
+    this.sprite.animations.add("down", [ 0, 1, 2, 1 ], 3, true);
 
     // Configure boss
     this.fireRate = 600;
@@ -33,6 +33,8 @@ export default class Treant {
     this.buffer = 10;
     this.maxHealth = 40;
     this.health = this.maxHealth;
+    this.spotted = false;
+    this.visibleRange = 350;
 
     // Now create health bar
     this.healthBar = new HealthBar(this.game, {
@@ -46,6 +48,12 @@ export default class Treant {
   }
 
   update() {
+    // Relocate healthbar
+    this.healthBar.setPosition(
+      this.sprite.x,
+      this.sprite.y - this.sprite.body.height / 2
+    );
+
     const topRight = this.game.math.degToRad(315);
     const topLeft = this.game.math.degToRad(225);
     const bottomLeft = this.game.math.degToRad(135);
@@ -66,35 +74,44 @@ export default class Treant {
     );
     if (targetAngle < 0) targetAngle += this.game.math.degToRad(360);
 
+    // Skip if we can't see player yet
+    if (!this.spotted) {
+      if (distance < this.visibleRange) {
+        this.spotted = true;
+        console.log("Treant spotted the player!");
+      }
+      return;
+    }
+
     // Determine the direction to target
-    var direction = 'right';
+    var direction = "right";
     if (targetAngle > bottomRight && targetAngle < bottomLeft)
-      direction = 'down';
+      direction = "down";
     else if (targetAngle > bottomLeft && targetAngle < topLeft)
-      direction = 'left';
-    else if (targetAngle > topLeft && targetAngle < topRight) direction = 'up';
+      direction = "left";
+    else if (targetAngle > topLeft && targetAngle < topRight) direction = "up";
 
     // Move toward player if we need to
     if (distance > this.idealDistance) {
-      if (direction === 'right') this.moveRight();
-      else if (direction === 'down') this.moveDown();
-      else if (direction === 'left') this.moveLeft();
-      else if (direction === 'up') this.moveUp();
+      if (direction === "right") this.moveRight();
+      else if (direction === "down") this.moveDown();
+      else if (direction === "left") this.moveLeft();
+      else if (direction === "up") this.moveUp();
     } else if (distance < this.idealDistance - this.buffer) {
       // Or move away from player
-      if (direction === 'right') this.moveLeft(true);
-      else if (direction === 'down') this.moveUp(true);
-      else if (direction === 'left') this.moveRight(true);
-      else if (direction === 'up') this.moveDown(true);
+      if (direction === "right") this.moveLeft(true);
+      else if (direction === "down") this.moveUp(true);
+      else if (direction === "left") this.moveRight(true);
+      else if (direction === "up") this.moveDown(true);
     } else {
       // Stop moving if we're at the right distance
       this.stopMoving();
 
       // Face appropriately
-      if (direction === 'right') this.faceRight();
-      else if (direction === 'down') this.faceDown();
-      else if (direction === 'left') this.faceLeft();
-      else if (direction === 'up') this.faceUp();
+      if (direction === "right") this.faceRight();
+      else if (direction === "down") this.faceDown();
+      else if (direction === "left") this.faceLeft();
+      else if (direction === "up") this.faceUp();
     }
 
     // Collide with player bullets
@@ -106,9 +123,6 @@ export default class Treant {
       this
     );
 
-    // Relocate healthbar
-    this.healthBar.setPosition(this.sprite.x, this.sprite.y - this.sprite.body.height / 2);
-
     // Always try to attack
     this.fire();
   }
@@ -117,9 +131,15 @@ export default class Treant {
     // If enough time has past since the last bullet firing
     if (
       this.game.time.now > this.nextFire &&
-      this.sprite.alive &&
-      this.target.alive &&
-      this.game.math.distance(this.sprite.x, this.sprite.y, this.target.x, this.target.y) < this.attackRange
+        this.sprite.alive &&
+        this.target.alive &&
+        this.game.math.distance(
+          this.sprite.x,
+          this.sprite.y,
+          this.target.x,
+          this.target.y
+        ) <
+          this.attackRange
     ) {
       // Then hurt the player (we're melee, not ranged)
       this.target.controller.hurt(this.damage);
