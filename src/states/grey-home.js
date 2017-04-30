@@ -1,10 +1,10 @@
 /*jshint esversion: 6 */
 
 import Player from '../controllers/player';
-import Pickaxe from '../items/pickaxe';
+import Robe from '../items/robe';
 import store from '../store';
 
-export default class HeroHome extends Phaser.State {
+export default class GreyHome extends Phaser.State {
     constructor() {
         // exception thrown here when not called
         super();
@@ -12,7 +12,7 @@ export default class HeroHome extends Phaser.State {
 
     preload() {
         // Load Tilemap
-        this.game.load.tilemap('heroHome', 'assets/maps/heroHome.json', null, Phaser.Tilemap.TILED_JSON);
+        this.game.load.tilemap('greyHome', 'assets/maps/greyHome.json', null, Phaser.Tilemap.TILED_JSON);
 
         // Load Tilesets
         this.game.load.image('tiles_inside', 'assets/images/tiles/inside.png');
@@ -20,8 +20,6 @@ export default class HeroHome extends Phaser.State {
         this.game.load.image('tiles_door', 'assets/images/tiles/doors.png');
         this.game.load.image('tiles_sky', 'assets/images/tiles/sky.png');
 
-        // Load Audio
-        this.game.load.audio('mainBackground', 'assets/audio/landscape/middle_earth_dawn.ogg');
     }
 
     create() {
@@ -29,7 +27,7 @@ export default class HeroHome extends Phaser.State {
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
         // Create the Map
-        this.map = this.game.add.tilemap('heroHome');
+        this.map = this.game.add.tilemap('greyHome');
         this.map.addTilesetImage('inside', 'tiles_inside');
         this.map.addTilesetImage('inside_changed', 'tiles_inside_ceiling');
         this.map.addTilesetImage('doors', 'tiles_door');
@@ -69,26 +67,16 @@ export default class HeroHome extends Phaser.State {
         this.map.setCollisionBetween(1, mapTileLength, true, this.aboveFurniture);
         this.map.setCollisionBetween(1, mapTileLength, true, this.ceiling);
 
-        // Create Audio for town
-        this.backgroundMusic = this.game.add.audio('mainBackground');
-
-        // Setting volume and loop
-        this.backgroundMusic.play('', 1, 0.7, true);
-
-        // Create pickaxe
-        if (store.inventory.indexOf("Pickaxe") === -1)
-            this.pickaxe = Pickaxe(this.game, 7 * 32, 6 * 32, this.player.sprite);
-
         // Camera follows player
         this.game.camera.follow(this.player.sprite);
+
+        if (store.inventory.indexOf("Robe") === -1)
+            this.item = Robe(this.game, 7 * 32, 6 * 32, this.player.sprite);
     }
 
     update() {
         // Handle Player Update
         this.player.update();
-
-        if (this.pickaxe)
-            this.pickaxe.update();
 
         // Collide with Layers
         this.game.physics.arcade.collide(this.player.sprite, this.walls);
@@ -99,13 +87,16 @@ export default class HeroHome extends Phaser.State {
         this.game.physics.arcade.collide(this.player.sprite, this.aboveFurniture);
         this.game.physics.arcade.collide(this.player.sprite, this.ceiling);
 
+        // Update item
+        if (this.item) this.item.update();
+
         // Update Player Position
         this.playerPosition = new Phaser.Rectangle(this.player.sprite.worldPosition.x, this.player.sprite.worldPosition.y, 0, 0);
 
         // Check if Exit House contains the Player
         if (this.exitHouseRect.contains(this.playerPosition.x, this.playerPosition.y)) {
-            // Update State Information
-            store.previousState = 'HeroHome';
+            // Fix up state info in Store
+            store.previousState = 'GreyHome';
             store.currentState = store.nextState = 'HeroIsland';
 
             // Load the Hero Island State

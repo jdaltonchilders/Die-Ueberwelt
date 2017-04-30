@@ -2,6 +2,7 @@ node_modules
 build/assets/bundle.js
 yarn.lock
 *.log
+*.vscode
 
 ### Windows ###
 # Windows thumbnail cache files
