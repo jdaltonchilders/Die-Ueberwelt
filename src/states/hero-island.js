@@ -52,7 +52,9 @@ export default class HeroIsland extends Phaser.State {
         this.returnFromTealCabin = this.map.objects.CollisionTrigger.find(object => object.name == 'ReturnFromTealCabin');
 
         this.bossFight = this.map.objects.CollisionTrigger.find(object => object.name == 'BossFight');
+
         this.enterAncientForest = this.map.objects.CollisionTrigger.find(object => object.name == 'EnterAncientForest');
+        this.returnFromAncientForest = this.map.objects.CollisionTrigger.find(object => object.name == 'ReturnFromAncientForest');
 
         this.respawnPoint = this.map.objects.CollisionTrigger.find(object => object.name == 'RespawnPoint');
 
@@ -79,7 +81,9 @@ export default class HeroIsland extends Phaser.State {
         this.returnFromTealCabinRect = new Phaser.Rectangle(this.returnFromTealCabin.x, this.returnFromTealCabin.y, this.returnFromTealCabin.width, this.returnFromTealCabin.height);
 
         this.bossFightRect = new Phaser.Rectangle(this.bossFight.x, this.bossFight.y, this.bossFight.width, this.bossFight.height);
+
         this.enterAncientForestRect = new Phaser.Rectangle(this.enterAncientForest.x, this.enterAncientForest.y, this.enterAncientForest.width, this.enterAncientForest.height);
+        this.returnFromAncientForestRect = new Phaser.Rectangle(this.returnFromAncientForest.x, this.returnFromAncientForest.y, this.returnFromAncientForest.width, this.returnFromAncientForest.height);
 
         this.respawnPointRect = new Phaser.Rectangle(this.respawnPoint.x, this.respawnPoint.y, this.respawnPoint.width, this.respawnPoint.height);
 
@@ -123,6 +127,8 @@ export default class HeroIsland extends Phaser.State {
             this.spawn = this.returnFromGreyCabinRect
         } else if (store.previousState === 'TealCabin') {
             this.spawn = this.returnFromTealCabinRect
+        } else if (store.previousState === 'AncientForest') {
+            this.spawn = this.returnFromAncientForestRect
         } else if (store.previousState === 'Death') {
             this.spawn = this.respawnPointRect
         } else {
