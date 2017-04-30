@@ -22,8 +22,13 @@ import AncientForest from './states/ancient-forest';
 // Boss Fight State
 import BossFight from './states/boss-fight';
 
+
 // Death State
 import DeathScreen from './states/death-screen';
+
+// Rad test state, yo
+import Test from './states/test';
+
 
 class Game extends Phaser.Game {
     constructor() {
@@ -51,8 +56,13 @@ class Game extends Phaser.Game {
         // Boss States
         this.state.add('BossFight', BossFight, false);
 
+
         // Death State
         this.state.add('DeathScreen', DeathScreen, false);
+
+        // Ya got a kickin' test state, dawg
+        this.state.add('Test', Test, false);
+
 
         // Start state (state, clearWorld (boolean), clearCache(boolean))
         this.state.start('Boot');

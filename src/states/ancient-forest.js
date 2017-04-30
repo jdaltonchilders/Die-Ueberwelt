@@ -68,8 +68,8 @@ export default class AncientForest extends Phaser.State {
             new Treant(this.game, 720, 120),
             new Treant(this.game, 300, 80),
             new Wolf(this.game, 200, 500),
-            new Wolf(this.game, 600, 700),
-            new Wolf(this.game, 800, 600),
+            new Wolf(this.game, 500, 750),
+            new Wolf(this.game, 800, 500),
         ];
 
         // Create the Player
