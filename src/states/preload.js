@@ -4,16 +4,16 @@ import store from '../store';
 
 class Preload extends Phaser.State {
     preload() {
-      // Load Player
-      this.game.load.spritesheet('player', 'assets/images/chara2.png', 26, 36);
-      this.game.load.image('bullet', 'assets/images/bullet.png');
+        // Load Player
+        this.game.load.spritesheet('player', 'assets/images/chara2.png', 26, 36);
+        this.game.load.image('bullet', 'assets/images/bullet.png');
 
-      // Load items
-      this.game.load.image('Pickaxe', 'assets/images/pickaxe.png');
-      this.game.load.image('Staff', 'assets/images/staff.png');
-      this.game.load.image('Shoes', 'assets/images/shoes.png');
-      this.game.load.image('Robe', 'assets/images/robe.png');
-      this.game.load.image('boulder', 'assets/images/boulder.png');
+        // Load items
+        this.game.load.image('Pickaxe', 'assets/images/pickaxe.png');
+        this.game.load.image('Staff', 'assets/images/staff.png');
+        this.game.load.image('Shoes', 'assets/images/shoes.png');
+        this.game.load.image('Robe', 'assets/images/robe.png');
+        this.game.load.image('boulder', 'assets/images/boulder.png');
 
         // Load monsters
         this.game.load.spritesheet('wolf', 'assets/images/monster_wolf1.png', 64, 66);
@@ -29,7 +29,7 @@ class Preload extends Phaser.State {
         store.previousState = 'Preload';
         store.currentState = store.nextState = 'HeroHome';
         // Start Next Game State
-        this.game.state.start('HeroHome');
+        this.game.state.start('DeathScreen');
     }
 }
 
