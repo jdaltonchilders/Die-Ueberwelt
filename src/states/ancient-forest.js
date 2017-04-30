@@ -1,8 +1,10 @@
 /*jshint esversion: 6 */
 
 import Player from '../controllers/player';
+import Shoes from '../items/shoes';
 import Treant from '../controllers/treant';
 import Wolf from '../controllers/wolf';
+import store from '../store';
 
 export default class AncientForest extends Phaser.State {
   constructor() {
@@ -93,6 +95,10 @@ export default class AncientForest extends Phaser.State {
     var mapTileLength = this.map.tiles.length - 1;
     this.map.setCollisionBetween(1, mapTileLength, true, this.collisionLayer);
 
+    // Make item
+    if (store.inventory.indexOf("Shoes") === -1)
+      this.item = Shoes(this.game, 4 * 32, 24 * 32, this.player.sprite);
+
     // Camera follows player
     this.game.camera.follow(this.player.sprite);
   }
@@ -100,6 +106,9 @@ export default class AncientForest extends Phaser.State {
   update() {
     // Handle Player Update
     this.player.update();
+
+    // Item update
+    if (this.item) this.item.update();
 
     // Collide with Layers
     this.game.physics.arcade.collide(this.player.sprite, this.collisionLayer);
