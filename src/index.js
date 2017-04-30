@@ -24,7 +24,7 @@ import BossFight from './states/boss-fight';
 
 class Game extends Phaser.Game {
     constructor() {
-        super(800, 500, Phaser.AUTO, 'gameArea');
+      super(window.innerWidth, window.innerHeight, Phaser.AUTO, 'gameArea');
 
         // Add to the State Manager (key, state, autoStart)
         this.state.add('Boot', Boot, false);
