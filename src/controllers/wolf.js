@@ -28,7 +28,7 @@ export default class Wolf {
     this.nextFire = this.game.time.now + this.fireRate;
     this.attackRange = 30;
     this.damage = 1;
-    this.movementSpeed = 225;
+    this.movementSpeed = 100;
     this.idealDistance = 10;
     this.buffer = 10;
     this.maxHealth = 20;
