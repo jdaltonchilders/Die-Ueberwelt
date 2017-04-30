@@ -68,8 +68,8 @@ export default class AncientForest extends Phaser.State {
             new Treant(this.game, 720, 120),
             new Treant(this.game, 300, 80),
             new Wolf(this.game, 200, 500),
-            new Wolf(this.game, 600, 700),
-            new Wolf(this.game, 800, 600),
+            new Wolf(this.game, 500, 750),
+            new Wolf(this.game, 800, 500),
         ];
 
         // Create the Player
@@ -89,7 +89,7 @@ export default class AncientForest extends Phaser.State {
         // Collide with Player
         var mapTileLength = this.map.tiles.length - 1;
         this.map.setCollisionBetween(1, mapTileLength, true, this.collisionLayer);
-      
+
         // Make item
         if (store.inventory.indexOf("Shoes") === -1)
           this.item = Shoes(this.game, 4 * 32, 24 * 32, this.player.sprite);
@@ -101,7 +101,7 @@ export default class AncientForest extends Phaser.State {
     update() {
         // Handle Player Update
         this.player.update();
-      
+
         // Item update
         if (this.item) this.item.update();
 
