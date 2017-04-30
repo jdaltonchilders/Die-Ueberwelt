@@ -3,7 +3,7 @@
 export default {
     speed: 100,
     fireRate: 500,
-    inventory: ["Pickaxe", "Robe", "Staff", "Shoes"],
+    inventory: [],
     damage: 1,
     health: 50,
     maxHealth: 50,
