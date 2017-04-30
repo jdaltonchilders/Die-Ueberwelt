@@ -99,10 +99,10 @@ export default class HeroIsland extends Phaser.State {
         this.houses = this.map.createLayer('Houses');
         this.items = this.map.createLayer('Items');
         this.doors = this.map.createLayer('Doors');
+        this.treesTrunk = this.map.createLayer('TreesTrunk');
 
         // Resize game world to match the floor (DOESN'T SEEM TO WORK RIGHT NOW)
         this.ground.resizeWorld();
-        console.log(store.previousState)
 
         // Set the Spawn Point for this State
         if (store.previousState === 'HeroHome') {
@@ -122,12 +122,11 @@ export default class HeroIsland extends Phaser.State {
         } else
             this.spawn = this.returnFromHeroHouseRect
 
-        console.log(this.spawn)
-
         // Create the Player
         this.player = new Player(this.game, this.spawn.x, this.spawn.y);
 
         // Finish Create Layers
+        this.housesRoof = this.map.createLayer('HousesRoof');
         this.trees = this.map.createLayer('Trees');
         this.collisionLayer = this.map.createLayer('CollisionLayer');
 
@@ -197,7 +196,6 @@ export default class HeroIsland extends Phaser.State {
             store.previousState = 'HeroIsland';
             store.currentState = store.nextState = 'RedCabin';
 
-            console.log(this.enterRedCabinRect);
             // Load the Hero Island State
             this.game.state.start('RedCabin');
         }
@@ -238,7 +236,6 @@ export default class HeroIsland extends Phaser.State {
             store.previousState = 'HeroIsland';
             store.currentState = store.nextState = 'AncientForest';
 
-            console.log('Take me home Peter Pan!');
             // Load the Ancient Forest State
             this.game.state.start('AncientForest');
         }
