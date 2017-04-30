@@ -38,9 +38,6 @@ export default class BossFight extends Phaser.State {
     // Load Player
     this.game.load.spritesheet('player', 'assets/images/chara2.png', 26, 36);
     this.game.load.image('bullet', 'assets/images/bullet.png');
-
-    // Load Audio
-    this.game.load.audio('arenaBackground', 'assets/audio/landscape/madGod.ogg');
   }
 
   create() {

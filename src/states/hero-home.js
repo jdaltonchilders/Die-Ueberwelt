@@ -2,6 +2,7 @@
 
 import Player from '../controllers/player';
 import Pickaxe from '../items/pickaxe';
+import AudioManager from '../utilities/audio-manager';
 import store from '../store';
 
 export default class HeroHome extends Phaser.State {
@@ -19,12 +20,12 @@ export default class HeroHome extends Phaser.State {
         this.game.load.image('tiles_inside_ceiling', 'assets/images/tiles/inside_changed.png');
         this.game.load.image('tiles_door', 'assets/images/tiles/doors.png');
         this.game.load.image('tiles_sky', 'assets/images/tiles/sky.png');
-
-        // Load Audio
-        this.game.load.audio('mainBackground', 'assets/audio/landscape/middle_earth_dawn.ogg');
     }
 
     create() {
+      this.audioManager = new AudioManager(this.game);
+      this.audioManager.play('mainBackground', true);
+
         // Enable the Arcade Physics system
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
 

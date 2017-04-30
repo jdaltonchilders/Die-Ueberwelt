@@ -1,9 +1,13 @@
 /*jshint esversion: 6 */
 
+import AudioManager from '../utilities/audio-manager';
 import store from '../store';
 
 class Preload extends Phaser.State {
   preload() {
+    const audioManager = new AudioManager(this.game);
+    audioManager.preload();
+
     // Load Player
     this.game.load.spritesheet('player', 'assets/images/chara2.png', 26, 37);
     this.game.load.image('bullet', 'assets/images/bullet.png');
@@ -21,6 +25,7 @@ class Preload extends Phaser.State {
     // Load monsters
     this.game.load.spritesheet('wolf', 'assets/images/monster_wolf1.png', 64, 66);
     this.game.load.spritesheet('treant', 'assets/images/monster_golem2.png', 47, 50);
+
     // Load boss
     this.game.load.spritesheet('boss', 'assets/images/elemental.png', 120, 129);
     this.game.load.spritesheet('boss1bullet', 'assets/images/waterbullet.png', 40, 56);
