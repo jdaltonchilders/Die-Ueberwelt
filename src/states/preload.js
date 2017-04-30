@@ -86,7 +86,8 @@ class Preload extends Phaser.State {
     // Then, go to hero home when it ends
     setInterval(() => dialogueManager.updateLine(), 50);
     setInterval(() => dialogueManager.next(), 6000);
-    setInterval(() => this.game.state.start('HeroHome'), 48000);
+    setTimeout(() => this.game.state.start('HeroHome'), 48000);
+    // setTimeout(() => this.game.state.start('HeroHome'), 4);
   }
 }
 
