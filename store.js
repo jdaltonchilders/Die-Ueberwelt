@@ -3,6 +3,8 @@
 /*jshint esversion: 6 */
 
 export default {
-  // State Information
-  nextState: ""
+    // State Information
+    previousState: "",
+    currentState: "",
+    nextState: ""
 };
