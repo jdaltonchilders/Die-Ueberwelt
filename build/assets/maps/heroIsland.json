@@ -221,8 +221,8 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":16.5265112440685,
-                 "x":933.473488755931,
+                 "width":16.5265,
+                 "x":933.473,
                  "y":147
                 }, 
                 {
@@ -356,6 +356,17 @@
                  "width":16,
                  "x":992,
                  "y":320
+                }, 
+                {
+                 "height":12.1536217792902,
+                 "id":109,
+                 "name":"ReturnFromAncientForest",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":19.7158753308486,
+                 "x":35.650623885918,
+                 "y":162.048290390536
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -364,7 +375,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":109,
+ "nextobjectid":111,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tileheight":16,
