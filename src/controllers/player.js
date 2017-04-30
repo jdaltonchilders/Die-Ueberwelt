@@ -51,11 +51,11 @@ export default class Player {
         // Now create item portraits
         var spacing = 16;
         store.inventory.forEach(key => {
-          var sprite = this.game.add.sprite(spacing, this.game.height - 56, key);
-          sprite.anchor.set(0.5, 0.5);
-          sprite.scale.set(0.75, 0.75);
-          sprite.fixedToCamera = true;
-          spacing += 32;
+            var sprite = this.game.add.sprite(spacing, this.game.height - 56, key);
+            sprite.anchor.set(0.5, 0.5);
+            sprite.scale.set(0.75, 0.75);
+            sprite.fixedToCamera = true;
+            spacing += 32;
         })
     }
 
@@ -133,6 +133,11 @@ export default class Player {
             store.health = 0;
             this.sprite.kill();
             this.healthBar.kill();
+
+            // Update State Information
+            store.previousState = store.currentState;
+            store.currentState = store.nextState = 'DeathScreen';
+            this.game.state.start('DeathScreen');
         }
     }
 
