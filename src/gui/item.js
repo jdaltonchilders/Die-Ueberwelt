@@ -18,10 +18,12 @@ export default class Item {
     this.collectible = true;
 
   }
+
   preload() {
     // Load Audio
     this.game.load.audio('item_pickup','assets/audio/action/item_pickup.ogg');
   }
+
   create() {
     // Create Audio for item pickup
     this.itemPickup = this.game.add.audio('item_pickup');
@@ -38,6 +40,10 @@ export default class Item {
     this.collectible = false;
     store.inventory.push(this.name);
     this.placePortrait();
+
+    // Call callback if one exists
+    if (this.afterPickup)
+      this.afterPickup();
   }
 
   placePortrait() {
