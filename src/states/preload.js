@@ -26,7 +26,7 @@ class Preload extends Phaser.State {
         store.previousState = 'Preload';
         store.currentState = store.nextState = 'HeroHome';
         // Start Next Game State
-        this.game.state.start('BlackHome');
+        this.game.state.start('HeroHome');
     }
 }
 

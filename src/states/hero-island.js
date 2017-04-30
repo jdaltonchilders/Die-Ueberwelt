@@ -54,6 +54,8 @@ export default class HeroIsland extends Phaser.State {
         this.bossFight = this.map.objects.CollisionTrigger.find(object => object.name == 'BossFight');
         this.enterAncientForest = this.map.objects.CollisionTrigger.find(object => object.name == 'EnterAncientForest');
 
+        this.respawnPoint = this.map.objects.CollisionTrigger.find(object => object.name == 'RespawnPoint');
+
         // Create Collision Trigger Layer Rect
         this.enterHeroHouseRect = new Phaser.Rectangle(this.enterHeroHouse.x, this.enterHeroHouse.y, this.enterHeroHouse.width, this.enterHeroHouse.height);
         this.returnFromHeroHouseRect = new Phaser.Rectangle(this.returnFromHeroHouse.x, this.returnFromHeroHouse.y, this.returnFromHeroHouse.width, this.returnFromHeroHouse.height);
@@ -78,6 +80,8 @@ export default class HeroIsland extends Phaser.State {
 
         this.bossFightRect = new Phaser.Rectangle(this.bossFight.x, this.bossFight.y, this.bossFight.width, this.bossFight.height);
         this.enterAncientForestRect = new Phaser.Rectangle(this.enterAncientForest.x, this.enterAncientForest.y, this.enterAncientForest.width, this.enterAncientForest.height);
+
+        this.respawnPointRect = new Phaser.Rectangle(this.respawnPoint.x, this.respawnPoint.y, this.respawnPoint.width, this.respawnPoint.height);
 
         // Create Tilesets
         this.map.addTilesetImage('doors', 'tiles_doors');
@@ -119,8 +123,12 @@ export default class HeroIsland extends Phaser.State {
             this.spawn = this.returnFromGreyCabinRect
         } else if (store.previousState === 'TealCabin') {
             this.spawn = this.returnFromTealCabinRect
-        } else
-            this.spawn = this.returnFromHeroHouseRect
+        } else if (store.previousState === 'Death') {
+            this.spawn = this.respawnPointRect
+        } else {
+            this.spawn = this.respawnPointRect
+        }
+
 
         // Create the Player
         this.player = new Player(this.game, this.spawn.x, this.spawn.y);
