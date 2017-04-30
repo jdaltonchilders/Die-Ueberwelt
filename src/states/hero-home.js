@@ -1,7 +1,6 @@
 /*jshint esversion: 6 */
 
 import Player from '../controllers/player';
-import Boss from '../controllers/boss';
 import Pickaxe from '../items/pickaxe';
 import store from '../store';
 
