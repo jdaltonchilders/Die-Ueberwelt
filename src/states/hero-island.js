@@ -101,18 +101,16 @@ export default class HeroIsland extends Phaser.State {
         this.houses = this.map.createLayer('Houses');
         this.items = this.map.createLayer('Items');
         this.doors = this.map.createLayer('Doors');
-        this.trees = this.map.createLayer('Trees');
-        this.collisionLayer = this.map.createLayer('CollisionLayer');
 
         // Resize game world to match the floor (DOESN'T SEEM TO WORK RIGHT NOW)
         this.ground.resizeWorld();
-        this.sky.resizeWorld();
 
         // Create the Player
         this.player = new Player(this.game, this.returnFromHeroHouseRect.x, this.returnFromHeroHouseRect.y);
 
         // Finish Create Layers
-
+        this.trees = this.map.createLayer('Trees');
+        this.collisionLayer = this.map.createLayer('CollisionLayer');
 
 
         // Collide with Player
@@ -130,61 +128,97 @@ export default class HeroIsland extends Phaser.State {
         // Collide with Layers
         this.game.physics.arcade.collide(this.player.sprite, this.collisionLayer);
 
-        // Update Player Position
-        this.playerPosition = new Phaser.Rectangle(this.player.sprite.worldPosition.x, this.player.sprite.worldPosition.y, 0, 0);
-        console.log(this.playerPosition);
+        /**
+         * Use this.player.sprite.world.x/y to get position
+         */
 
         // Check if Enter Hero House contains the Player
-        if (this.enterHeroHouseRect.contains(this.playerPosition.x, this.playerPosition.y)) {
+        if (this.enterHeroHouseRect.contains(this.player.sprite.world.x, this.player.sprite.world.y)) {
+            // Fix up state info in Store
+            store.previousState = 'HeroIsland';
+            store.currentState = store.nextState = 'HeroHome';
+
             // Load the Hero Island State
             this.game.state.start('HeroHome');
         }
 
         // Check if Enter Black House contains the Player
-        if (this.enterBlackHouseRect.contains(this.playerPosition.x, this.playerPosition.y)) {
+        if (this.enterBlackHouseRect.contains(this.player.sprite.world.x, this.player.sprite.world.y)) {
+            // Fix up state info in Store
+            store.previousState = 'HeroIsland';
+            store.currentState = store.nextState = 'BlackHome';
+
             // Load the Hero Island State
             this.game.state.start('BlackHome');
         }
 
         // Check if Enter Green House contains the Player
-        if (this.enterGreenHouseRect.contains(this.playerPosition.x, this.playerPosition.y)) {
+        if (this.enterGreenHouseRect.contains(this.player.sprite.world.x, this.player.sprite.world.y)) {
+            // Fix up state info in Store
+            store.previousState = 'HeroIsland';
+            store.currentState = store.nextState = 'GreenHome';
+
             // Load the Hero Island State
             this.game.state.start('GreenHome');
         }
 
         // Check if Enter Grey House contains the Player
-        if (this.enterGreyHouseRect.contains(this.playerPosition.x, this.playerPosition.y)) {
+        if (this.enterGreyHouseRect.contains(this.player.sprite.world.x, this.player.sprite.world.y)) {
+            // Fix up state info in Store
+            store.previousState = 'HeroIsland';
+            store.currentState = store.nextState = 'GreyHome';
+
             // Load the Hero Island State
             this.game.state.start('GreyHome');
         }
 
         // Check if Enter Red Cabin contains the Player
-        if (this.enterRedCabinRect.contains(this.playerPosition.x, this.playerPosition.y)) {
+        if (this.enterRedCabinRect.contains(this.player.sprite.world.x, this.player.sprite.world.y)) {
+            // Fix up state info in Store
+            store.previousState = 'HeroIsland';
+            store.currentState = store.nextState = 'RedCabin';
+
             console.log(this.enterRedCabinRect);
             // Load the Hero Island State
             this.game.state.start('RedCabin');
         }
 
         // Check if Enter Grey Cabin contains the Player
-        if (this.enterGreyCabinRect.contains(this.playerPosition.x, this.playerPosition.y)) {
+        if (this.enterGreyCabinRect.contains(this.player.sprite.world.x, this.player.sprite.world.y)) {
+            // Fix up state info in Store
+            store.previousState = 'HeroIsland';
+            store.currentState = store.nextState = 'GreyCabin';
+
             // Load the Hero Island State
             this.game.state.start('GreyCabin');
         }
 
         // Check if Enter Teal Cabin contains the Player
-        if (this.enterTealCabinRect.contains(this.playerPosition.x, this.playerPosition.y)) {
+        if (this.enterTealCabinRect.contains(this.player.sprite.world.x, this.player.sprite.world.y)) {
+            // Fix up state info in Store
+            store.previousState = 'HeroIsland';
+            store.currentState = store.nextState = 'TealCabin';
+
             // Load the Hero Island State
             this.game.state.start('TealCabin');
         }
 
         // Check if Boss Fight contains the Player
-        if (this.bossFightRect.contains(this.playerPosition.x, this.playerPosition.y)) {
+        if (this.bossFightRect.contains(this.player.sprite.world.x, this.player.sprite.world.y)) {
+            // Fix up state info in Store
+            store.previousState = 'HeroIsland';
+            store.currentState = store.nextState = 'BossFight';
+
             // Load the Boss Fight State
             this.game.state.start('BossFight');
         }
 
         // Check if Ancient Forest contains the Player
-        if (this.enterAncientForestRect.contains(this.playerPosition.x, this.playerPosition.y)) {
+        if (this.enterAncientForestRect.contains(this.player.sprite.world.x, this.player.sprite.world.y)) {
+            // Fix up state info in Store
+            store.previousState = 'HeroIsland';
+            store.currentState = store.nextState = 'AncientForest';
+
             console.log('Take me home Peter Pan!');
             // Load the Ancient Forest State
             this.game.state.start('AncientForest');
