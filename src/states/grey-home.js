@@ -1,6 +1,7 @@
 /*jshint esversion: 6 */
 
 import Player from '../controllers/player';
+import Robe from '../items/robe';
 import store from '../store';
 
 export default class GreyHome extends Phaser.State {
@@ -68,6 +69,9 @@ export default class GreyHome extends Phaser.State {
 
         // Camera follows player
         this.game.camera.follow(this.player.sprite);
+
+        if (store.inventory.indexOf("Robe") === -1)
+            this.item = Robe(this.game, 7 * 32, 6 * 32, this.player.sprite);
     }
 
     update() {
@@ -82,6 +86,9 @@ export default class GreyHome extends Phaser.State {
         this.game.physics.arcade.collide(this.player.sprite, this.items);
         this.game.physics.arcade.collide(this.player.sprite, this.aboveFurniture);
         this.game.physics.arcade.collide(this.player.sprite, this.ceiling);
+
+        // Update item
+        if (this.item) this.item.update();
 
         // Update Player Position
         this.playerPosition = new Phaser.Rectangle(this.player.sprite.worldPosition.x, this.player.sprite.worldPosition.y, 0, 0);
