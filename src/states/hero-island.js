@@ -69,8 +69,6 @@ export default class HeroIsland extends Phaser.State {
 
         this.enterRedCabinRect = new Phaser.Rectangle(this.enterRedCabin.x, this.enterRedCabin.y, this.enterRedCabin.width, this.enterRedCabin.height);
         this.returnFromRedCabinRect = new Phaser.Rectangle(this.returnFromRedCabin.x, this.returnFromRedCabin.y, this.returnFromRedCabin.width, this.returnFromRedCabin.height);
-        console.log(this.enterRedCabin);
-        console.log(this.enterRedCabinRect);
 
         this.enterGreyCabinRect = new Phaser.Rectangle(this.enterGreyCabin.x, this.enterGreyCabin.y, this.enterGreyCabin.width, this.enterGreyCabin.height);
         this.returnFromGreyCabinRect = new Phaser.Rectangle(this.returnFromGreyCabin.x, this.returnFromGreyCabin.y, this.returnFromGreyCabin.width, this.returnFromGreyCabin.height);
@@ -104,9 +102,30 @@ export default class HeroIsland extends Phaser.State {
 
         // Resize game world to match the floor (DOESN'T SEEM TO WORK RIGHT NOW)
         this.ground.resizeWorld();
+        console.log(store.previousState)
+
+        // Set the Spawn Point for this State
+        if (store.previousState === 'HeroHome') {
+            this.spawn = this.returnFromHeroHouseRect
+        } else if (store.previousState === 'BlackHome') {
+            this.spawn = this.returnFromBlackHouseRect
+        } else if (store.previousState === 'GreenHome') {
+            this.spawn = this.returnFromGreenHouseRect
+        } else if (store.previousState === 'GreyHome') {
+            this.spawn = this.returnFromGreyHouseRect
+        } else if (store.previousState === 'RedCabin') {
+            this.spawn = this.returnFromRedCabinRect
+        } else if (store.previousState === 'GreyCabin') {
+            this.spawn = this.returnFromGreyCabinRect
+        } else if (store.previousState === 'TealCabin') {
+            this.spawn = this.returnFromTealCabinRect
+        } else
+            this.spawn = this.returnFromHeroHouseRect
+
+        console.log(this.spawn)
 
         // Create the Player
-        this.player = new Player(this.game, this.returnFromHeroHouseRect.x, this.returnFromHeroHouseRect.y);
+        this.player = new Player(this.game, this.spawn.x, this.spawn.y);
 
         // Finish Create Layers
         this.trees = this.map.createLayer('Trees');

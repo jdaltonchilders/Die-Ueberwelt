@@ -88,6 +88,10 @@ export default class GreyCabin extends Phaser.State {
 
         // Check if Exit House contains the Player
         if (this.exitHouseRect.contains(this.playerPosition.x, this.playerPosition.y)) {
+            // Fix up state info in Store
+            store.previousState = 'GreyCabin';
+            store.currentState = store.nextState = 'HeroIsland';
+
             // Load the Hero Island State
             this.game.state.start('HeroIsland');
         }
