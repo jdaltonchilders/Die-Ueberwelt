@@ -2,6 +2,7 @@
 
 import Dialogue from '../utilities/dialogue';
 import DialogueManager from '../utilities/dialogueManager';
+import store from '../store';
 
 var text;
 var dialogueManager;
@@ -44,9 +45,21 @@ class Preload extends Phaser.State {
       40,
       56
     );
+
+    // Load monsters
+    this.game.load.spritesheet('wolf', 'assets/images/monster_wolf1.png', 64, 66);
+    this.game.load.spritesheet('treant', 'assets/images/monster_golem2.png', 47, 50);
+    // Load boss
+    this.game.load.spritesheet('boss', 'assets/images/elemental.png', 120, 129);
+    this.game.load.spritesheet('boss1bullet', 'assets/images/waterbullet.png', 40, 56);
+    this.game.load.spritesheet('boss2bullet', 'assets/images/firebullet.png', 40, 56);
   }
 
   create() {
+    // Fix up state info in Store
+    store.previousState = 'Preload';
+    store.currentState = store.nextState = 'HeroHome';
+
     // Create text element
     text = this.game.add.text(
       this.game.world.centerX,
