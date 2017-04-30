@@ -1207,7 +1207,7 @@
   <object id="1" name="EnterHeroHouse" x="176" y="139" width="16" height="11"/>
   <object id="2" name="ReturnFromHeroHouse" x="176" y="160" width="16" height="16"/>
   <object id="92" name="BossFight" x="464" y="1168" width="12.1423" height="23.8177"/>
-  <object id="93" name="EnterAncientForest" x="0" y="160" width="16" height="22.8475"/>
+  <object id="93" name="EnterAncientForest" x="0" y="150" width="16" height="22.8475"/>
   <object id="94" name="RespawnPoint" x="933.473" y="147" width="16.5265" height="16"/>
   <object id="95" name="EnterBlackHouse" x="528" y="646" width="16" height="16"/>
   <object id="96" name="ReturnFromBlackHouse" x="528" y="672" width="16" height="16"/>
