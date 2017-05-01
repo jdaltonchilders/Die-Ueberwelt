@@ -28,6 +28,7 @@ export default class AudioManager {
     // Player Audio
     this.player_ugh = this.game.add.audio('player_ugh');
     this.firestrike = this.game.add.audio('firestrike');
+    this.strikeEnemy = this.game.add.audio('strikeEnemy')
 
     // Enemy Audio
     this.wolf_notice = this.game.add.audio('wolf_notice');
@@ -72,6 +73,7 @@ export default class AudioManager {
     // Player Audio
     this.game.load.audio('player_ugh', 'assets/audio/damage/player_ugh.ogg');
     this.game.load.audio('firestrike', 'assets/audio/attack/firestrike.ogg');
+    this.game.load.audio('strikeEnemy', 'assets/audio/attack/strikeEnemy.ogg');
 
     // Enemy Audio
     this.game.load.audio('wolf_notice', 'assets/audio/action/wolf_notice.ogg');

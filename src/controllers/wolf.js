@@ -46,10 +46,11 @@ export default class Wolf {
       height: 8
     });
     this.healthBar.setPercent(100 * this.health / this.maxHealth);
-
-    // Audio
+    
+     // Audio
     this.audioManager = new AudioManager(this.game);
-  }
+
+}
 
   update() {
     // Relocate healthbar
@@ -219,6 +220,9 @@ export default class Wolf {
   onHit(sprite, bullet) {
     this.health -= store.damage;
     this.healthBar.setPercent(100 * this.health / this.maxHealth);
+
+    // Enemy Strike Sound
+    this.audioManager.play('strikeEnemy', false, 0, 0.5);
 
     if (this.health <= 0) {
       this.health = 0;
