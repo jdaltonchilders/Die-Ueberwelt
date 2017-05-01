@@ -1,7 +1,7 @@
 /*jshint esversion: 6 */
 
 import store from '../store';
-import HealthBar from '../HealthBar';
+import HealthBar from '../gui/healthbar';
 import pathfinding from 'pathfinding';
 
 export default class Boss {
@@ -240,7 +240,7 @@ export default class Boss {
 
     if (this.health <= 0) {
       this.health = 0;
-      sprite.kill;
+      sprite.kill();
       this.healthBar.kill();
     }
 

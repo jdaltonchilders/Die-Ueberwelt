@@ -8,24 +8,6 @@ export default class BossFight extends Phaser.State {
   constructor() {
     // exception thrown here when not called
     super();
-
-    // Tile Map
-    this.map = null;
-
-    // Tile Map Layers
-    this.ground = null;
-    this.heroBorder = null;
-    this.cliff = null;
-    this.items = null;
-
-    // Collision Trigger Layers
-    this.entranceFromOverworld = null;
-
-    // Collision Trigger Layer Rect
-    this.entranceFromOverworldRect = null;
-
-    //Player
-    this.playerController = null;
   }
 
   preload() {
@@ -38,6 +20,9 @@ export default class BossFight extends Phaser.State {
     // Load Player
     this.game.load.spritesheet('player', 'assets/images/chara2.png', 26, 36);
     this.game.load.image('bullet', 'assets/images/bullet.png');
+
+    // Load Audio
+    this.game.load.audio('arenaBackground', 'assets/audio/landscape/madGod.ogg');
   }
 
   create() {
@@ -70,6 +55,10 @@ export default class BossFight extends Phaser.State {
 
     // Create boss
     this.bossController = new Boss(this.game, this.game.world.centerX, this.game.world.centerY);
+
+    // Audio
+    this.backgroundMusic = this.game.add.audio('arenaBackground');
+    this.backgroundMusic.play('', 1, 0.2, true);
 
     // Create boulders
     const maxBoulders = 50;
@@ -147,5 +136,9 @@ export default class BossFight extends Phaser.State {
   render() {
     this.game.debug.body(this.bossController.sprite);
     this.game.debug.body(this.playerController.sprite);
+  }
+
+  shutdown() {
+    this.game.sound.stopAll();
   }
 }
