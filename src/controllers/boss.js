@@ -16,10 +16,10 @@ export default class Boss {
 
     // Create the first boss sprite
     this.sprite = this.game.add.sprite(spawnX, spawnY, 'boss');
-    this.sprite.anchor.set(0.5, 0.5);
+    this.sprite.anchor.set(0.5, 0.8);
     this.game.physics.arcade.enable(this.sprite);
     this.sprite.body.collideWorldBounds = true;
-    this.sprite.body.setSize(70, 70, 25, 55);
+    this.sprite.body.setSize(32, 32, 44, 94);
 
     // Create animations
     this.sprite.animations.add('2_up', [ 39, 40, 41, 40 ], 5, true);
@@ -36,10 +36,14 @@ export default class Boss {
     this.nextFire = this.game.time.now + this.fireRate;
     this.bulletSpeed = 400;
     this.movementSpeed = 150;
-    this.idealDistance = 200;
+    this.idealDistanceClose = 60;
+    this.idealDistanceNormal = 200;
+    this.idealDistance = this.idealDistanceNormal;
     this.buffer = 50;
     this.health = 100;
     this.maxHealth = 100;
+    this.lastBulletHit = false;
+    this.lastDirection = 'right';
 
     // Now create bullets groups
     this.waterBullets = this.game.add.group();
@@ -72,6 +76,15 @@ export default class Boss {
   }
 
   update() {
+    // Always try to attack
+    this.fire();
+
+    // Move closer if we can't hit the target
+    if (this.lastBulletHit) {
+      this.idealDistance += 10;
+      if (this.idealDistance > this.idealDistanceNormal) this.idealDistance = this.idealDistanceNormal;
+    } else this.idealDistance = this.idealDistanceClose;
+
     const topRight = this.game.math.degToRad(315);
     const topLeft = this.game.math.degToRad(225);
     const bottomLeft = this.game.math.degToRad(135);
@@ -84,10 +97,17 @@ export default class Boss {
     const targetY = Math.floor((this.target.y + 16) / 32);
 
     // Get shortest path to player
-    var grid = new pathfinding.Grid(this.boulderGrid);
-    var finder = new pathfinding.AStarFinder();
-    var path = finder.findPath(selfX, selfY, targetX, targetY, grid);
-    console.log(path);
+    try {
+      const grid = new pathfinding.Grid(this.boulderGrid);
+      const finder = new pathfinding.AStarFinder();
+      var path = finder.findPath(selfX, selfY, targetX, targetY, grid);
+    } catch (e) {
+      if (direction === 'right') this.moveLeft();
+      else if (direction === 'down') this.moveUp();
+      else if (direction === 'left') this.moveRight();
+      else if (direction === 'up') this.moveDown();
+      return;
+    }
 
     // Get angle and distance between target and boss
     var distance = this.game.math.distance(this.sprite.x, this.sprite.y, this.target.x, this.target.y);
@@ -98,14 +118,18 @@ export default class Boss {
     var direction = 'right';
     const thisStep = path[0];
     const nextStep = path[1];
-
-    console.log(thisStep, nextStep)
-
     if (thisStep && nextStep) {
       if (nextStep[0] < thisStep[0]) direction = 'left';
       if (nextStep[1] > thisStep[1]) direction = 'down';
       if (nextStep[1] < thisStep[1]) direction = 'up';
+    } else {
+      if (direction === 'right') this.moveLeft();
+      else if (direction === 'down') this.moveUp();
+      else if (direction === 'left') this.moveRight();
+      else if (direction === 'up') this.moveDown();
+      return;
     }
+    this.lastDirection = direction;
 
     // Move toward player if we need to
     if (distance > this.idealDistance) {
@@ -136,9 +160,6 @@ export default class Boss {
     // Kinda hairy but yolo
     this.game.physics.arcade.overlap(this.target, this.waterBullets, this.target.controller.onHit, null, this.target.controller);
     this.game.physics.arcade.overlap(this.target, this.fireBullets, this.target.controller.onHit, null, this.target.controller);
-
-    // Always try to attack
-    this.fire();
   }
 
   fire() {
@@ -151,12 +172,15 @@ export default class Boss {
 
       if (bullet) {
         // Set on sprite
-        bullet.reset(this.sprite.x, this.sprite.y + 20);
+        bullet.reset(this.sprite.x, this.sprite.y);
         bullet.anchor.set(0.5, 0.5);
 
         // Move bullet toward target
         this.game.physics.arcade.moveToObject(bullet, this.target, this.bulletSpeed);
         bullet.animations.play('move');
+
+        // Attach boss to bullet
+        bullet.controller = this;
 
         // Delay next bullet fire opportunity
         this.nextFire = this.game.time.now + this.fireRate;

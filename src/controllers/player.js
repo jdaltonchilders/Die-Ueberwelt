@@ -144,6 +144,8 @@ export default class Player {
     onHit(sprite, bullet) {
         this.hurt(bullet.damage);
 
+        if (bullet.controller) bullet.controller.lastBulletHit = true;
+
         bullet.kill();
     }
 }

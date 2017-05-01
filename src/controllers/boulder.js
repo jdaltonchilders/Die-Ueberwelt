@@ -39,6 +39,8 @@ export default class Boulder {
         bullet,
         this.sprite,
         (bullet, boulder) => {
+          if (bullet.controller) bullet.controller.lastBulletHit = false;
+
           bullet.kill();
         }
       );

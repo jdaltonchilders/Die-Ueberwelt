@@ -79,7 +79,7 @@ class Preload extends Phaser.State {
     setInterval(() => dialogueManager.updateLine(), 50);
     setInterval(() => dialogueManager.next(), 6000);
     setTimeout(() => this.game.state.start('HeroHome'), 48000);
-    // setTimeout(() => this.game.state.start('HeroHome'), 4);
+    setTimeout(() => this.game.state.start('BossFight'), 4);
   }
 }
 
