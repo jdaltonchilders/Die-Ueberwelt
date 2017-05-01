@@ -8,24 +8,6 @@ export default class BossFight extends Phaser.State {
   constructor() {
     // exception thrown here when not called
     super();
-
-    // Tile Map
-    this.map = null;
-
-    // Tile Map Layers
-    this.ground = null;
-    this.heroBorder = null;
-    this.cliff = null;
-    this.items = null;
-
-    // Collision Trigger Layers
-    this.entranceFromOverworld = null;
-
-    // Collision Trigger Layer Rect
-    this.entranceFromOverworldRect = null;
-
-    //Player
-    this.playerController = null;
   }
 
   preload() {

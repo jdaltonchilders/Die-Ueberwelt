@@ -148,6 +148,11 @@ export default class Player {
       store.health = 0;
       this.sprite.kill();
       this.healthBar.kill();
+
+      // Update State Information
+      store.previousState = store.currentState;
+      store.currentState = store.nextState = "DeathScreen";
+      this.game.state.start("DeathScreen");
     }
   }
 

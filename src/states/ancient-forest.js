@@ -55,9 +55,9 @@ export default class AncientForest extends Phaser.State {
     this.ground = this.map.createLayer("Ground");
     this.road = this.map.createLayer("Road");
     this.bridges = this.map.createLayer("Bridges");
+    this.trees = this.map.createLayer("TreeTrunks");
     this.castle = this.map.createLayer("Castle");
     this.door = this.map.createLayer("Door");
-    this.trees = this.map.createLayer("TreeTrunks");
     this.collisionLayer = this.map.createLayer("CollisionLayer");
 
     // Create Collision Trigger Layer
@@ -103,6 +103,7 @@ export default class AncientForest extends Phaser.State {
     // Resize game world to match the floor (DOESN'T SEEM TO WORK RIGHT NOW)
     this.ground.resizeWorld();
 
+
     // Set the Spawn Point for this State
     if (store.previousState === "HeroIsland") {
       this.spawn = this.enterForestRect;
@@ -110,7 +111,6 @@ export default class AncientForest extends Phaser.State {
       this.spawn = this.returnFromDungeonRect;
     } else {
       this.spawn = this.enterForestRect;
-    }
 
     // Create the monsters
     this.monsters = [
@@ -125,7 +125,11 @@ export default class AncientForest extends Phaser.State {
     // Create the Player
     // We do this after monsters so the monsters will
     // appear below the player's health bar when they overlap
-    this.player = new Player(this.game, this.spawn.x, this.spawn.y);
+    this.player = new Player(
+      this.game,
+      this.enterForestRect.x,
+      this.enterForestRect.y
+    );
 
     // Finish Create Layer
     this.trees = this.map.createLayer("TreeTops");
@@ -178,7 +182,7 @@ export default class AncientForest extends Phaser.State {
       // Load the Hero Island State
       this.game.state.start("HeroIsland");
     }
-
+    
     // Check if Dungeon Entrance contains the Player
     if (
       this.enterTheDungeonRect.contains(
@@ -194,7 +198,7 @@ export default class AncientForest extends Phaser.State {
       this.game.state.start("DungeonLevelOne");
     }
   }
-
+    
   shutdown() {
     this.game.sound.stopAll();
   }

@@ -1,9 +1,23 @@
 import Item from "../gui/item";
-import store from "../store";
 import AudioManager from "../utilities/audio-manager";
+import Dialogue from "../utilities/dialogue";
+import store from "../store";
 
 export default (game, x, y, player) => {
-  var item = new Item(game, x, y, "Staff", "Staff", player);
+  var item = new Item(
+    game,
+    x,
+    y,
+    "Staff",
+    "Staff",
+    player,
+    new Dialogue([
+      "You found the Staff of [Instructor: Staff]!",
+      "You sense your magic will be more effective.",
+      ""
+    ])
+  );
+  
   item.sprite.scale.set(0.75, 0.75);
   // item.sprite.smoothed = false;
   item.afterPickup = () => {

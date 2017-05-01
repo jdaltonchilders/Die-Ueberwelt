@@ -140,10 +140,4 @@ export default class TealCabin extends Phaser.State {
       this.game.state.start("HeroIsland");
     }
   }
-
-  render() {
-    // this.game.debug.cameraInfo(this.game.camera, 32, 32);
-    // this.game.debug.spriteCoords(this.player, 32, 500);
-    // this.game.debug.body(this.player.sprite);
-  }
 }

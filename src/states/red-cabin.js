@@ -4,6 +4,7 @@ import Player from "../controllers/player";
 import store from "../store";
 import AudioManager from "../utilities/audio-manager";
 
+
 export default class RedCabin extends Phaser.State {
   constructor() {
     // exception thrown here when not called
@@ -139,11 +140,5 @@ export default class RedCabin extends Phaser.State {
       // Load the Hero Island State
       this.game.state.start("HeroIsland");
     }
-  }
-
-  render() {
-    // this.game.debug.cameraInfo(this.game.camera, 32, 32);
-    // this.game.debug.spriteCoords(this.player, 32, 500);
-    // this.game.debug.body(this.player.sprite);
   }
 }

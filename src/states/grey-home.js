@@ -139,10 +139,8 @@ export default class GreyHome extends Phaser.State {
       // Fix up state info in Store
       store.previousState = "GreyHome";
       store.currentState = store.nextState = "HeroIsland";
-
       // Call Door Opening Sound
       this.audioManager.play("door_open", false, 0, 0.6, false);
-
       // Load the Hero Island State
       this.game.state.start("HeroIsland");
     }
