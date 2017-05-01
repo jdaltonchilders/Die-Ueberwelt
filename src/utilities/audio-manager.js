@@ -6,13 +6,13 @@ export default class AudioManager {
     this.game = game;
 
     // Landscape Audio
-    this.introBackground = this.game.add.audio('introBackground');
-    this.mainBackground = this.game.add.audio('mainBackground');
-    this.forestBackground = this.game.add.audio('forestBackground');
-    this.dungeonBackground = this.game.add.audio('dungeonBackground');
-    this.bossBackground = this.game.add.audio('bossBackground');
-    this.victoryBackground = this.game.add.audio('victoryBackground');
-    this.deathBackground = this.game.add.audio('deathBackground');
+    this.introBackground = this.game.add.audio("introBackground");
+    this.mainBackground = this.game.add.audio("mainBackground");
+    this.forestBackground = this.game.add.audio("forestBackground");
+    this.dungeonBackground = this.game.add.audio("dungeonBackground");
+    this.bossBackground = this.game.add.audio("bossBackground");
+    this.victoryBackground = this.game.add.audio("victoryBackground");
+    this.deathBackground = this.game.add.audio("deathBackground");
 
     // Save background / landscape music
     this.backgrounds = [
@@ -26,62 +26,62 @@ export default class AudioManager {
     ];
 
     // Player Audio
-    this.player_ugh = this.game.add.audio('player_ugh');
-    this.firestrike = this.game.add.audio('firestrike');
-    this.strikeEnemy = this.game.add.audio('strikeEnemy')
+    this.player_ugh = this.game.add.audio("player_ugh");
+    this.firestrike = this.game.add.audio("firestrike");
+    this.strikeEnemy = this.game.add.audio("strikeEnemy");
 
     // Enemy Audio
-    this.wolf_notice = this.game.add.audio('wolf_notice');
-    this.wolf_death = this.game.add.audio('wolf_death');
+    this.wolf_notice = this.game.add.audio("wolf_notice");
+    this.wolf_death = this.game.add.audio("wolf_death");
 
     // Misc Audio
-    this.item_pickup = this.game.add.audio('item_pickup');
-    this.door_open = this.game.add.audio('door_open');
+    this.item_pickup = this.game.add.audio("item_pickup");
+    this.door_open = this.game.add.audio("door_open");
   }
 
   preload() {
     // Landscape Audio
     this.game.load.audio(
-      'introBackground',
-      'assets/audio/landscape/city_ruins_shade.ogg'
+      "introBackground",
+      "assets/audio/landscape/city_ruins_shade.ogg"
     );
     this.game.load.audio(
-      'mainBackground',
-      'assets/audio/landscape/the_weight_of_the_world.ogg'
+      "mainBackground",
+      "assets/audio/landscape/the_weight_of_the_world.ogg"
     );
     this.game.load.audio(
-      'forestBackground',
-      'assets/audio/landscape/memories_of_dust.ogg'
+      "forestBackground",
+      "assets/audio/landscape/memories_of_dust.ogg"
     );
     this.game.load.audio(
-      'dungeonBackground',
-      'assets/audio/landscape/wretched_weaponry.ogg'
+      "dungeonBackground",
+      "assets/audio/landscape/wretched_weaponry.ogg"
     );
     this.game.load.audio(
-      'bossBackground',
-      'assets/audio/landscape/a_beautiful_song.ogg'
+      "bossBackground",
+      "assets/audio/landscape/a_beautiful_song.ogg"
     );
     this.game.load.audio(
-      'victoryBackground',
-      'assets/audio/landscape/the_weight_of_the_world.ogg'
+      "victoryBackground",
+      "assets/audio/landscape/the_weight_of_the_world.ogg"
     );
     this.game.load.audio(
-      'deathBackground',
-      'assets/audio/landscape/the_sound_of_the_end.ogg'
+      "deathBackground",
+      "assets/audio/landscape/the_sound_of_the_end.ogg"
     );
 
     // Player Audio
-    this.game.load.audio('player_ugh', 'assets/audio/damage/player_ugh.ogg');
-    this.game.load.audio('firestrike', 'assets/audio/attack/firestrike.ogg');
-    this.game.load.audio('strikeEnemy', 'assets/audio/attack/strikeEnemy.ogg');
+    this.game.load.audio("player_ugh", "assets/audio/damage/player_ugh.ogg");
+    this.game.load.audio("firestrike", "assets/audio/attack/firestrike.ogg");
+    this.game.load.audio("strikeEnemy", "assets/audio/attack/strikeEnemy.ogg");
 
     // Enemy Audio
-    this.game.load.audio('wolf_notice', 'assets/audio/action/wolf_notice.ogg');
-    this.game.load.audio('wolf_death', 'assets/audio/damage/wolf_death.ogg');
+    this.game.load.audio("wolf_notice", "assets/audio/action/wolf_notice.ogg");
+    this.game.load.audio("wolf_death", "assets/audio/damage/wolf_death.ogg");
 
     // Misc Audio
-    this.game.load.audio('item_pickup', 'assets/audio/action/item_pickup.ogg');
-    this.game.load.audio('door_open', 'assets/audio/action/door_open.ogg');
+    this.game.load.audio("item_pickup", "assets/audio/action/item_pickup.ogg");
+    this.game.load.audio("door_open", "assets/audio/action/door_open.ogg");
   }
 
   /**

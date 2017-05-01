@@ -1,6 +1,6 @@
 /*jshint esversion: 6 */
 
-import store from '../store';
+import store from "../store";
 
 export default class Item {
   constructor(game, x, y, name, spriteKey, player) {
@@ -16,22 +16,27 @@ export default class Item {
     this.game.physics.arcade.enable(this.sprite);
 
     this.collectible = true;
-
   }
 
   preload() {
     // Load Audio
-    this.game.load.audio('item_pickup','assets/audio/action/item_pickup.ogg');
+    this.game.load.audio("item_pickup", "assets/audio/action/item_pickup.ogg");
   }
 
   create() {
     // Create Audio for item pickup
-    this.itemPickup = this.game.add.audio('item_pickup');
+    this.itemPickup = this.game.add.audio("item_pickup");
   }
 
   update() {
     // Overlap with player
-    this.game.physics.arcade.overlap(this.player, this.sprite, this.onOverlap, null, this);
+    this.game.physics.arcade.overlap(
+      this.player,
+      this.sprite,
+      this.onOverlap,
+      null,
+      this
+    );
   }
 
   onOverlap(player, sprite) {
@@ -42,12 +47,14 @@ export default class Item {
     this.placePortrait();
 
     // Call callback if one exists
-    if (this.afterPickup)
-      this.afterPickup();
+    if (this.afterPickup) this.afterPickup();
   }
 
   placePortrait() {
-    this.sprite.reset(16 + 32 * (store.inventory.length - 1), this.game.height - 56);
+    this.sprite.reset(
+      16 + 32 * (store.inventory.length - 1),
+      this.game.height - 56
+    );
     this.sprite.fixedToCamera = true;
   }
 }

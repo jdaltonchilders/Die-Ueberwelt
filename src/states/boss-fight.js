@@ -1,8 +1,8 @@
 /*jshint esversion: 6 */
 
-import Player from '../controllers/player';
-import Boss from '../controllers/boss';
-import Boulder from '../controllers/boulder';
+import Player from "../controllers/player";
+import Boss from "../controllers/boss";
+import Boulder from "../controllers/boulder";
 
 export default class BossFight extends Phaser.State {
   constructor() {
@@ -12,14 +12,19 @@ export default class BossFight extends Phaser.State {
 
   preload() {
     // Load Tilemap
-    this.game.load.tilemap('bossLand', 'assets/maps/bossLand.json', null, Phaser.Tilemap.TILED_JSON);
+    this.game.load.tilemap(
+      "bossLand",
+      "assets/maps/bossLand.json",
+      null,
+      Phaser.Tilemap.TILED_JSON
+    );
 
     // Load Tilesets
-    this.game.load.image('tiles_outside', 'assets/images/tiles/outside.png');
+    this.game.load.image("tiles_outside", "assets/images/tiles/outside.png");
 
     // Load Player
-    this.game.load.spritesheet('player', 'assets/images/chara2.png', 26, 36);
-    this.game.load.image('bullet', 'assets/images/bullet.png');
+    this.game.load.spritesheet("player", "assets/images/chara2.png", 26, 36);
+    this.game.load.image("bullet", "assets/images/bullet.png");
   }
 
   create() {
@@ -27,17 +32,19 @@ export default class BossFight extends Phaser.State {
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
     // Create the Map
-    this.map = this.game.add.tilemap('bossLand');
-    this.map.addTilesetImage('outside', 'tiles_outside');
+    this.map = this.game.add.tilemap("bossLand");
+    this.map.addTilesetImage("outside", "tiles_outside");
 
     //  Create layers
-    this.ground = this.map.createLayer('Ground');
-    this.heroBorder = this.map.createLayer('HeroBorder');
-    this.cliff = this.map.createLayer('Cliff');
-    this.items = this.map.createLayer('Items');
+    this.ground = this.map.createLayer("Ground");
+    this.heroBorder = this.map.createLayer("HeroBorder");
+    this.cliff = this.map.createLayer("Cliff");
+    this.items = this.map.createLayer("Items");
 
     // Create Collision Trigger Layer
-    this.entranceFromOverworld = this.map.objects.CollisionTrigger.find(object => object.name == 'EntranceFromOverworld');
+    this.entranceFromOverworld = this.map.objects.CollisionTrigger.find(
+      object => object.name == "EntranceFromOverworld"
+    );
 
     // Create Collision Trigger Layer Rect
     this.entranceFromOverworldRect = new Phaser.Rectangle(
@@ -51,10 +58,10 @@ export default class BossFight extends Phaser.State {
     this.ground.resizeWorld();
 
     // Create Audio for town
-    this.backgroundMusic = this.game.add.audio('arenaBackground');
+    this.backgroundMusic = this.game.add.audio("arenaBackground");
 
     // Setting volume and loop
-    this.backgroundMusic.play('', 1, 0.2, true);
+    this.backgroundMusic.play("", 1, 0.2, true);
 
     // Create map objects
     const maxBoulders = 50;
@@ -66,10 +73,18 @@ export default class BossFight extends Phaser.State {
     }
 
     // Create boss
-    this.bossController = new Boss(this.game, this.game.world.centerX, this.game.world.centerY);
+    this.bossController = new Boss(
+      this.game,
+      this.game.world.centerX,
+      this.game.world.centerY
+    );
 
     // Create the Player
-    this.playerController = new Player(this.game, this.entranceFromOverworldRect.x, this.entranceFromOverworldRect.y);
+    this.playerController = new Player(
+      this.game,
+      this.entranceFromOverworldRect.x,
+      this.entranceFromOverworldRect.y
+    );
 
     // Attach player to boss
     this.bossController.setTarget(this.playerController.sprite);
@@ -87,7 +102,11 @@ export default class BossFight extends Phaser.State {
   update() {
     // Update map objects
     // Lol demo soon
-    const bullets = [...this.bossController.waterBullets.children, ...this.bossController.fireBullets.children, ...this.playerController.bullets.children];
+    const bullets = [
+      ...this.bossController.waterBullets.children,
+      ...this.bossController.fireBullets.children,
+      ...this.playerController.bullets.children
+    ];
     this.boulders.forEach(boulder => {
       boulder.update(this.playerController.sprite, bullets);
     });
@@ -103,7 +122,12 @@ export default class BossFight extends Phaser.State {
     this.game.physics.arcade.collide(this.playerController.sprite, this.items);
 
     // Update Player Position
-    this.playerPosition = new Phaser.Rectangle(this.playerController.sprite.worldPosition.x, this.playerController.sprite.worldPosition.y, 0, 0);
+    this.playerPosition = new Phaser.Rectangle(
+      this.playerController.sprite.worldPosition.x,
+      this.playerController.sprite.worldPosition.y,
+      0,
+      0
+    );
   }
 
   render() {

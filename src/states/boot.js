@@ -1,12 +1,11 @@
 /*jshint esversion: 6 */
 
 class Boot extends Phaser.State {
-  preload() {
-  }
+  preload() {}
 
   create() {
     this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-    this.game.state.start('Preload');
+    this.game.state.start("Preload");
   }
 }
 

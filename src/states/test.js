@@ -154,7 +154,7 @@ export default class Test extends Phaser.State {
       new NPC(this.game, "Merchant", 770, 474),
       new NPC(this.game, "Beard", 984, 150),
       new NPC(this.game, "Farmer", 296, 941, "line"),
-      new NPC(this.game, "Green", 430, 900, "circle"),
+      new NPC(this.game, "Green", 430, 900, "circle")
     ];
   }
 

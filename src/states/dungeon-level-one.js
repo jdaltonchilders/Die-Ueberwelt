@@ -1,10 +1,10 @@
 /*jshint esversion: 6 */
 
-import AudioManager from '../utilities/audio-manager';
-import Player from '../controllers/player';
-import Staff from '../items/staff';
-import Wolf from '../controllers/wolf';
-import store from '../store';
+import AudioManager from "../utilities/audio-manager";
+import Player from "../controllers/player";
+import Staff from "../items/staff";
+import Wolf from "../controllers/wolf";
+import store from "../store";
 
 export default class DungeonLevelOne extends Phaser.State {
   constructor() {
@@ -15,41 +15,41 @@ export default class DungeonLevelOne extends Phaser.State {
   preload() {
     // Load Tilemap
     this.game.load.tilemap(
-      'dungeonLevelOne',
-      'assets/maps/dungeonLevelOne.json',
+      "dungeonLevelOne",
+      "assets/maps/dungeonLevelOne.json",
       null,
       Phaser.Tilemap.TILED_JSON
     );
 
     // Load Tilesets
-    this.game.load.image('tiles_dungeon', 'assets/images/tiles/dungeon.png');
+    this.game.load.image("tiles_dungeon", "assets/images/tiles/dungeon.png");
   }
 
   create() {
     // Audio
     this.audioManager = new AudioManager(this.game);
-    this.audioManager.play('dungeonBackground', true, 0, 0.3, false);
+    this.audioManager.play("dungeonBackground", true, 0, 0.3, false);
 
     // Enable the Arcade Physics system
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
     // Create the Map
-    this.map = this.game.add.tilemap('dungeonLevelOne');
-    this.map.addTilesetImage('dungeon', 'tiles_dungeon');
+    this.map = this.game.add.tilemap("dungeonLevelOne");
+    this.map.addTilesetImage("dungeon", "tiles_dungeon");
 
     // Create layers
-    this.ground = this.map.createLayer('Ground');
-    this.road = this.map.createLayer('Cliffs');
-    this.bridges = this.map.createLayer('CliffSides');
-    this.door = this.map.createLayer('Doors');
-    this.collisionLayer = this.map.createLayer('CollisionLayer');
+    this.ground = this.map.createLayer("Ground");
+    this.road = this.map.createLayer("Cliffs");
+    this.bridges = this.map.createLayer("CliffSides");
+    this.door = this.map.createLayer("Doors");
+    this.collisionLayer = this.map.createLayer("CollisionLayer");
 
     // Create Collision Trigger Layer
     this.enterTheDungeon = this.map.objects.CollisionTrigger.find(
-      object => object.name == 'EnterTheDungeon'
+      object => object.name == "EnterTheDungeon"
     );
     this.returnToWorld = this.map.objects.CollisionTrigger.find(
-      object => object.name == 'ReturnToWorld'
+      object => object.name == "ReturnToWorld"
     );
 
     // Create Collision Trigger Layer Rect
@@ -74,7 +74,7 @@ export default class DungeonLevelOne extends Phaser.State {
       new Wolf(this.game, 200, 500),
       new Wolf(this.game, 500, 700),
       new Wolf(this.game, 525, 100),
-      new Wolf(this.game, 800, 500),
+      new Wolf(this.game, 800, 500)
     ];
 
     // Create the Player
@@ -97,7 +97,7 @@ export default class DungeonLevelOne extends Phaser.State {
     this.map.setCollisionBetween(1, mapTileLength, true, this.collisionLayer);
 
     // Make item
-    if (store.inventory.indexOf('Staff') === -1)
+    if (store.inventory.indexOf("Staff") === -1)
       this.item = Staff(this.game, 27.5 * 32, 4 * 32, this.player.sprite);
 
     // Camera follows player
@@ -128,11 +128,11 @@ export default class DungeonLevelOne extends Phaser.State {
       )
     ) {
       // Update State Information
-      store.previousState = 'DungeonLevelOne';
-      store.currentState = (store.nextState = 'AncientForest');
+      store.previousState = "DungeonLevelOne";
+      store.currentState = store.nextState = "AncientForest";
 
       // Load the Hero Island State
-      this.game.state.start('AncientForest');
+      this.game.state.start("AncientForest");
     }
   }
 
