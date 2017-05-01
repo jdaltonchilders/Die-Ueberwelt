@@ -18,12 +18,14 @@ import TealCabin from "./states/teal-cabin";
 
 // Ancient Forest States
 import AncientForest from "./states/ancient-forest";
+import DungeonLevelOne from "./states/dungeon-level-one";
 
 // Boss Fight State
 import BossFight from "./states/boss-fight";
 
 // Death State
 import DeathScreen from "./states/death-screen";
+
 
 // Rad test state, yo
 import Test from "./states/test";
@@ -50,10 +52,11 @@ class Game extends Phaser.Game {
 
     // Ancient Forest States
     this.state.add("AncientForest", AncientForest, false);
+    this.state.add("DungeonLevelOne", DungeonLevelOne, false);
 
     // Boss States
     this.state.add("BossFight", BossFight, false);
-
+    
     // Death State
     this.state.add("DeathScreen", DeathScreen, false);
 

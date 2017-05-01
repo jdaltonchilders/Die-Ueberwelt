@@ -1,5 +1,6 @@
 /*jshint esversion: 6 */
 
+import AudioManager from "../utilities/audio-manager";
 import Player from "../controllers/player";
 import NPC from "../controllers/npc";
 import store from "../store";
@@ -32,6 +33,14 @@ export default class HeroIsland extends Phaser.State {
   }
 
   create() {
+    // Create Audio Manager
+    this.audioManager = new AudioManager(this.game);
+
+    if (store.previousState === "AncientForest") {
+      // Play Musics
+      this.audioManager.play("mainBackground", true, 0, 0.4, false);
+    }
+
     // Enable the Arcade Physics system
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -270,9 +279,6 @@ export default class HeroIsland extends Phaser.State {
       this.spawn = this.respawnPointRect;
     }
 
-    // Create the Player
-    this.player = new Player(this.game, this.spawn.x, this.spawn.y);
-
     // Create NPCs
     this.npcs = [
       new NPC(this.game, "Old Guy", 1030, 300),
@@ -282,6 +288,9 @@ export default class HeroIsland extends Phaser.State {
       new NPC(this.game, "Farmer", 296, 941, "vertical medium line"),
       new NPC(this.game, "Green", 430, 880, "u")
     ];
+
+    // Create the Player
+    this.player = new Player(this.game, this.spawn.x, this.spawn.y);
 
     // Finish Create Layers
     this.housesRoof = this.map.createLayer("HousesRoof");
@@ -321,6 +330,9 @@ export default class HeroIsland extends Phaser.State {
       store.previousState = "HeroIsland";
       store.currentState = store.nextState = "HeroHome";
 
+      // Call Door Opening Sound
+      this.audioManager.play("door_open", false, 0, 0.6, false);
+
       // Load the Hero Island State
       this.game.state.start("HeroHome");
     }
@@ -335,6 +347,9 @@ export default class HeroIsland extends Phaser.State {
       // Fix up state info in Store
       store.previousState = "HeroIsland";
       store.currentState = store.nextState = "BlackHome";
+
+      // Call Door Opening Sound
+      this.audioManager.play("door_open", false, 0, 0.6, false);
 
       // Load the Hero Island State
       this.game.state.start("BlackHome");
@@ -351,6 +366,9 @@ export default class HeroIsland extends Phaser.State {
       store.previousState = "HeroIsland";
       store.currentState = store.nextState = "GreenHome";
 
+      // Call Door Opening Sound
+      this.audioManager.play("door_open", false, 0, 0.6, false);
+
       // Load the Hero Island State
       this.game.state.start("GreenHome");
     }
@@ -365,6 +383,9 @@ export default class HeroIsland extends Phaser.State {
       // Fix up state info in Store
       store.previousState = "HeroIsland";
       store.currentState = store.nextState = "GreyHome";
+
+      // Call Door Opening Sound
+      this.audioManager.play("door_open", false, 0, 0.6, false);
 
       // Load the Hero Island State
       this.game.state.start("GreyHome");
@@ -381,6 +402,9 @@ export default class HeroIsland extends Phaser.State {
       store.previousState = "HeroIsland";
       store.currentState = store.nextState = "RedCabin";
 
+      // Call Door Opening Sound
+      this.audioManager.play("door_open", false, 0, 0.6, false);
+
       // Load the Hero Island State
       this.game.state.start("RedCabin");
     }
@@ -396,6 +420,9 @@ export default class HeroIsland extends Phaser.State {
       store.previousState = "HeroIsland";
       store.currentState = store.nextState = "GreyCabin";
 
+      // Call Door Opening Sound
+      this.audioManager.play("door_open", false, 0, 0.6, false);
+
       // Load the Hero Island State
       this.game.state.start("GreyCabin");
     }
@@ -410,6 +437,9 @@ export default class HeroIsland extends Phaser.State {
       // Fix up state info in Store
       store.previousState = "HeroIsland";
       store.currentState = store.nextState = "TealCabin";
+
+      // Call Door Opening Sound
+      this.audioManager.play("door_open", false, 0, 0.6, false);
 
       // Load the Hero Island State
       this.game.state.start("TealCabin");
@@ -447,6 +477,8 @@ export default class HeroIsland extends Phaser.State {
   }
 
   shutdown() {
-    this.game.sound.stopAll();
+    if (store.nextState === "AncientForest") {
+      this.game.sound.stopAll();
+    }
   }
 }

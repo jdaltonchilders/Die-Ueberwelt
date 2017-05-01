@@ -1,6 +1,7 @@
 /*jshint esversion: 6 */
 
 import DialogueManager from "../utilities/dialogueManager";
+
 import store from "../store";
 
 export default class Item {

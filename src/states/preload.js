@@ -1,8 +1,9 @@
 /*jshint esversion: 6 */
 
+import AudioManager from "../utilities/audio-manager";
+import store from "../store";
 import Dialogue from "../utilities/dialogue";
 import DialogueManager from "../utilities/dialogueManager";
-import store from "../store";
 
 var text;
 var dialogueManager;
@@ -10,6 +11,9 @@ var dialogue;
 
 class Preload extends Phaser.State {
   preload() {
+    const audioManager = new AudioManager(this.game);
+    audioManager.preload();
+
     // Load Player
     this.game.load.spritesheet("player", "assets/images/chara2.png", 26, 37);
     this.game.load.image("bullet", "assets/images/bullet.png");
@@ -59,6 +63,11 @@ class Preload extends Phaser.State {
     store.previousState = "Preload";
     store.currentState = store.nextState = "HeroHome";
 
+    // Start Next Game State
+    // this.game.state.start('Test');
+    this.game.state.start("HeroHome");
+
+
     // Create text element
     text = this.game.add.text(
       this.game.world.centerX,
@@ -99,7 +108,6 @@ class Preload extends Phaser.State {
     setInterval(() => dialogueManager.updateLine(), 50);
     setInterval(() => dialogueManager.next(), 6000);
     setTimeout(() => this.game.state.start("HeroHome"), 48000);
-    // setTimeout(() => this.game.state.start('HeroHome'), 4);
   }
 }
 

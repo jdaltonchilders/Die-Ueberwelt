@@ -2,6 +2,7 @@
 
 import store from "../store";
 import HealthBar from "../gui/healthbar";
+import AudioManager from "../utilities/audio-manager";
 
 export default class Player {
   constructor(game, x, y) {
@@ -61,6 +62,9 @@ export default class Player {
       sprite.fixedToCamera = true;
       spacing += 32;
     });
+
+    // Audio
+    this.audioManager = new AudioManager(this.game);
   }
 
   update() {
@@ -126,6 +130,9 @@ export default class Player {
           this.bulletSpeed,
           this.game.input.activePointer
         );
+
+        // Fire Bullet Sound
+        this.audioManager.play("firestrike", false, 0, 0.6, true);
 
         // Delay next bullet fire opportunity
         this.nextFire = this.game.time.now + store.fireRate;

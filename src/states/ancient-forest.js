@@ -1,5 +1,6 @@
 /*jshint esversion: 6 */
 
+import AudioManager from "../utilities/audio-manager";
 import Player from "../controllers/player";
 import Shoes from "../items/shoes";
 import Treant from "../controllers/treant";
@@ -33,6 +34,10 @@ export default class AncientForest extends Phaser.State {
   }
 
   create() {
+    // Audio
+    this.audioManager = new AudioManager(this.game);
+    this.audioManager.play("forestBackground", true, 0, 0.3, false);
+
     // Enable the Arcade Physics system
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -97,6 +102,15 @@ export default class AncientForest extends Phaser.State {
 
     // Resize game world to match the floor (DOESN'T SEEM TO WORK RIGHT NOW)
     this.ground.resizeWorld();
+
+
+    // Set the Spawn Point for this State
+    if (store.previousState === "HeroIsland") {
+      this.spawn = this.enterForestRect;
+    } else if (store.previousState === "DungeonLevelOne") {
+      this.spawn = this.returnFromDungeonRect;
+    } else {
+      this.spawn = this.enterForestRect;
 
     // Create the monsters
     this.monsters = [
@@ -168,8 +182,23 @@ export default class AncientForest extends Phaser.State {
       // Load the Hero Island State
       this.game.state.start("HeroIsland");
     }
-  }
+    
+    // Check if Dungeon Entrance contains the Player
+    if (
+      this.enterTheDungeonRect.contains(
+        this.player.sprite.world.x,
+        this.player.sprite.world.y
+      )
+    ) {
+      // Update State Information
+      store.previousState = "AncientForest";
+      store.currentState = store.nextState = "DungeonLevelOne";
 
+      // Load the Hero Island State
+      this.game.state.start("DungeonLevelOne");
+    }
+  }
+    
   shutdown() {
     this.game.sound.stopAll();
   }

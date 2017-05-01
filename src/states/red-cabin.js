@@ -2,6 +2,8 @@
 
 import Player from "../controllers/player";
 import store from "../store";
+import AudioManager from "../utilities/audio-manager";
+
 
 export default class RedCabin extends Phaser.State {
   constructor() {
@@ -29,6 +31,14 @@ export default class RedCabin extends Phaser.State {
   }
 
   create() {
+    // Create Audio Manager
+    this.audioManager = new AudioManager(this.game);
+
+    if (store.previousState !== "HeroIsland") {
+      // Play Musics
+      this.audioManager.play("mainBackground", true, 0, 0.5, false);
+    }
+
     // Enable the Arcade Physics system
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -124,14 +134,11 @@ export default class RedCabin extends Phaser.State {
       store.previousState = "RedCabin";
       store.currentState = store.nextState = "HeroIsland";
 
+      // Call Door Opening Sound
+      this.audioManager.play("door_open", false, 0, 0.6, false);
+
       // Load the Hero Island State
       this.game.state.start("HeroIsland");
     }
-  }
-
-  render() {
-    // this.game.debug.cameraInfo(this.game.camera, 32, 32);
-    // this.game.debug.spriteCoords(this.player, 32, 500);
-    // this.game.debug.body(this.player.sprite);
   }
 }

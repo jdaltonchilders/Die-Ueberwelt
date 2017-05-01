@@ -2,6 +2,7 @@
 
 import Player from "../controllers/player";
 import Pickaxe from "../items/pickaxe";
+import AudioManager from "../utilities/audio-manager";
 import store from "../store";
 
 export default class HeroHome extends Phaser.State {
@@ -27,15 +28,17 @@ export default class HeroHome extends Phaser.State {
     );
     this.game.load.image("tiles_door", "assets/images/tiles/doors.png");
     this.game.load.image("tiles_sky", "assets/images/tiles/sky.png");
-
-    // Load Audio
-    this.game.load.audio(
-      "mainBackground",
-      "assets/audio/landscape/middle_earth_dawn.ogg"
-    );
   }
 
   create() {
+    // Create Audio Manager
+    this.audioManager = new AudioManager(this.game);
+
+    if (store.previousState !== "HeroIsland") {
+      // Play Musics
+      this.audioManager.play("mainBackground", true, 0, 0.4, false);
+    }
+    
     // Enable the Arcade Physics system
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -98,12 +101,6 @@ export default class HeroHome extends Phaser.State {
     this.map.setCollisionBetween(1, mapTileLength, true, this.aboveFurniture);
     this.map.setCollisionBetween(1, mapTileLength, true, this.ceiling);
 
-    // Create Audio for town
-    this.backgroundMusic = this.game.add.audio("mainBackground");
-
-    // Setting volume and loop
-    this.backgroundMusic.play("", 1, 0.7, true);
-
     // Create pickaxe
     if (store.inventory.indexOf("Pickaxe") === -1)
       this.pickaxe = Pickaxe(this.game, 7 * 32, 6 * 32, this.player.sprite);
@@ -143,14 +140,10 @@ export default class HeroHome extends Phaser.State {
       store.previousState = "HeroHome";
       store.currentState = store.nextState = "HeroIsland";
 
+      // Call Door Opening Sound
+      this.audioManager.play("door_open", false, 0, 0.6, false);
       // Load the Hero Island State
       this.game.state.start("HeroIsland");
     }
-  }
-
-  render() {
-    // this.game.debug.cameraInfo(this.game.camera, 32, 32);
-    // this.game.debug.spriteCoords(this.player, 32, 500);
-    // this.game.debug.body(this.player.sprite);
   }
 }

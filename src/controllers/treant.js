@@ -2,6 +2,7 @@
 
 import store from "../store";
 import HealthBar from "../gui/healthbar";
+import AudioManager from "../utilities/audio-manager";
 
 export default class Treant {
   constructor(game, x, y) {
@@ -45,6 +46,9 @@ export default class Treant {
       height: 8
     });
     this.healthBar.setPercent(100 * this.health / this.maxHealth);
+
+    // Audio
+    this.audioManager = new AudioManager(this.game);
   }
 
   update() {
@@ -213,6 +217,9 @@ export default class Treant {
   onHit(sprite, bullet) {
     this.health -= store.damage;
     this.healthBar.setPercent(100 * this.health / this.maxHealth);
+
+    // Enemy Strike Sound
+    this.audioManager.play("strikeEnemy", false, 0, 0.5, true);
 
     if (this.health <= 0) {
       this.health = 0;
