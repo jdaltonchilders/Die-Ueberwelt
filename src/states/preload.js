@@ -11,9 +11,6 @@ var dialogue;
 
 class Preload extends Phaser.State {
   preload() {
-    const audioManager = new AudioManager(this.game);
-    audioManager.preload();
-
     // Load Player
     this.game.load.spritesheet("player", "assets/images/chara2.png", 26, 37);
     this.game.load.image("bullet", "assets/images/bullet.png");
@@ -59,14 +56,19 @@ class Preload extends Phaser.State {
   }
 
   create() {
+    // Play Audio
+    this.audioManager = new AudioManager(this.game);
+    this.audioManager.play("introBackground", true, 0, 0.4, false);
+
     // Fix up state info in Store
     store.previousState = "Preload";
     store.currentState = store.nextState = "HeroHome";
 
     // Start Next Game State
     // this.game.state.start('Test');
-    this.game.state.start("HeroHome");
 
+    // For testing: REMEMBER REMOVE FOR MAIN GAME
+    this.game.state.start("HeroHome");
 
     // Create text element
     text = this.game.add.text(
@@ -108,6 +110,10 @@ class Preload extends Phaser.State {
     setInterval(() => dialogueManager.updateLine(), 50);
     setInterval(() => dialogueManager.next(), 6000);
     setTimeout(() => this.game.state.start("HeroHome"), 48000);
+  }
+
+  shutdown() {
+    this.game.sound.stopAll();
   }
 }
 

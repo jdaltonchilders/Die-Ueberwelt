@@ -36,9 +36,9 @@ export default class HeroHome extends Phaser.State {
 
     if (store.previousState !== "HeroIsland") {
       // Play Musics
-      this.audioManager.play("mainBackground", true, 0, 0.4, false);
+      this.audioManager.play("mainBackground", true, 0, 0.2, false);
     }
-    
+
     // Enable the Arcade Physics system
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
 

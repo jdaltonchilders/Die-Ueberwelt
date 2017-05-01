@@ -26,7 +26,6 @@ import BossFight from "./states/boss-fight";
 // Death State
 import DeathScreen from "./states/death-screen";
 
-
 // Rad test state, yo
 import Test from "./states/test";
 
@@ -56,7 +55,7 @@ class Game extends Phaser.Game {
 
     // Boss States
     this.state.add("BossFight", BossFight, false);
-    
+
     // Death State
     this.state.add("DeathScreen", DeathScreen, false);
 

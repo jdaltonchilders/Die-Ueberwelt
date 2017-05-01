@@ -17,7 +17,7 @@ export default (game, x, y, player) => {
       ""
     ])
   );
-  
+
   item.sprite.scale.set(0.75, 0.75);
   // item.sprite.smoothed = false;
   item.afterPickup = () => {

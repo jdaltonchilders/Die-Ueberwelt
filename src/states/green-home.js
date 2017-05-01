@@ -4,7 +4,6 @@ import Player from "../controllers/player";
 import store from "../store";
 import AudioManager from "../utilities/audio-manager";
 
-
 export default class GreenHome extends Phaser.State {
   constructor() {
     // exception thrown here when not called

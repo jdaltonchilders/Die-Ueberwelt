@@ -38,7 +38,7 @@ export default class HeroIsland extends Phaser.State {
 
     if (store.previousState === "AncientForest") {
       // Play Musics
-      this.audioManager.play("mainBackground", true, 0, 0.4, false);
+      this.audioManager.play("mainBackground", true, 0, 0.2, false);
     }
 
     // Enable the Arcade Physics system
