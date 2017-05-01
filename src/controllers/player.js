@@ -2,6 +2,7 @@
 
 import store from '../store';
 import HealthBar from '../gui/healthbar';
+import AudioManager from '../utilities/audio-manager';
 
 export default class Player {
     constructor(game, x, y) {
@@ -51,12 +52,15 @@ export default class Player {
         // Now create item portraits
         var spacing = 16;
         store.inventory.forEach(key => {
-            var sprite = this.game.add.sprite(spacing, this.game.height - 56, key);
-            sprite.anchor.set(0.5, 0.5);
-            sprite.scale.set(0.75, 0.75);
-            sprite.fixedToCamera = true;
-            spacing += 32;
-        })
+          var sprite = this.game.add.sprite(spacing, this.game.height - 56, key);
+          sprite.anchor.set(0.5, 0.5);
+          sprite.scale.set(0.75, 0.75);
+          sprite.fixedToCamera = true;
+          spacing += 32;
+        });
+
+        // Audio
+        this.audioManager = new AudioManager(this.game);
     }
 
     update() {
@@ -119,6 +123,9 @@ export default class Player {
                 // Rotate and move bullet toward mouse pointer
                 bullet.rotation = this.game.physics.arcade.moveToPointer(bullet, this.bulletSpeed, this.game.input.activePointer);
 
+                // Fire Bullet Sound
+                this.audioManager.play('firestrike', false, 0, 0.6, true);
+                
                 // Delay next bullet fire opportunity
                 this.nextFire = this.game.time.now + store.fireRate;
             }

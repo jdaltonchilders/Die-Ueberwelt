@@ -2,6 +2,7 @@
 
 import Dialogue from '../utilities/dialogue';
 import DialogueManager from '../utilities/dialogueManager';
+import AudioManager from '../utilities/audio-manager';
 import store from '../store';
 
 var text;
@@ -10,6 +11,9 @@ var dialogue;
 
 class Preload extends Phaser.State {
   preload() {
+    const audioManager = new AudioManager(this.game);
+    audioManager.preload();
+
     // Load Player
     this.game.load.spritesheet('player', 'assets/images/chara2.png', 26, 37);
     this.game.load.image('bullet', 'assets/images/bullet.png');
