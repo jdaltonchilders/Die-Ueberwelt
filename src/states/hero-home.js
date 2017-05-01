@@ -23,8 +23,8 @@ export default class HeroHome extends Phaser.State {
     }
 
     create() {
-      this.audioManager = new AudioManager(this.game);
-      this.audioManager.play('mainBackground', true);
+        this.audioManager = new AudioManager(this.game);
+        this.audioManager.play('mainBackground', true, 0, 0.5);
 
         // Enable the Arcade Physics system
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -71,10 +71,10 @@ export default class HeroHome extends Phaser.State {
         this.map.setCollisionBetween(1, mapTileLength, true, this.ceiling);
 
         // Create Audio for town
-        this.backgroundMusic = this.game.add.audio('mainBackground');
+        // this.backgroundMusic = this.game.add.audio('mainBackground');
 
         // Setting volume and loop
-        this.backgroundMusic.play('', 1, 0.7, true);
+        // this.backgroundMusic.play('', 1, 0.7, true);
 
         // Create pickaxe
         if (store.inventory.indexOf("Pickaxe") === -1)
