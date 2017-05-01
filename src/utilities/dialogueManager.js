@@ -1,7 +1,7 @@
-import Dialogue from './dialogue';
+import Dialogue from "./dialogue";
 
 function DialogueManager(game, textElement) {
-  'use strict';
+  "use strict";
   this.game = game;
   this.textElement = textElement;
 }

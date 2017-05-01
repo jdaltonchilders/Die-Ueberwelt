@@ -1,7 +1,7 @@
 /*jshint esversion: 6 */
 
-import DialogueManager from '../utilities/dialogueManager';
-import store from '../store';
+import DialogueManager from "../utilities/dialogueManager";
+import store from "../store";
 
 export default class Item {
   constructor(game, x, y, name, spriteKey, player, dialogue) {
@@ -22,12 +22,12 @@ export default class Item {
 
   preload() {
     // Load Audio
-    this.game.load.audio('item_pickup', 'assets/audio/action/item_pickup.ogg');
+    this.game.load.audio("item_pickup", "assets/audio/action/item_pickup.ogg");
   }
 
   create() {
     // Create Audio for item pickup
-    this.itemPickup = this.game.add.audio('item_pickup');
+    this.itemPickup = this.game.add.audio("item_pickup");
   }
 
   update() {
@@ -49,8 +49,7 @@ export default class Item {
     this.placePortrait();
 
     // Call callback if one exists
-    if (this.afterPickup)
-      this.afterPickup();
+    if (this.afterPickup) this.afterPickup();
 
     // Skip dialogue logic if we don't have anything to say
     if (!this.dialogue) return;
@@ -58,11 +57,11 @@ export default class Item {
     var text = this.game.add.text(
       window.innerWidth / 2,
       window.innerHeight / 2,
-      '',
+      "",
       {
-        font: '60px fantasy',
-        fill: '#ecf0f1',
-        align: 'center',
+        font: "60px fantasy",
+        fill: "#ecf0f1",
+        align: "center",
         wordWrap: true,
         wordWrapWidth: window.innerWidth - 100
       }
@@ -73,25 +72,16 @@ export default class Item {
     dialogueManager.load(this.dialogue);
 
     var playing = true;
-    setInterval(
-      () => {
-        if (playing) dialogueManager.updateLine();
-      },
-      50
-    );
-    setInterval(
-      () => {
-        // Ugh I wish this library was finished
-        if (playing) dialogueManager.next();
-      },
-      6000
-    );
-    setTimeout(
-      () => {
-        playing = false;
-      },
-      6000 * this.dialogue.texts.length
-    );
+    setInterval(() => {
+      if (playing) dialogueManager.updateLine();
+    }, 50);
+    setInterval(() => {
+      // Ugh I wish this library was finished
+      if (playing) dialogueManager.next();
+    }, 6000);
+    setTimeout(() => {
+      playing = false;
+    }, 6000 * this.dialogue.texts.length);
   }
 
   placePortrait() {

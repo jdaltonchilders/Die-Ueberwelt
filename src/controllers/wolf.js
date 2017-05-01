@@ -18,10 +18,10 @@ export default class Wolf {
     this.sprite.body.setSize(30, 35, 16, 25);
 
     // Create animations
-    this.sprite.animations.add("up", [ 9, 10, 11, 10 ], 6, true);
-    this.sprite.animations.add("right", [ 6, 7, 8, 7 ], 6, true);
-    this.sprite.animations.add("left", [ 3, 4, 5, 4 ], 6, true);
-    this.sprite.animations.add("down", [ 0, 1, 2, 1 ], 6, true);
+    this.sprite.animations.add("up", [9, 10, 11, 10], 6, true);
+    this.sprite.animations.add("right", [6, 7, 8, 7], 6, true);
+    this.sprite.animations.add("left", [3, 4, 5, 4], 6, true);
+    this.sprite.animations.add("down", [0, 1, 2, 1], 6, true);
 
     // Configure wolf
     this.fireRate = 300;
@@ -131,15 +131,14 @@ export default class Wolf {
     // If enough time has past since the last bullet firing
     if (
       this.game.time.now > this.nextFire &&
-        this.sprite.alive &&
-        this.target.alive &&
-        this.game.math.distance(
-          this.sprite.x,
-          this.sprite.y,
-          this.target.x,
-          this.target.y
-        ) <
-          this.attackRange
+      this.sprite.alive &&
+      this.target.alive &&
+      this.game.math.distance(
+        this.sprite.x,
+        this.sprite.y,
+        this.target.x,
+        this.target.y
+      ) < this.attackRange
     ) {
       // Then hurt the player (we're melee, not ranged)
       this.target.controller.hurt(this.damage);

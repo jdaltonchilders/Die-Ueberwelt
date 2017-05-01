@@ -1,10 +1,10 @@
 function Dialogue(texts) {
   "use strict";
   if (typeof texts === "string") {
-    this.texts = [ texts ];
+    this.texts = [texts];
   } else if (
     typeof texts === "object" &&
-      Object.prototype.toString.call(texts) === "[object Array]"
+    Object.prototype.toString.call(texts) === "[object Array]"
   ) {
     this.texts = texts;
   }
