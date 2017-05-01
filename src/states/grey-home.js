@@ -3,6 +3,7 @@
 import Player from '../controllers/player';
 import Robe from '../items/robe';
 import store from '../store';
+import AudioManager from '../utilities/audio-manager';
 
 export default class GreyHome extends Phaser.State {
     constructor() {
@@ -23,6 +24,14 @@ export default class GreyHome extends Phaser.State {
     }
 
     create() {
+        // Create Audio Manager
+        this.audioManager = new AudioManager(this.game);
+
+        if (store.previousState !== 'HeroIsland'){
+            // Play Musics
+            this.audioManager.play('mainBackground', true, 0, 0.5);
+        }
+        
         // Enable the Arcade Physics system
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -98,6 +107,9 @@ export default class GreyHome extends Phaser.State {
             // Fix up state info in Store
             store.previousState = 'GreyHome';
             store.currentState = store.nextState = 'HeroIsland';
+
+            // Call Door Opening Sound
+            this.audioManager.play('door_open', false, 0, 0.6);
 
             // Load the Hero Island State
             this.game.state.start('HeroIsland');
