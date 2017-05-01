@@ -2,6 +2,7 @@
 
 import store from "../store";
 import HealthBar from "../gui/healthbar";
+import AudioManager from "../utilities/audio-manager";
 
 export default class Wolf {
   constructor(game, x, y) {
@@ -45,6 +46,9 @@ export default class Wolf {
       height: 8
     });
     this.healthBar.setPercent(100 * this.health / this.maxHealth);
+
+    // Audio
+    this.audioManager = new AudioManager(this.game);
   }
 
   update() {
@@ -78,7 +82,8 @@ export default class Wolf {
     if (!this.spotted) {
       if (distance < this.visibleRange) {
         this.spotted = true;
-        console.log("Wolf spotted the player!");
+        // Detection Sound
+        this.audioManager.play('wolf_notice', false, 0, 1);
       }
       return;
     }
@@ -219,6 +224,8 @@ export default class Wolf {
       this.health = 0;
       sprite.kill();
       this.healthBar.kill();
+      // Death Sound
+      this.audioManager.play('wolf_death', false, 0, 1);
     }
 
     bullet.kill();
