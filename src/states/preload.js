@@ -45,11 +45,11 @@ class Preload extends Phaser.State {
       this.game.world.centerY,
       '',
       {
-        font: 'bold 60px',
+        font: '60px fantasy',
         fill: '#ecf0f1',
         align: 'center',
         wordWrap: true,
-        wordWrapWidth: this.game.world.width - 100
+        wordWrapWidth: window.innerWidth - 100
       }
     );
     text.anchor.setTo(0.5);
@@ -60,7 +60,7 @@ class Preload extends Phaser.State {
     // Create dialogue
     dialogue = new Dialogue([
       'Team Spike Presents',
-      'Die Ueberwelt',
+      'Die Überwelt',
       '...',
       "Your whole life you've been a nobody...",
       'And today is no different.',

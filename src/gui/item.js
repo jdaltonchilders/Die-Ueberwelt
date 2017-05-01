@@ -47,7 +47,7 @@ export default class Item {
     this.collectible = false;
     store.inventory.push(this.name);
     this.placePortrait();
-    
+
     // Call callback if one exists
     if (this.afterPickup)
       this.afterPickup();
@@ -60,7 +60,7 @@ export default class Item {
       window.innerHeight / 2,
       '',
       {
-        font: 'bold 60px',
+        font: '60px fantasy',
         fill: '#ecf0f1',
         align: 'center',
         wordWrap: true,
