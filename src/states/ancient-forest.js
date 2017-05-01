@@ -103,6 +103,15 @@ export default class AncientForest extends Phaser.State {
     // Resize game world to match the floor (DOESN'T SEEM TO WORK RIGHT NOW)
     this.ground.resizeWorld();
 
+     // Set the Spawn Point for this State
+    if (store.previousState === 'HeroIsland') {
+      this.spawn = this.enterForestRect;
+    } else if (store.previousState === 'DungeonLevelOne') {
+      this.spawn = this.returnFromDungeonRect;
+    } else {
+      this.spawn = this.enterForestRect;
+    }
+
     // Create the monsters
     this.monsters = [
       new Treant(this.game, 140, 420),
@@ -118,8 +127,8 @@ export default class AncientForest extends Phaser.State {
     // appear below the player's health bar when they overlap
     this.player = new Player(
       this.game,
-      this.enterForestRect.x,
-      this.enterForestRect.y
+      this.spawn.x,
+      this.spawn.y
     );
 
     // Finish Create Layer
@@ -172,6 +181,21 @@ export default class AncientForest extends Phaser.State {
 
       // Load the Hero Island State
       this.game.state.start('HeroIsland');
+    }
+
+    // Check if Dungeon Entrance contains the Player
+    if (
+      this.enterTheDungeonRect.contains(
+        this.player.sprite.world.x,
+        this.player.sprite.world.y
+      )
+    ) {
+      // Update State Information
+      store.previousState = 'AncientForest';
+      store.currentState = (store.nextState = 'DungeonLevelOne');
+
+      // Load the Hero Island State
+      this.game.state.start('DungeonLevelOne');
     }
   }
 
