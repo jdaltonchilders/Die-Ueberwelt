@@ -1,0 +1,142 @@
+/*jshint esversion: 6 */
+
+import AudioManager from '../utilities/audio-manager';
+import Player from '../controllers/player';
+import Staff from '../items/staff';
+import Wolf from '../controllers/wolf';
+import store from '../store';
+
+export default class DungeonLevelOne extends Phaser.State {
+  constructor() {
+    // Exception thrown here when not called
+    super();
+  }
+
+  preload() {
+    // Load Tilemap
+    this.game.load.tilemap(
+      'dungeonLevelOne',
+      'assets/maps/dungeonLevelOne.json',
+      null,
+      Phaser.Tilemap.TILED_JSON
+    );
+
+    // Load Tilesets
+    this.game.load.image('tiles_dungeon', 'assets/images/tiles/dungeon.png');
+  }
+
+  create() {
+    // Audio
+    this.audioManager = new AudioManager(this.game);
+    this.audioManager.play('dungeonBackground', true, 0, 0.3, false);
+
+    // Enable the Arcade Physics system
+    this.game.physics.startSystem(Phaser.Physics.ARCADE);
+
+    // Create the Map
+    this.map = this.game.add.tilemap('dungeonLevelOne');
+    this.map.addTilesetImage('dungeon', 'tiles_dungeon');
+
+    // Create layers
+    this.ground = this.map.createLayer('Ground');
+    this.road = this.map.createLayer('Cliffs');
+    this.bridges = this.map.createLayer('CliffSides');
+    this.door = this.map.createLayer('Doors');
+    this.collisionLayer = this.map.createLayer('CollisionLayer');
+
+    // Create Collision Trigger Layer
+    this.enterTheDungeon = this.map.objects.CollisionTrigger.find(
+      object => object.name == 'EnterTheDungeon'
+    );
+    this.returnToWorld = this.map.objects.CollisionTrigger.find(
+      object => object.name == 'ReturnToWorld'
+    );
+
+    // Create Collision Trigger Layer Rect
+    this.enterTheDungeonRect = new Phaser.Rectangle(
+      this.enterTheDungeon.x,
+      this.enterTheDungeon.y,
+      this.enterTheDungeon.width,
+      this.enterTheDungeon.height
+    );
+    this.returnToWorldRect = new Phaser.Rectangle(
+      this.returnToWorld.x,
+      this.returnToWorld.y,
+      this.returnToWorld.width,
+      this.returnToWorld.height
+    );
+
+    // Resize game world to match the floor (DOESN'T SEEM TO WORK RIGHT NOW)
+    this.ground.resizeWorld();
+
+    // Create the monsters
+    this.monsters = [
+      new Wolf(this.game, 200, 500),
+      new Wolf(this.game, 500, 700),
+      new Wolf(this.game, 525, 100),
+      new Wolf(this.game, 800, 500),
+    ];
+
+    // Create the Player
+    // We do this after monsters so the monsters will
+    // appear below the player's health bar when they overlap
+    this.player = new Player(
+      this.game,
+      this.enterTheDungeonRect.x,
+      this.enterTheDungeonRect.y
+    );
+
+    // Attach player parts to monster controllers
+    this.monsters.forEach(monster => {
+      monster.setTarget(this.player.sprite);
+      monster.setPlayerBullets(this.player.bullets);
+    });
+
+    // Collide with Player
+    var mapTileLength = this.map.tiles.length - 1;
+    this.map.setCollisionBetween(1, mapTileLength, true, this.collisionLayer);
+
+    // Make item
+    if (store.inventory.indexOf('Staff') === -1)
+      this.item = Staff(this.game, 27.5 * 32, 4 * 32, this.player.sprite);
+
+    // Camera follows player
+    this.game.camera.follow(this.player.sprite);
+  }
+
+  update() {
+    // Handle Player Update
+    this.player.update();
+
+    // Item update
+    if (this.item) this.item.update();
+
+    // Collide with Layers
+    this.game.physics.arcade.collide(this.player.sprite, this.collisionLayer);
+
+    // Update all monsters
+    this.monsters.forEach(monster => {
+      monster.update();
+      this.game.physics.arcade.collide(monster.sprite, this.collisionLayer);
+    });
+
+    // Check if Exit House contains the Player
+    if (
+      this.returnToWorldRect.contains(
+        this.player.sprite.world.x,
+        this.player.sprite.world.y
+      )
+    ) {
+      // Update State Information
+      store.previousState = 'DungeonLevelOne';
+      store.currentState = (store.nextState = 'AncientForest');
+
+      // Load the Hero Island State
+      this.game.state.start('AncientForest');
+    }
+  }
+
+  shutdown() {
+    this.game.sound.stopAll();
+  }
+}
