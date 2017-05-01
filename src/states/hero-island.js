@@ -1,5 +1,6 @@
 /*jshint esversion: 6 */
 
+import AudioManager from '../utilities/audio-manager';
 import Player from '../controllers/player';
 import NPC from '../controllers/npc';
 import store from '../store';
@@ -32,6 +33,10 @@ export default class HeroIsland extends Phaser.State {
   }
 
   create() {
+    // Audio
+    this.audioManager = new AudioManager(this.game);
+    this.audioManager.play('mainBackground', true, 0, 0.5);
+
     // Enable the Arcade Physics system
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
