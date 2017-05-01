@@ -47,6 +47,10 @@ export default class Item {
     this.collectible = false;
     store.inventory.push(this.name);
     this.placePortrait();
+    
+    // Call callback if one exists
+    if (this.afterPickup)
+      this.afterPickup();
 
     // Skip dialogue logic if we don't have anything to say
     if (!this.dialogue) return;

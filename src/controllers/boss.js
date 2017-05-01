@@ -220,7 +220,7 @@ export default class Boss {
 
     if (this.health <= 0) {
       this.health = 0;
-      sprite.kill;
+      sprite.kill();
       this.healthBar.kill();
     }
 

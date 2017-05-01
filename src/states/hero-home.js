@@ -107,6 +107,7 @@ export default class HeroHome extends Phaser.State {
             // Update State Information
             store.previousState = 'HeroHome';
             store.currentState = store.nextState = 'HeroIsland';
+
             // Load the Hero Island State
             this.game.state.start('HeroIsland');
         }
