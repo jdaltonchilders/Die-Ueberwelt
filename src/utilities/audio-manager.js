@@ -84,7 +84,15 @@ export default class AudioManager {
     this.game.load.audio('door_open', 'assets/audio/action/door_open.ogg');
   }
 
-  play(key, loop, start, volume) {
+  /**
+   * 
+   * @param {string} key
+   * @param {boolean} loop 
+   * @param {number} start 
+   * @param {number} volume
+   * @param {boolen} noDelay Ignore isPlaying status
+   */
+  play(key, loop, start, volume, noDelay) {
     if (this.backgrounds.indexOf(key) !== -1) {
       const otherTracks = this.backgrounds.filter(item => item !== key);
       otherTracks.map(item => this[item].stop());
@@ -93,7 +101,7 @@ export default class AudioManager {
     try {
       console.log(`Playing ${key}`);
       const audio = this[key];
-      if (!audio.isPlaying) audio.play(null, start, volume, loop);
+      if (noDelay || !audio.isPlaying) audio.play(null, start, volume, loop);
     } catch (err) {
       console.error(err);
     }

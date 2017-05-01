@@ -29,7 +29,7 @@ export default class GreyHome extends Phaser.State {
 
         if (store.previousState !== 'HeroIsland'){
             // Play Musics
-            this.audioManager.play('mainBackground', true, 0, 0.5);
+            this.audioManager.play('mainBackground', true, 0, 0.5, false);
         }
         
         // Enable the Arcade Physics system
@@ -109,7 +109,7 @@ export default class GreyHome extends Phaser.State {
             store.currentState = store.nextState = 'HeroIsland';
 
             // Call Door Opening Sound
-            this.audioManager.play('door_open', false, 0, 0.6);
+            this.audioManager.play('door_open', false, 0, 0.6, false);
 
             // Load the Hero Island State
             this.game.state.start('HeroIsland');

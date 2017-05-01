@@ -221,7 +221,7 @@ export default class Treant {
     this.healthBar.setPercent(100 * this.health / this.maxHealth);
 
     // Enemy Strike Sound
-    this.audioManager.play('strikeEnemy', false, 0, 0.5);
+    this.audioManager.play('strikeEnemy', false, 0, 0.5, true);
 
     if (this.health <= 0) {
       this.health = 0;

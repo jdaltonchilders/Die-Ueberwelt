@@ -222,14 +222,14 @@ export default class Wolf {
     this.healthBar.setPercent(100 * this.health / this.maxHealth);
 
     // Enemy Strike Sound
-    this.audioManager.play('strikeEnemy', false, 0, 0.5);
+    this.audioManager.play('strikeEnemy', false, 0, 0.5, true);
 
     if (this.health <= 0) {
       this.health = 0;
       sprite.kill();
       this.healthBar.kill();
       // Death Sound
-      this.audioManager.play('wolf_death', false, 0, 1);
+      this.audioManager.play('wolf_death', false, 0, 1, false);
     }
 
     bullet.kill();

@@ -124,7 +124,7 @@ export default class Player {
                 bullet.rotation = this.game.physics.arcade.moveToPointer(bullet, this.bulletSpeed, this.game.input.activePointer);
 
                 // Fire Bullet Sound
-                this.audioManager.play('firestrike', false, 0, 0.6);
+                this.audioManager.play('firestrike', false, 0, 0.6, true);
                 
                 // Delay next bullet fire opportunity
                 this.nextFire = this.game.time.now + store.fireRate;

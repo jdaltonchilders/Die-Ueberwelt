@@ -38,7 +38,7 @@ export default class HeroIsland extends Phaser.State {
 
     if (store.previousState === 'AncientForest') {
       // Play Musics
-      this.audioManager.play('mainBackground', true, 0, 0.4);
+      this.audioManager.play('mainBackground', true, 0, 0.4, false);
     }
 
     // Enable the Arcade Physics system
@@ -331,7 +331,7 @@ export default class HeroIsland extends Phaser.State {
       store.currentState = (store.nextState = 'HeroHome');
 
       // Call Door Opening Sound
-      this.audioManager.play('door_open', false, 0, 0.6);
+      this.audioManager.play('door_open', false, 0, 0.6, false);
 
       // Load the Hero Island State
       this.game.state.start('HeroHome');
@@ -349,7 +349,7 @@ export default class HeroIsland extends Phaser.State {
       store.currentState = (store.nextState = 'BlackHome');
 
       // Call Door Opening Sound
-      this.audioManager.play('door_open', false, 0, 0.6);
+      this.audioManager.play('door_open', false, 0, 0.6, false);
 
       // Load the Hero Island State
       this.game.state.start('BlackHome');
@@ -367,7 +367,7 @@ export default class HeroIsland extends Phaser.State {
       store.currentState = (store.nextState = 'GreenHome');
 
       // Call Door Opening Sound
-      this.audioManager.play('door_open', false, 0, 0.6);
+      this.audioManager.play('door_open', false, 0, 0.6, false);
 
       // Load the Hero Island State
       this.game.state.start('GreenHome');
@@ -385,7 +385,7 @@ export default class HeroIsland extends Phaser.State {
       store.currentState = (store.nextState = 'GreyHome');
 
       // Call Door Opening Sound
-      this.audioManager.play('door_open', false, 0, 0.6);
+      this.audioManager.play('door_open', false, 0, 0.6, false);
 
       // Load the Hero Island State
       this.game.state.start('GreyHome');
@@ -403,7 +403,7 @@ export default class HeroIsland extends Phaser.State {
       store.currentState = (store.nextState = 'RedCabin');
 
       // Call Door Opening Sound
-      this.audioManager.play('door_open', false, 0, 0.6);
+      this.audioManager.play('door_open', false, 0, 0.6, false);
 
       // Load the Hero Island State
       this.game.state.start('RedCabin');
@@ -421,7 +421,7 @@ export default class HeroIsland extends Phaser.State {
       store.currentState = (store.nextState = 'GreyCabin');
 
       // Call Door Opening Sound
-      this.audioManager.play('door_open', false, 0, 0.6);
+      this.audioManager.play('door_open', false, 0, 0.6, false);
 
       // Load the Hero Island State
       this.game.state.start('GreyCabin');
@@ -439,7 +439,7 @@ export default class HeroIsland extends Phaser.State {
       store.currentState = (store.nextState = 'TealCabin');
 
       // Call Door Opening Sound
-      this.audioManager.play('door_open', false, 0, 0.6);
+      this.audioManager.play('door_open', false, 0, 0.6, false);
 
       // Load the Hero Island State
       this.game.state.start('TealCabin');
