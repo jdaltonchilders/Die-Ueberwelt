@@ -23,12 +23,17 @@ import DungeonLevelOne from './states/dungeon-level-one';
 // Boss Fight State
 import BossFight from './states/boss-fight';
 
+
+// Death State
+import DeathScreen from './states/death-screen';
+
 // Rad test state, yo
 import Test from './states/test';
 
+
 class Game extends Phaser.Game {
     constructor() {
-      super(window.innerWidth, window.innerHeight, Phaser.AUTO, 'gameArea');
+        super(window.innerWidth, window.innerHeight, Phaser.AUTO, 'gameArea');
 
         // Add to the State Manager (key, state, autoStart)
         this.state.add('Boot', Boot, false);
@@ -53,8 +58,13 @@ class Game extends Phaser.Game {
         // Boss States
         this.state.add('BossFight', BossFight, false);
 
+
+        // Death State
+        this.state.add('DeathScreen', DeathScreen, false);
+
         // Ya got a kickin' test state, dawg
         this.state.add('Test', Test, false);
+
 
         // Start state (state, clearWorld (boolean), clearCache(boolean))
         this.state.start('Boot');

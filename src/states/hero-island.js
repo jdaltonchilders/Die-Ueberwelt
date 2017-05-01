@@ -273,7 +273,7 @@ export default class HeroIsland extends Phaser.State {
       this.spawn = this.returnFromTealCabinRect;
     } else if (store.previousState === 'AncientForest') {
       this.spawn = this.returnFromAncientForestRect;
-    } else if (store.previousState === 'Death') {
+    } else if (store.previousState === 'DeathScreen') {
       this.spawn = this.respawnPointRect;
     } else {
       this.spawn = this.respawnPointRect;
