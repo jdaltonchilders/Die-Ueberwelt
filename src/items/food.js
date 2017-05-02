@@ -19,6 +19,8 @@ export default (game, x, y, player, houseKey) => {
     false
   );
   item.sprite.scale.set(0.75, 0.75);
+  game.physics.arcade.enable(item.sprite, true);
+  item.sprite.body.setSize(64, 64, -16, -16);
   // item.sprite.smoothed = false;
   item.afterPickup = () => {
     // Call item pickup sound
@@ -26,7 +28,7 @@ export default (game, x, y, player, houseKey) => {
     audioManager.play("item_pickup", false, 0, 1);
 
     // Heal the player
-    store.health += store.inventory.indexOf("Robe") === -1 ? 20 : 40;
+    store.health += store.inventory.indexOf("Robe") === -1 ? 15 : 30;
     if (store.health > store.maxHealth) store.health = store.maxHealth;
 
     // Prevent eating from this house again
