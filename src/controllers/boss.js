@@ -96,7 +96,12 @@ export default class Boss {
     const bottomRight = this.game.math.degToRad(45);
 
     // Ray casting to determine if we can see the player
-    const ray = new Phaser.Line(this.sprite.x, this.sprite.y, this.target.x, this.target.y);
+    const ray = new Phaser.Line(
+      this.sprite.x,
+      this.sprite.y,
+      this.target.x,
+      this.target.y
+    );
     var canReachPlayer = true;
     const coordinates = ray.coordinatesOnLine();
     this.boulders.forEach(boulder => {
@@ -115,25 +120,105 @@ export default class Boss {
 
     if (!canReachPlayer) {
       this.ourRays = [
-        new Phaser.Line(this.sprite.x, this.sprite.y, this.sprite.x + 1000, this.sprite.y),
-        new Phaser.Line(this.sprite.x, this.sprite.y, this.sprite.x + 1000, this.sprite.y + 1000),
-        new Phaser.Line(this.sprite.x, this.sprite.y, this.sprite.x, this.sprite.y + 1000),
-        new Phaser.Line(this.sprite.x, this.sprite.y, this.sprite.x - 1000, this.sprite.y + 1000),
-        new Phaser.Line(this.sprite.x, this.sprite.y, this.sprite.x - 1000, this.sprite.y),
-        new Phaser.Line(this.sprite.x, this.sprite.y, this.sprite.x - 1000, this.sprite.y - 1000),
-        new Phaser.Line(this.sprite.x, this.sprite.y, this.sprite.x, this.sprite.y - 1000),
-        new Phaser.Line(this.sprite.x, this.sprite.y, this.sprite.x + 1000, this.sprite.y - 1000)
+        new Phaser.Line(
+          this.sprite.x,
+          this.sprite.y,
+          this.sprite.x + 1000,
+          this.sprite.y
+        ),
+        new Phaser.Line(
+          this.sprite.x,
+          this.sprite.y,
+          this.sprite.x + 1000,
+          this.sprite.y + 1000
+        ),
+        new Phaser.Line(
+          this.sprite.x,
+          this.sprite.y,
+          this.sprite.x,
+          this.sprite.y + 1000
+        ),
+        new Phaser.Line(
+          this.sprite.x,
+          this.sprite.y,
+          this.sprite.x - 1000,
+          this.sprite.y + 1000
+        ),
+        new Phaser.Line(
+          this.sprite.x,
+          this.sprite.y,
+          this.sprite.x - 1000,
+          this.sprite.y
+        ),
+        new Phaser.Line(
+          this.sprite.x,
+          this.sprite.y,
+          this.sprite.x - 1000,
+          this.sprite.y - 1000
+        ),
+        new Phaser.Line(
+          this.sprite.x,
+          this.sprite.y,
+          this.sprite.x,
+          this.sprite.y - 1000
+        ),
+        new Phaser.Line(
+          this.sprite.x,
+          this.sprite.y,
+          this.sprite.x + 1000,
+          this.sprite.y - 1000
+        )
       ];
 
       this.targetRays = [
-        new Phaser.Line(this.target.x, this.target.y, this.target.x + 1000, this.target.y),
-        new Phaser.Line(this.target.x, this.target.y, this.target.x + 1000, this.target.y + 1000),
-        new Phaser.Line(this.target.x, this.target.y, this.target.x, this.target.y + 1000),
-        new Phaser.Line(this.target.x, this.target.y, this.target.x - 1000, this.target.y + 1000),
-        new Phaser.Line(this.target.x, this.target.y, this.target.x - 1000, this.target.y),
-        new Phaser.Line(this.target.x, this.target.y, this.target.x - 1000, this.target.y - 1000),
-        new Phaser.Line(this.target.x, this.target.y, this.target.x, this.target.y - 1000),
-        new Phaser.Line(this.target.x, this.sprite.y, this.sprite.x + 1000, this.sprite.y - 1000)
+        new Phaser.Line(
+          this.target.x,
+          this.target.y,
+          this.target.x + 1000,
+          this.target.y
+        ),
+        new Phaser.Line(
+          this.target.x,
+          this.target.y,
+          this.target.x + 1000,
+          this.target.y + 1000
+        ),
+        new Phaser.Line(
+          this.target.x,
+          this.target.y,
+          this.target.x,
+          this.target.y + 1000
+        ),
+        new Phaser.Line(
+          this.target.x,
+          this.target.y,
+          this.target.x - 1000,
+          this.target.y + 1000
+        ),
+        new Phaser.Line(
+          this.target.x,
+          this.target.y,
+          this.target.x - 1000,
+          this.target.y
+        ),
+        new Phaser.Line(
+          this.target.x,
+          this.target.y,
+          this.target.x - 1000,
+          this.target.y - 1000
+        ),
+        new Phaser.Line(
+          this.target.x,
+          this.target.y,
+          this.target.x,
+          this.target.y - 1000
+        ),
+        new Phaser.Line(
+          this.target.x,
+          this.sprite.y,
+          this.sprite.x + 1000,
+          this.sprite.y - 1000
+        )
       ];
 
       var intersections = [];
@@ -190,7 +275,8 @@ export default class Boss {
           direction = "down";
         else if (targetAngle > bottomLeft && targetAngle < topLeft)
           direction = "left";
-        else if (targetAngle > topLeft && targetAngle < topRight) direction = "up"
+        else if (targetAngle > topLeft && targetAngle < topRight)
+          direction = "up";
         else direction = "right";
       }
     } else {
@@ -214,7 +300,8 @@ export default class Boss {
         direction = "down";
       else if (targetAngle > bottomLeft && targetAngle < topLeft)
         direction = "left";
-      else if (targetAngle > topLeft && targetAngle < topRight) direction = "up";
+      else if (targetAngle > topLeft && targetAngle < topRight)
+        direction = "up";
     }
 
     // Move toward player if we need to
@@ -247,7 +334,8 @@ export default class Boss {
         direction = "down";
       else if (targetAngle > bottomLeft && targetAngle < topLeft)
         direction = "left";
-      else if (targetAngle > topLeft && targetAngle < topRight) direction = "up";
+      else if (targetAngle > topLeft && targetAngle < topRight)
+        direction = "up";
 
       // Face appropriately
       if (direction === "right") this.faceRight();
@@ -298,7 +386,12 @@ export default class Boss {
       else bullet = this.fireBullets.getFirstExists(false);
 
       if (bullet) {
-        const ray = new Phaser.Line(this.sprite.x, this.sprite.y, this.target.x, this.target.y);
+        const ray = new Phaser.Line(
+          this.sprite.x,
+          this.sprite.y,
+          this.target.x,
+          this.target.y
+        );
         const point = ray.coordinatesOnLine(10)[1];
         bullet.reset(point[0], point[1]);
         // bullet.reset(this.sprite.x, this.sprite.y + 20);

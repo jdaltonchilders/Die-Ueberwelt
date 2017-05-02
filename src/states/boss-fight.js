@@ -82,7 +82,7 @@ export default class BossFight extends Phaser.State {
     while (this.boulders.length < maxBoulders) {
       const x = this.game.rnd.between(2, 24) * 32;
       const y = this.game.rnd.between(2, 23) * 32;
-      const boulder = new Boulder(this.game, x, y)
+      const boulder = new Boulder(this.game, x, y);
       this.boulders.push(boulder);
     }
 

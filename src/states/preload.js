@@ -72,7 +72,8 @@ class Preload extends Phaser.State {
     store.currentState = store.nextState = "HeroHome";
 
     // For testing: REMEMBER REMOVE FOR MAIN GAME
-    this.game.state.start("BossFight"); return;
+    this.game.state.start("BossFight");
+    return;
 
     // Create text element
     text = this.game.add.text(
