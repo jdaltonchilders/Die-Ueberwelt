@@ -33,6 +33,7 @@ export default class Player {
     // Configure player
     this.nextFire = this.game.time.now + store.fireRate;
     this.bulletSpeed = 300;
+    this.nextUgh = this.game.time.now + store.ughRate;
 
     // Now create bullets group
     this.bullets = this.game.add.group();
@@ -156,7 +157,12 @@ export default class Player {
   hurt(damage) {
     store.health -= damage;
     this.healthBar.setPercent(100 * store.health / store.maxHealth);
-    this.audioManager.play("player_ugh", false, 0, 0.6, false);
+
+    if (this.game.time.now > this.nextUgh && this.sprite.alive) {
+      this.audioManager.play("player_ugh", false, 0, 0.6, false);
+      // Delay next ugh opportunity
+      this.nextUgh = this.game.time.now + store.ughRate;
+    }
     if (store.health < 0) {
       store.health = 0;
       this.sprite.kill();
