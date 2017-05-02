@@ -20,8 +20,8 @@ HealthBar.prototype.mergeWithDefaultConfiguration = function(newConfig) {
     height: 40,
     x: 0,
     y: 0,
-    bg: { color: '#FF2D00' },
-    bar: { color: '#1FCC24' },
+    bg: { color: "#FF2D00" },
+    bar: { color: "#1FCC24" },
     animationDuration: 200,
     flipped: false,
     isFixedToCamera: false
@@ -33,7 +33,9 @@ HealthBar.prototype.mergeWithDefaultConfiguration = function(newConfig) {
 function mergeObjetcs(targetObj, newObj) {
   for (var p in newObj) {
     try {
-      targetObj[p] = newObj[p].constructor == Object ? mergeObjetcs(targetObj[p], newObj[p]) : newObj[p];
+      targetObj[p] = newObj[p].constructor == Object
+        ? mergeObjetcs(targetObj[p], newObj[p])
+        : newObj[p];
     } catch (e) {
       targetObj[p] = newObj[p];
     }
@@ -63,7 +65,11 @@ HealthBar.prototype.drawHealthBar = function() {
   bmd.ctx.rect(0, 0, this.config.width, this.config.height);
   bmd.ctx.fill();
 
-  this.barSprite = this.game.add.sprite(this.x - this.bgSprite.width / 2, this.y, bmd);
+  this.barSprite = this.game.add.sprite(
+    this.x - this.bgSprite.width / 2,
+    this.y,
+    bmd
+  );
   this.barSprite.anchor.y = 0.5;
 
   if (this.flipped) {
@@ -95,9 +101,16 @@ HealthBar.prototype.setPercent = function(newValue) {
 
 HealthBar.prototype.setWidth = function(newWidth) {
   if (this.flipped) {
-    newWidth = (-1) * newWidth;
+    newWidth = -1 * newWidth;
   }
-  this.game.add.tween(this.barSprite).to({ width: newWidth }, this.config.animationDuration, Phaser.Easing.Linear.None, true);
+  this.game.add
+    .tween(this.barSprite)
+    .to(
+      { width: newWidth },
+      this.config.animationDuration,
+      Phaser.Easing.Linear.None,
+      true
+    );
 };
 
 HealthBar.prototype.setFixedToCamera = function(fixedToCamera) {

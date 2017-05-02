@@ -10,7 +10,7 @@ export default class NPC {
     const spawnY = y || 0;
 
     // Create the player sprite
-    this.sprite = this.game.add.sprite(spawnX, spawnY, 'npc');
+    this.sprite = this.game.add.sprite(spawnX, spawnY, "npc");
     this.sprite.anchor.set(0.5, 0.5);
     this.sprite.smoothed = false;
 
@@ -20,53 +20,53 @@ export default class NPC {
     this.sprite.body.setSize(18, 12, 4, 28);
 
     // Create animations
-    if (name === 'Old Guy') {
-      this.sprite.animations.add('up', [36, 37, 38, 37], 5, true);
-      this.sprite.animations.add('right', [24, 25, 26, 25], 5, true);
-      this.sprite.animations.add('left', [12, 13, 14, 13], 5, true);
-      this.sprite.animations.add('down', [0, 1, 2, 1], 5, true);
+    if (name === "Old Guy") {
+      this.sprite.animations.add("up", [36, 37, 38, 37], 5, true);
+      this.sprite.animations.add("right", [24, 25, 26, 25], 5, true);
+      this.sprite.animations.add("left", [12, 13, 14, 13], 5, true);
+      this.sprite.animations.add("down", [0, 1, 2, 1], 5, true);
       this.sprite.frame = 1;
-    } else if (name === 'Merchant') {
-      this.sprite.animations.add('up', [39, 40, 41, 40], 5, true);
-      this.sprite.animations.add('right', [27, 28, 29, 28], 5, true);
-      this.sprite.animations.add('left', [15, 16, 17, 16], 5, true);
-      this.sprite.animations.add('down', [3, 4, 5, 4], 5, true);
+    } else if (name === "Merchant") {
+      this.sprite.animations.add("up", [39, 40, 41, 40], 5, true);
+      this.sprite.animations.add("right", [27, 28, 29, 28], 5, true);
+      this.sprite.animations.add("left", [15, 16, 17, 16], 5, true);
+      this.sprite.animations.add("down", [3, 4, 5, 4], 5, true);
       this.sprite.frame = 4;
-    } else if (name === 'Rookie') {
-      this.sprite.animations.add('up', [42, 43, 44, 43], 5, true);
-      this.sprite.animations.add('right', [30, 31, 32, 31], 5, true);
-      this.sprite.animations.add('left', [18, 19, 20, 19], 5, true);
-      this.sprite.animations.add('down', [6, 7, 8, 7], 5, true);
+    } else if (name === "Rookie") {
+      this.sprite.animations.add("up", [42, 43, 44, 43], 5, true);
+      this.sprite.animations.add("right", [30, 31, 32, 31], 5, true);
+      this.sprite.animations.add("left", [18, 19, 20, 19], 5, true);
+      this.sprite.animations.add("down", [6, 7, 8, 7], 5, true);
       this.sprite.frame = 7;
-    } else if (name === 'Beard') {
-      this.sprite.animations.add('up', [45, 46, 47, 46], 5, true);
-      this.sprite.animations.add('right', [33, 34, 35, 34], 5, true);
-      this.sprite.animations.add('left', [21, 22, 23, 22], 5, true);
-      this.sprite.animations.add('down', [9, 10, 11, 10], 5, true);
+    } else if (name === "Beard") {
+      this.sprite.animations.add("up", [45, 46, 47, 46], 5, true);
+      this.sprite.animations.add("right", [33, 34, 35, 34], 5, true);
+      this.sprite.animations.add("left", [21, 22, 23, 22], 5, true);
+      this.sprite.animations.add("down", [9, 10, 11, 10], 5, true);
       this.sprite.frame = 10;
-    } else if (name === 'Green') {
-      this.sprite.animations.add('up', [84, 85, 86, 85], 5, true);
-      this.sprite.animations.add('right', [72, 73, 74, 73], 5, true);
-      this.sprite.animations.add('left', [60, 61, 62, 61], 5, true);
-      this.sprite.animations.add('down', [48, 49, 50, 49], 5, true);
+    } else if (name === "Green") {
+      this.sprite.animations.add("up", [84, 85, 86, 85], 5, true);
+      this.sprite.animations.add("right", [72, 73, 74, 73], 5, true);
+      this.sprite.animations.add("left", [60, 61, 62, 61], 5, true);
+      this.sprite.animations.add("down", [48, 49, 50, 49], 5, true);
       this.sprite.frame = 49;
-    } else if (name === 'Red') {
-      this.sprite.animations.add('up', [87, 88, 89, 88], 5, true);
-      this.sprite.animations.add('right', [75, 76, 77, 76], 5, true);
-      this.sprite.animations.add('left', [63, 64, 65, 64], 5, true);
-      this.sprite.animations.add('down', [51, 52, 53, 52], 5, true);
+    } else if (name === "Red") {
+      this.sprite.animations.add("up", [87, 88, 89, 88], 5, true);
+      this.sprite.animations.add("right", [75, 76, 77, 76], 5, true);
+      this.sprite.animations.add("left", [63, 64, 65, 64], 5, true);
+      this.sprite.animations.add("down", [51, 52, 53, 52], 5, true);
       this.sprite.frame = 52;
-    } else if (name === 'Blue') {
-      this.sprite.animations.add('up', [90, 91, 92, 91], 5, true);
-      this.sprite.animations.add('right', [78, 79, 80, 79], 5, true);
-      this.sprite.animations.add('left', [66, 67, 68, 67], 5, true);
-      this.sprite.animations.add('down', [54, 55, 56, 55], 5, true);
+    } else if (name === "Blue") {
+      this.sprite.animations.add("up", [90, 91, 92, 91], 5, true);
+      this.sprite.animations.add("right", [78, 79, 80, 79], 5, true);
+      this.sprite.animations.add("left", [66, 67, 68, 67], 5, true);
+      this.sprite.animations.add("down", [54, 55, 56, 55], 5, true);
       this.sprite.frame = 55;
-    } else if (name === 'Farmer') {
-      this.sprite.animations.add('up', [93, 94, 95, 94], 5, true);
-      this.sprite.animations.add('right', [81, 82, 83, 82], 5, true);
-      this.sprite.animations.add('left', [69, 70, 71, 70], 5, true);
-      this.sprite.animations.add('down', [57, 58, 59, 58], 5, true);
+    } else if (name === "Farmer") {
+      this.sprite.animations.add("up", [93, 94, 95, 94], 5, true);
+      this.sprite.animations.add("right", [81, 82, 83, 82], 5, true);
+      this.sprite.animations.add("left", [69, 70, 71, 70], 5, true);
+      this.sprite.animations.add("down", [57, 58, 59, 58], 5, true);
       this.sprite.frame = 58;
     }
 
@@ -75,21 +75,21 @@ export default class NPC {
     this.nextMove = this.game.time.now + this.movementDelay;
 
     this.pointIndex = 0;
-    if (strategy === 'line') {
+    if (strategy === "line") {
       this.points = [
         { x: spawnX, y: spawnY },
         { x: spawnX - 64, y: spawnY },
         { x: spawnX, y: spawnY },
         { x: spawnX + 64, y: spawnY }
       ];
-    } else if (strategy === 'circle') {
+    } else if (strategy === "circle") {
       this.points = [
         { x: spawnX, y: spawnY },
         { x: spawnX, y: spawnY + 64 },
         { x: spawnX + 64, y: spawnY + 64 },
         { x: spawnX + 64, y: spawnY }
       ];
-    } else if (strategy === 'long line') {
+    } else if (strategy === "long line") {
       this.points = [
         { x: spawnX, y: spawnY },
         { x: spawnX - 64, y: spawnY },
@@ -108,7 +108,7 @@ export default class NPC {
         { x: spawnX + 128, y: spawnY },
         { x: spawnX + 64, y: spawnY }
       ];
-    } else if (strategy === 'vertical medium line') {
+    } else if (strategy === "vertical medium line") {
       this.points = [
         { x: spawnX, y: spawnY },
         { x: spawnX, y: spawnY + 64 },
@@ -117,7 +117,7 @@ export default class NPC {
         { x: spawnX, y: spawnY + 128 },
         { x: spawnX, y: spawnY + 64 }
       ];
-    } else if (strategy === 'u') {
+    } else if (strategy === "u") {
       this.points = [
         { x: spawnX, y: spawnY },
         { x: spawnX, y: spawnY + 64 },
@@ -169,10 +169,10 @@ export default class NPC {
     const topLeft = this.game.math.degToRad(225);
     const bottomLeft = this.game.math.degToRad(135);
     const bottomRight = this.game.math.degToRad(45);
-    var direction = 'right';
-    if (angle > bottomRight && angle < bottomLeft) direction = 'down';
-    else if (angle > bottomLeft && angle < topLeft) direction = 'left';
-    else if (angle > topLeft && angle < topRight) direction = 'up';
+    var direction = "right";
+    if (angle > bottomRight && angle < bottomLeft) direction = "down";
+    else if (angle > bottomLeft && angle < topLeft) direction = "left";
+    else if (angle > topLeft && angle < topRight) direction = "up";
 
     // Play the animation
     this.sprite.animations.play(direction, null, true);

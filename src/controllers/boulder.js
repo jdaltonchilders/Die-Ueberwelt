@@ -1,6 +1,6 @@
 /*jshint esversion: 6 */
 
-import store from '../store';
+import store from "../store";
 
 export default class Boulder {
   constructor(game, x, y) {
@@ -10,7 +10,7 @@ export default class Boulder {
     const spawnY = y || 0;
 
     // Create the player sprite
-    this.sprite = this.game.add.sprite(spawnX, spawnY, 'boulder');
+    this.sprite = this.game.add.sprite(spawnX, spawnY, "boulder");
     this.sprite.anchor.set(0.5, 0.5);
     this.sprite.smoothed = false;
 
@@ -26,7 +26,7 @@ export default class Boulder {
 
     if (keySpace.isDown) {
       if (
-        store.inventory.indexOf('Pickaxe' !== -1) &&
+        (store.inventory.indexOf("Pickaxe") !== -1) &&
         this.game.physics.arcade.distanceBetween(player, this.sprite) < 50
       ) {
         this.sprite.kill();
