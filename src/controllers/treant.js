@@ -32,7 +32,7 @@ export default class Treant {
     this.movementSpeed = 55;
     this.idealDistance = 20;
     this.buffer = 10;
-    this.maxHealth = 40;
+    this.maxHealth = 20;
     this.health = this.maxHealth;
     this.spotted = false;
     this.visibleRange = 350;
@@ -79,13 +79,7 @@ export default class Treant {
     if (targetAngle < 0) targetAngle += this.game.math.degToRad(360);
 
     // Skip if we can't see player yet
-    if (!this.spotted) {
-      if (distance < this.visibleRange) {
-        this.spotted = true;
-        console.log("Treant spotted the player!");
-      }
-      return;
-    }
+    if (!this.spotted) return;
 
     // Determine the direction to target
     var direction = "right";

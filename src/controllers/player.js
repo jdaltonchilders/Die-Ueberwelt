@@ -39,19 +39,12 @@ export default class Player {
     this.bullets.enableBody = true;
     this.bullets.physicsBodyType = Phaser.Physics.ARCADE;
     this.bullets.createMultiple(30, "bullet", 0, false);
+    this.bullets.createMultiple(30, "bullet2", 0, false);
     this.bullets.forEach(bullet => bullet.scale.set(0.5, 0.5));
     this.bullets.setAll("anchor.x", 0);
     this.bullets.setAll("anchor.y", 0.5);
     this.bullets.setAll("outOfBoundsKill", true);
     this.bullets.setAll("checkWorldBounds", true);
-
-    // Now create health bar
-    this.healthBar = new HealthBar(this.game, {
-      x: 125,
-      y: game.height - 20,
-      isFixedToCamera: true
-    });
-    this.healthBar.setPercent(100 * store.health / store.maxHealth);
 
     // Now create item portraits
     var spacing = 16;
@@ -65,6 +58,15 @@ export default class Player {
 
     // Audio
     this.audioManager = new AudioManager(this.game);
+  }
+
+  createHealthBar() {
+    this.healthBar = new HealthBar(this.game, {
+      x: 125,
+      y: this.game.height - 20,
+      isFixedToCamera: true
+    });
+    this.healthBar.setPercent(100 * store.health / store.maxHealth);
   }
 
   update() {
@@ -119,11 +121,16 @@ export default class Player {
     // If enough time has past since the last bullet firing
     if (this.game.time.now > this.nextFire && this.sprite.alive) {
       // Then create the bullet
-      var bullet = this.bullets.getFirstExists(false);
-      if (bullet) {
-        // Set on player
-        bullet.reset(this.sprite.x, this.sprite.y);
+      let bullet;
+      bullet = this.bullets.getFirstExists(
+        false,
+        null,
+        this.sprite.x,
+        this.sprite.y,
+        store.inventory.indexOf("Staff") === -1 ? "bullet" : "bullet2"
+      );
 
+      if (bullet) {
         // Rotate and move bullet toward mouse pointer
         bullet.rotation = this.game.physics.arcade.moveToPointer(
           bullet,
@@ -138,6 +145,12 @@ export default class Player {
         this.nextFire = this.game.time.now + store.fireRate;
       }
     }
+  }
+
+  heal(healing) {
+    store.health += healing;
+    if (store.health > store.maxHealth) store.health = store.maxHealth;
+    this.healthBar.setPercent(100 * store.health / store.maxHealth);
   }
 
   hurt(damage) {

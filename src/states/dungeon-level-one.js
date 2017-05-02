@@ -3,7 +3,8 @@
 import AudioManager from "../utilities/audio-manager";
 import Player from "../controllers/player";
 import Staff from "../items/staff";
-import Wolf from "../controllers/wolf";
+import GhostCaptain from "../controllers/ghost-captain";
+import Ghost from "../controllers/ghost";
 import store from "../store";
 
 export default class DungeonLevelOne extends Phaser.State {
@@ -71,10 +72,14 @@ export default class DungeonLevelOne extends Phaser.State {
 
     // Create the monsters
     this.monsters = [
-      new Wolf(this.game, 200, 500),
-      new Wolf(this.game, 500, 700),
-      new Wolf(this.game, 525, 100),
-      new Wolf(this.game, 800, 500)
+      new GhostCaptain(this.game, 200, 500),
+      new GhostCaptain(this.game, 500, 700),
+      new GhostCaptain(this.game, 525, 100),
+      new GhostCaptain(this.game, 800, 500),
+      new Ghost(this.game, 320, 100),
+      new Ghost(this.game, 375, 675),
+      new Ghost(this.game, 575, 275),
+      new Ghost(this.game, 880, 80)
     ];
 
     // Create the Player
@@ -102,11 +107,37 @@ export default class DungeonLevelOne extends Phaser.State {
 
     // Camera follows player
     this.game.camera.follow(this.player.sprite);
+
+    // Create health bar last of all
+    this.player.createHealthBar();
   }
 
   update() {
+    // Ray casting!
+    this.monsters.filter(monster => !monster.spotted).forEach(monster => {
+      var ray = new Phaser.Line(
+        monster.sprite.x,
+        monster.sprite.y,
+        this.player.sprite.x,
+        this.player.sprite.y
+      );
+
+      const tileHits = this.collisionLayer.getRayCastTiles(ray, 4, true, false);
+
+      if (tileHits.length === 0) monster.spotted = true;
+    });
+
     // Handle Player Update
     this.player.update();
+
+    // Bullets shouldnt go through walls
+    this.game.physics.arcade.collide(
+      this.collisionLayer, // layer
+      this.player.bullets,
+      (bullet, layer) => {
+        bullet.kill();
+      }
+    );
 
     // Item update
     if (this.item) this.item.update();

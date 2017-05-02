@@ -107,6 +107,9 @@ export default class HeroHome extends Phaser.State {
 
     // Camera follows player
     this.game.camera.follow(this.player.sprite);
+
+    // Create health bar last of all
+    this.player.createHealthBar();
   }
 
   update() {

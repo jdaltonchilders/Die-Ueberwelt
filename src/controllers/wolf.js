@@ -32,10 +32,9 @@ export default class Wolf {
     this.movementSpeed = 100;
     this.idealDistance = 10;
     this.buffer = 10;
-    this.maxHealth = 20;
+    this.maxHealth = 10;
     this.health = this.maxHealth;
     this.spotted = false;
-    this.visibleRange = 250;
 
     // Now create health bar
     this.healthBar = new HealthBar(this.game, {
@@ -80,12 +79,12 @@ export default class Wolf {
 
     // Skip if we can't see player yet
     if (!this.spotted) {
-      if (distance < this.visibleRange) {
-        this.spotted = true;
-        // Detection Sound
-        this.audioManager.play("wolf_notice", false, 0, 1);
-      }
       return;
+    } else {
+      if (!this.hasNoticed) {
+        this.audioManager.play("wolf_notice");
+        this.hasNoticed = true;
+      }
     }
 
     // Determine the direction to target

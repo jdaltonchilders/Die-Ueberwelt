@@ -26,6 +26,7 @@ import BossFight from "./states/boss-fight";
 // Start and End States
 import GameMenu from "./states/game-menu";
 import DeathScreen from "./states/death-screen";
+import VictoryScreen from "./states/victory-screen";
 
 // Rad test state, yo
 import Test from "./states/test";
@@ -60,6 +61,7 @@ class Game extends Phaser.Game {
     // Start and End State
     this.state.add("GameMenu", GameMenu, false);
     this.state.add("DeathScreen", DeathScreen, false);
+    this.state.add("VictoryScreen", VictoryScreen, false);
 
     // Ya got a kickin' test state, dawg
     this.state.add("Test", Test, false);

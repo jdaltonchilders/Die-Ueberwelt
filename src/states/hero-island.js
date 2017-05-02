@@ -303,6 +303,9 @@ export default class HeroIsland extends Phaser.State {
 
     // Camera follows player
     this.game.camera.follow(this.player.sprite);
+
+    // Create health bar last of all
+    this.player.createHealthBar();
   }
 
   update() {
@@ -312,12 +315,27 @@ export default class HeroIsland extends Phaser.State {
     // Update NPCs
     this.npcs.forEach(npc => npc.update());
 
+    // Collide player bullets with barriers;
+    const barriers = [
+      this.treesTrunk,
+      this.houses,
+      this.housesRoof,
+      this.doors,
+      this.trees
+    ];
+    // TODO: Collide with the `barriers` layers instead of just collision layer
+    // barriers.forEach(layer =>
+    this.game.physics.arcade.collide(
+      this.collisionLayer, // layer
+      this.player.bullets,
+      (bullet, layer) => {
+        bullet.kill();
+      }
+    );
+    // ));
+
     // Collide with Layers
     this.game.physics.arcade.collide(this.player.sprite, this.collisionLayer);
-
-    /**
-         * Use this.player.sprite.world.x/y to get position
-         */
 
     // Check if Enter Hero House contains the Player
     if (

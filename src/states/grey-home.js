@@ -2,6 +2,7 @@
 
 import Player from "../controllers/player";
 import Robe from "../items/robe";
+import Food from "../items/food";
 import store from "../store";
 import AudioManager from "../utilities/audio-manager";
 
@@ -91,6 +92,9 @@ export default class GreyHome extends Phaser.State {
       this.returnFromWorldRect.y
     );
 
+    if (store.eatenFromHouses.indexOf("Grey2") === -1)
+      this.food = new Food(this.game, 220, 100, this.player.sprite, "Grey2");
+
     // Collide with Player
     var mapTileLength = this.map.tiles.length - 1;
     this.map.setCollisionBetween(1, mapTileLength, true, this.walls);
@@ -106,11 +110,17 @@ export default class GreyHome extends Phaser.State {
 
     if (store.inventory.indexOf("Robe") === -1)
       this.item = Robe(this.game, 7 * 32, 6 * 32, this.player.sprite);
+
+    // Create health bar last of all
+    this.player.createHealthBar();
   }
 
   update() {
     // Handle Player Update
     this.player.update();
+
+    // Handle food update
+    if (this.food) this.food.update();
 
     // Collide with Layers
     this.game.physics.arcade.collide(this.player.sprite, this.walls);

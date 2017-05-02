@@ -146,11 +146,37 @@ export default class AncientForest extends Phaser.State {
 
     // Camera follows player
     this.game.camera.follow(this.player.sprite);
+
+    // Create health bar last of all
+    this.player.createHealthBar();
   }
 
   update() {
+    // Ray casting!
+    this.monsters.filter(monster => !monster.spotted).forEach(monster => {
+      var ray = new Phaser.Line(
+        monster.sprite.x,
+        monster.sprite.y,
+        this.player.sprite.x,
+        this.player.sprite.y
+      );
+
+      const tileHits = this.collisionLayer.getRayCastTiles(ray, 4, true, false);
+
+      if (tileHits.length === 0) monster.spotted = true;
+    });
+
     // Handle Player Update
     this.player.update();
+
+    // Bullets shouldnt go through walls
+    this.game.physics.arcade.collide(
+      this.collisionLayer, // layer
+      this.player.bullets,
+      (bullet, layer) => {
+        bullet.kill();
+      }
+    );
 
     // Item update
     if (this.item) this.item.update();
