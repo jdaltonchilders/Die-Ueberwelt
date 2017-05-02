@@ -122,27 +122,26 @@ class GameMenu extends Phaser.State {
   update() {
     // If Enter Pressed Start Game
     if (this.enter.isDown) {
-      this.game.state.start('Preload');
+      this.game.state.start("Preload");
     }
 
     // If H Key Pressed Show Modal
     if (this.hKey.isDown) {
       this.showHTPModal();
     }
-
   }
 
   createModals() {
     // How to Play Modal
     this.reg.modal.createModal({
-      type: 'htp1',
+      type: "htp1",
       includeBackground: true,
       modalCloseOnInput: true,
       backgroundOpacity: 0.9,
       itemsArr: [
         {
-          type: 'text',
-          align: 'center',
+          type: "text",
+          align: "center",
           content: `
   How to Play\n
   Welcome to Unendlicher Turm!\n
@@ -155,9 +154,9 @@ class GameMenu extends Phaser.State {
   Purchase health, damage, or speed by standing on it's respective rune and pressing the Enter key.
   The fountain on the left will restore health, while the runes are used to purchase
   health (green), damage (red) and speed (blue).`,
-          fontFamily: 'fantasy',
+          fontFamily: "fantasy",
           fontSize: 18,
-          color: '0xFFFFFF',
+          color: "0xFFFFFF",
           offsetY: -25
         }
       ]
@@ -165,9 +164,8 @@ class GameMenu extends Phaser.State {
   }
 
   showHTPModal() {
-    this.reg.modal.showModal('htp1');
+    this.reg.modal.showModal("htp1");
   }
-
 }
 
 export default GameMenu;

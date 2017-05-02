@@ -3,7 +3,6 @@
 import AudioManager from "../utilities/audio-manager";
 
 class Boot extends Phaser.State {
-  
   preload() {
     const audioManager = new AudioManager(this.game);
     audioManager.preload();

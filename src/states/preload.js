@@ -55,7 +55,6 @@ class Preload extends Phaser.State {
   }
 
   create() {
-    
     // Fix up state info in Store
     store.previousState = "Preload";
     store.currentState = store.nextState = "HeroHome";
