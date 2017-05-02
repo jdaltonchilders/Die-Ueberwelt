@@ -3,6 +3,7 @@
 import Player from "../controllers/player";
 import store from "../store";
 import AudioManager from "../utilities/audio-manager";
+import Food from "../items/food";
 
 export default class GreyCabin extends Phaser.State {
   constructor() {
@@ -90,6 +91,8 @@ export default class GreyCabin extends Phaser.State {
       this.returnFromWorldRect.y
     );
 
+    if (store.eatenFromHouses.indexOf("Grey") === -1) this.food = new Food(this.game, 220, 100, this.player.sprite, "Grey");
+
     // Collide with Player
     var mapTileLength = this.map.tiles.length - 1;
     this.map.setCollisionBetween(1, mapTileLength, true, this.walls);
@@ -107,6 +110,9 @@ export default class GreyCabin extends Phaser.State {
   update() {
     // Handle Player Update
     this.player.update();
+
+    // Handle food update
+    if (this.food) this.food.update();
 
     // Collide with Layers
     this.game.physics.arcade.collide(this.player.sprite, this.walls);
