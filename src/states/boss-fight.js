@@ -3,6 +3,7 @@
 import Player from "../controllers/player";
 import Boss from "../controllers/boss";
 import Boulder from "../controllers/boulder";
+import AudioManager from "../utilities/audio-manager";
 
 export default class BossFight extends Phaser.State {
   constructor() {
@@ -28,6 +29,10 @@ export default class BossFight extends Phaser.State {
   }
 
   create() {
+    // Audio
+    this.audioManager = new AudioManager(this.game);
+    this.audioManager.play("arenaBackground", true);
+
     // Enable the Arcade Physics system
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -56,12 +61,6 @@ export default class BossFight extends Phaser.State {
 
     // Resize game world to match the ground
     this.ground.resizeWorld();
-
-    // Create Audio for town
-    this.backgroundMusic = this.game.add.audio("arenaBackground");
-
-    // Setting volume and loop
-    this.backgroundMusic.play("", 1, 0.2, true);
 
     // Create map objects
     const maxBoulders = 50;

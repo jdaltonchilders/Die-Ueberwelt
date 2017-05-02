@@ -10,7 +10,7 @@ export default class AudioManager {
     this.mainBackground = this.game.add.audio("mainBackground");
     this.forestBackground = this.game.add.audio("forestBackground");
     this.dungeonBackground = this.game.add.audio("dungeonBackground");
-    this.bossBackground = this.game.add.audio("bossBackground");
+    this.arenaBackground = this.game.add.audio("arenaBackground");
     this.victoryBackground = this.game.add.audio("victoryBackground");
     this.deathBackground = this.game.add.audio("deathBackground");
 
@@ -20,7 +20,7 @@ export default class AudioManager {
       this.mainBackground,
       this.forestBackground,
       this.dungeonBackground,
-      this.bossBackground,
+      this.arenaBackground,
       this.victoryBackground,
       this.deathBackground
     ];
@@ -47,7 +47,7 @@ export default class AudioManager {
     );
     this.game.load.audio(
       "mainBackground",
-      "assets/audio/landscape/the_weight_of_the_world.ogg"
+      "assets/audio/landscape/world_1.ogg"
     );
     this.game.load.audio(
       "forestBackground",
@@ -58,12 +58,12 @@ export default class AudioManager {
       "assets/audio/landscape/wretched_weaponry.ogg"
     );
     this.game.load.audio(
-      "bossBackground",
+      "arenaBackground",
       "assets/audio/landscape/a_beautiful_song.ogg"
     );
     this.game.load.audio(
       "victoryBackground",
-      "assets/audio/landscape/the_weight_of_the_world.ogg"
+      "assets/audio/landscape/world_2.ogg"
     );
     this.game.load.audio(
       "deathBackground",
@@ -85,10 +85,10 @@ export default class AudioManager {
   }
 
   /**
-   * 
+   *
    * @param {string} key
-   * @param {boolean} loop 
-   * @param {number} start 
+   * @param {boolean} loop
+   * @param {number} start
    * @param {number} volume
    * @param {boolen} noDelay Ignore isPlaying status
    */
