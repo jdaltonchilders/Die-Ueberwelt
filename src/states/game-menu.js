@@ -56,7 +56,7 @@ class GameMenu extends Phaser.State {
     this.cloudNine = this.game.add.sprite(2000, 135, "cloud");
     this.cloudTen = this.game.add.sprite(2300, 500, "cloud");
     this.cloudEleven = this.game.add.sprite(2100, 875, "cloud");
- 
+
 
     // Title Text
     this.title = {
@@ -152,17 +152,15 @@ class GameMenu extends Phaser.State {
           type: "text",
           align: "center",
           content: `
-  How to Play\n
-  Welcome to Unendlicher Turm!\n
-  Basic Actions
-  Use the W, A, S, D (or arrow) keys to move your player around the map.
-  Press the F key to toggle Fullscreen.\n
-  Arena Actions
-  Use the space bar or left-click the mouse to fire.\nUsing the mouse will increase your accuracy.\n
-  Shop Actions
-  Purchase health, damage, or speed by standing on it's respective rune and pressing the Enter key.
-  The fountain on the left will restore health, while the runes are used to purchase
-  health (green), damage (red) and speed (blue).`,
+How to Play\n
+Welcome to Die Überwelt!\n
+Basic Actions
+Use the W, A, S, D (or arrow) keys to move your player around the map.
+Press the Space bar to use a pickaxe.\n
+Arena Actions
+Press the left-click mouse button to fire.\n
+World Actions
+Walk over items to pick them up.`,
           fontFamily: "fantasy",
           fontSize: 18,
           color: "0xFFFFFF",
