@@ -76,21 +76,48 @@ export default class BossFight extends Phaser.State {
     // Resize game world to match the ground
     this.ground.resizeWorld();
 
-    // Create map objects
+    // Create boss
+    this.bossController = new Boss(this.game, this.game.world.centerX, this.game.world.centerY);
+
+    // Audio
+    this.backgroundMusic = this.game.add.audio('arenaBackground');
+    this.backgroundMusic.play('', 1, 0.2, true);
+
+    // Create boulders
     const maxBoulders = 50;
     this.boulders = [];
+    this.bossController.boulderGrid = [
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ];
     while (this.boulders.length < maxBoulders) {
-      const x = this.game.rnd.between(2, 24) * 32;
-      const y = this.game.rnd.between(2, 23) * 32;
-      this.boulders.push(new Boulder(this.game, x, y));
+      const x = this.game.rnd.between(1, 25);
+      const y = this.game.rnd.between(2, 25);
+      this.bossController.boulderGrid[y - 2][x - 1] = 1;
+      this.boulders.push(new Boulder(this.game, x * 32, y * 32));
     }
-
-    // Create boss
-    this.bossController = new Boss(
-      this.game,
-      this.game.world.centerX,
-      this.game.world.centerY
-    );
 
     // Create the Player
     this.playerController = new Player(
@@ -143,19 +170,20 @@ export default class BossFight extends Phaser.State {
     this.playerController.update();
 
     // Collide with Layers
-    this.game.physics.arcade.collide(
-      this.playerController.sprite,
-      this.collisionLayer
-    );
+    this.game.physics.arcade.collide(this.bossController.sprite, this.cliff);
+    this.game.physics.arcade.collide(this.bossController.sprite, this.items);
+    this.game.physics.arcade.collide(this.playerController.sprite, this.cliff);
     this.game.physics.arcade.collide(this.playerController.sprite, this.items);
 
     // Update Player Position
-    this.playerPosition = new Phaser.Rectangle(
-      this.playerController.sprite.worldPosition.x,
-      this.playerController.sprite.worldPosition.y,
-      0,
-      0
-    );
+    this.playerPosition = new Phaser.Rectangle(this.playerController.sprite.worldPosition.x, this.playerController.sprite.worldPosition.y, 0, 0);
+  }
+
+  render() {
+    this.boulders.forEach(boulder => this.game.debug.body(boulder.sprite));
+    this.game.debug.body(this.bossController.sprite);
+    this.game.debug.geom(new Phaser.Point(this.bossController.sprite.x, this.bossController.sprite.y), 'rgb(255,0,255)')
+    // this.game.debug.body(this.playerController.sprite);
   }
 
   shutdown() {
