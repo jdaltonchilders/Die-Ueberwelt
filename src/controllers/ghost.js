@@ -80,6 +80,12 @@ export default class Ghost {
 
     // Skip if we can't see player yet
     if (!this.spotted) return;
+    else {
+      if (!this.hasNoticed) {
+        this.audioManager.play("ghost_notice");
+        this.hasNoticed = true;
+      }
+    }
 
     // Determine the direction to target
     var direction = "right";
@@ -219,6 +225,8 @@ export default class Ghost {
       this.health = 0;
       sprite.kill();
       this.healthBar.kill();
+      // Death Sound
+      this.audioManager.play("ghost_death", false, 0, 1, false);
     }
 
     // Bullets pass through ghosts

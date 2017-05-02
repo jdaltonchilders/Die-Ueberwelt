@@ -495,7 +495,10 @@ export default class HeroIsland extends Phaser.State {
   }
 
   shutdown() {
-    if (store.nextState === "AncientForest") {
+    if (
+      store.nextState === "AncientForest" ||
+      store.nextState === "BossFight"
+    ) {
       this.game.sound.stopAll();
     }
   }

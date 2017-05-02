@@ -124,6 +124,8 @@ class GameMenu extends Phaser.State {
   update() {
     // If Enter Pressed Start Game
     if (this.enter.isDown) {
+      store.previousState = "GameMenu";
+      store.currentState = store.nextState = "Preload";
       this.game.state.start("Preload");
     }
 
@@ -172,6 +174,12 @@ Walk over items to pick them up.`,
 
   showHTPModal() {
     this.reg.modal.showModal("htp1");
+  }
+
+  shutdown() {
+    if (store.nextState === "HeroHome") {
+      this.game.sound.stopAll();
+    }
   }
 }
 

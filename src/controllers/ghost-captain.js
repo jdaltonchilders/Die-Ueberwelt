@@ -62,6 +62,12 @@ export default class GhostCaptain {
 
     // Skip if we can't see player yet
     if (!this.spotted) return;
+    else {
+      if (!this.hasNoticed) {
+        this.audioManager.play("ghost_notice");
+        this.hasNoticed = true;
+      }
+    }
 
     // Determine the direction to target
     var direction = "right";

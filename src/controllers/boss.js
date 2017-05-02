@@ -2,6 +2,7 @@
 
 import store from "../store";
 import HealthBar from "../gui/healthbar";
+import AudioManager from "../utilities/audio-manager";
 
 export default class Boss {
   constructor(game, x, y) {
@@ -31,7 +32,7 @@ export default class Boss {
     this.sprite.animations.add("1_down", [0, 1, 2, 1], 5, true);
 
     // Configure boss
-    this.fireRate = 250;
+    this.fireRate = 450;
     this.nextFire = this.game.time.now + this.fireRate;
     this.bulletSpeed = 400;
     this.movementSpeed = 150;
@@ -86,6 +87,9 @@ export default class Boss {
       isFixedToCamera: true
     });
     this.healthBar.setPercent(100 * this.health / this.maxHealth);
+
+    // Audio
+    this.audioManager = new AudioManager(this.game);
   }
 
   update() {
@@ -186,6 +190,10 @@ export default class Boss {
         bullet.reset(this.sprite.x, this.sprite.y + 20);
         bullet.anchor.set(0.5, 0.5);
 
+        if (this.phase === 1)
+          this.audioManager.play("boss_waterstrike", false, 0, 0.3, false);
+        else this.audioManager.play("boss_firestrike", false, 0, 0.3, false);
+
         // Move bullet toward target
         this.game.physics.arcade.moveToObject(
           bullet,
@@ -281,11 +289,14 @@ export default class Boss {
       this.health = 0;
       sprite.kill();
       this.healthBar.kill();
+      // Death Sound
+      this.audioManager.play("boss_death", false, 0, 1, false);
 
       // Update State Information
       store.previousState = store.currentState;
       store.currentState = store.nextState = "VictoryScreen";
-      this.game.state.start("VictoryScreen");
+
+      setTimeout(() => this.game.state.start("VictoryScreen"), 5000);
     }
 
     bullet.kill();
