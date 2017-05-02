@@ -91,7 +91,8 @@ export default class GreyCabin extends Phaser.State {
       this.returnFromWorldRect.y
     );
 
-    if (store.eatenFromHouses.indexOf("Grey") === -1) this.food = new Food(this.game, 220, 100, this.player.sprite, "Grey");
+    if (store.eatenFromHouses.indexOf("Grey") === -1)
+      this.food = new Food(this.game, 220, 100, this.player.sprite, "Grey");
 
     // Collide with Player
     var mapTileLength = this.map.tiles.length - 1;

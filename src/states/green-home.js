@@ -91,7 +91,8 @@ export default class GreenHome extends Phaser.State {
       this.returnFromWorldRect.y
     );
 
-    if (store.eatenFromHouses.indexOf("Green") === -1) this.food = new Food(this.game, 220, 100, this.player.sprite, "Green");
+    if (store.eatenFromHouses.indexOf("Green") === -1)
+      this.food = new Food(this.game, 220, 100, this.player.sprite, "Green");
 
     // Collide with Player
     var mapTileLength = this.map.tiles.length - 1;

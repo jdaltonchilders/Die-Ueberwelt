@@ -92,7 +92,8 @@ export default class GreyHome extends Phaser.State {
       this.returnFromWorldRect.y
     );
 
-    if (store.eatenFromHouses.indexOf("Grey2") === -1) this.food = new Food(this.game, 220, 100, this.player.sprite, "Grey2");
+    if (store.eatenFromHouses.indexOf("Grey2") === -1)
+      this.food = new Food(this.game, 220, 100, this.player.sprite, "Grey2");
 
     // Collide with Player
     var mapTileLength = this.map.tiles.length - 1;
