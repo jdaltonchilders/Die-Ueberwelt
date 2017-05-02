@@ -40,7 +40,7 @@ export default class BossFight extends Phaser.State {
   create() {
     // Audio
     this.audioManager = new AudioManager(this.game);
-    this.audioManager.play("arenaBackground", true);
+    this.audioManager.play("arenaBackground", true, 0, 0.3, false);
 
     // Enable the Arcade Physics system
     this.game.physics.startSystem(Phaser.Physics.ARCADE);

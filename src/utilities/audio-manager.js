@@ -104,11 +104,11 @@ export default class AudioManager {
     // Boss Audio
     this.game.load.audio(
       "boss_firestrike",
-      "assets/audio/action/boss_firestrike.ogg"
+      "assets/audio/attack/boss_firestrike.ogg"
     );
     this.game.load.audio(
       "boss_waterstrike",
-      "assets/audio/action/boss_waterstrike.ogg"
+      "assets/audio/attack/boss_waterstrike.ogg"
     );
     this.game.load.audio("boss_death", "assets/audio/damage/boss_death.ogg");
 
