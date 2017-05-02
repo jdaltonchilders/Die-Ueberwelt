@@ -82,14 +82,16 @@ export default class BossFight extends Phaser.State {
     while (this.boulders.length < maxBoulders) {
       const x = this.game.rnd.between(2, 24) * 32;
       const y = this.game.rnd.between(2, 23) * 32;
-      this.boulders.push(new Boulder(this.game, x, y));
+      const boulder = new Boulder(this.game, x, y);
+      this.boulders.push(boulder);
     }
 
     // Create boss
     this.bossController = new Boss(
       this.game,
       this.game.world.centerX,
-      this.game.world.centerY
+      this.game.world.centerY,
+      this.boulders
     );
 
     // Create the Player
@@ -119,8 +121,8 @@ export default class BossFight extends Phaser.State {
     // Update map objects
     // Lol demo soon
     const bullets = [
-      ...this.bossController.waterBullets.children,
-      ...this.bossController.fireBullets.children,
+      // ...this.bossController.waterBullets.children,
+      // ...this.bossController.fireBullets.children,
       ...this.playerController.bullets.children
     ];
     this.boulders.forEach(boulder => {
