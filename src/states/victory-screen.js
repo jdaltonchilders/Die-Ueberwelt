@@ -110,10 +110,7 @@ class VictoryScreen extends Phaser.State {
 
       // Load the Hero Home State
       this.game.state.start("GameMenu");
-    }, 40000);
-
-    // Create health bar last of all
-    this.player.createHealthBar();
+    }, 42000);
   }
 
   shutdown() {
