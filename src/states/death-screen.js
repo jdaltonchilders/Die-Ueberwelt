@@ -95,6 +95,11 @@ class DeathScreen extends Phaser.State {
     store.health = store.maxHealth;
     // Start Next Game State
     setTimeout(() => {
+      // Update State Information
+      store.previousState = "DeathScreen";
+      store.currentState = store.nextState = "HeroIsland";
+
+      // Load the Hero Home State
       this.game.state.start("HeroIsland");
     }, 10000);
   }
