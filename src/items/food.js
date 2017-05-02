@@ -30,7 +30,7 @@ export default (game, x, y, player, houseKey) => {
     // Heal the player
     const healing = store.inventory.indexOf("Robe") === -1 ? 15 : 30;
     playerController.controller.heal(healing);
-    console.log(playerController, healing)
+    console.log(playerController, healing);
 
     // Prevent eating from this house again
     if (houseKey) store.eatenFromHouses.push(houseKey);
