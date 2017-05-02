@@ -132,7 +132,6 @@ export default class AudioManager {
     }
 
     try {
-      console.log(`Playing ${key}`);
       const audio = this[key];
       if (noDelay || !audio.isPlaying) audio.play(null, start, volume, loop);
     } catch (err) {
