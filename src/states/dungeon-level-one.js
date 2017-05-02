@@ -40,8 +40,8 @@ export default class DungeonLevelOne extends Phaser.State {
 
     // Create layers
     this.ground = this.map.createLayer("Ground");
-    this.road = this.map.createLayer("Cliffs");
-    this.bridges = this.map.createLayer("CliffSides");
+    
+    this.cliffSides = this.map.createLayer("CliffSides");
     this.door = this.map.createLayer("Doors");
     this.collisionLayer = this.map.createLayer("CollisionLayer");
 
@@ -107,6 +107,9 @@ export default class DungeonLevelOne extends Phaser.State {
 
     // Camera follows player
     this.game.camera.follow(this.player.sprite);
+
+    // Finish Layer Creation
+    this.cliff = this.map.createLayer("Cliffs");
 
     // Create health bar last of all
     this.player.createHealthBar();
