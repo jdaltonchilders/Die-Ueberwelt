@@ -8,7 +8,7 @@
     "build": "webpack -p --config webpack.config.prod.js",
     "now-start": "serve ./build",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "format": "prettier 'src/**/*.js' --single-quotes --write"
+    "format": "prettier 'src/**/*.js' --write"
   },
   "pre-commit": [
     "format"
@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "pre-commit": "^1.2.2",
+    "prettier": "^1.2.2",
     "webpack-dashboard": "^0.3.0"
   }
 }

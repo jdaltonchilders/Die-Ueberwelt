@@ -5,11 +5,12 @@ import DialogueManager from "../utilities/dialogueManager";
 import store from "../store";
 
 export default class Item {
-  constructor(game, x, y, name, spriteKey, player, dialogue) {
+  constructor(game, x, y, name, spriteKey, player, dialogue, collectible) {
     this.game = game;
     this.name = name;
     this.player = player;
     this.dialogue = dialogue;
+    this.collectible = collectible || true;
 
     const spawnX = x || 0;
     const spawnY = y || 0;
@@ -18,7 +19,9 @@ export default class Item {
     this.sprite.anchor.set(0.5, 0.5);
     this.game.physics.arcade.enable(this.sprite);
 
-    this.collectible = true;
+    // Something of a heckin hack :^)
+    // Choose a random food from the spritesheet
+    if (spriteKey === "Food") this.sprite.frame = this.game.rnd.between(0, 24);
   }
 
   preload() {
