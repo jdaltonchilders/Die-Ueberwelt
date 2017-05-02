@@ -127,6 +127,15 @@ export default class BossFight extends Phaser.State {
       boulder.update(this.playerController.sprite, bullets);
     });
 
+    // Bullets shouldnt go through walls
+    this.game.physics.arcade.collide(
+      this.collisionLayer, // layer
+      this.playerController.bullets,
+      (bullet, layer) => {
+        bullet.kill();
+      }
+    );
+
     // Update boss
     this.bossController.update();
 
