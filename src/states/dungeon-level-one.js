@@ -32,7 +32,7 @@ export default class DungeonLevelOne extends Phaser.State {
 
     // Audio
     this.audioManager = new AudioManager(this.game);
-    this.audioManager.play("dungeonBackground", true, 0, 0.3, false);
+    this.audioManager.play("dungeonBackground", true, 0, 0.2, false);
 
     // Enable the Arcade Physics system
     this.game.physics.startSystem(Phaser.Physics.ARCADE);

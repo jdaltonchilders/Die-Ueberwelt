@@ -16,7 +16,7 @@ class Preload extends Phaser.State {
     // Play Audio
     this.audioManager = new AudioManager(this.game);
     if (store.previousState !== "GameMenu") {
-      this.audioManager.play("introBackground", true, 0, 0.4, false);
+      this.audioManager.play("introBackground", true, 0, 0.2, false);
     }
 
     // Create keys

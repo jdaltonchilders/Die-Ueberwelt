@@ -14,7 +14,7 @@ class GameMenu extends Phaser.State {
   create() {
     // Play Audio
     this.audioManager = new AudioManager(this.game);
-    this.audioManager.play("introBackground", true, 0, 0.4, false);
+    this.audioManager.play("introBackground", true, 0, 0.2, false);
 
     // Create Image
     this.mainImage = this.game.add.image(0, 0, "mainImage");
@@ -33,7 +33,6 @@ class GameMenu extends Phaser.State {
     this.reg = {};
     this.reg.modal = new gameModal(this.game);
     this.createModals();
-
 
     // Set Background color
     this.game.stage.backgroundColor = "#55b4ff";

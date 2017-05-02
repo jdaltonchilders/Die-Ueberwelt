@@ -40,7 +40,7 @@ export default class BossFight extends Phaser.State {
   create() {
     // Audio
     this.audioManager = new AudioManager(this.game);
-    this.audioManager.play("arenaBackground", true, 0, 0.3, false);
+    this.audioManager.play("arenaBackground", true, 0, 0.2, false);
 
     // Set Background color
     this.game.stage.backgroundColor = "#55b4ff";
