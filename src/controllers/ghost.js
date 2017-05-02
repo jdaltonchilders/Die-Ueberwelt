@@ -4,7 +4,7 @@ import store from "../store";
 import HealthBar from "../gui/healthbar";
 import AudioManager from "../utilities/audio-manager";
 
-export default class Wolf {
+export default class Ghost {
   constructor(game, x, y) {
     this.game = game;
 
@@ -12,29 +12,30 @@ export default class Wolf {
     const spawnY = y || 0;
 
     // Create the monster sprite
-    this.sprite = this.game.add.sprite(spawnX, spawnY, "wolf");
+    this.sprite = this.game.add.sprite(spawnX, spawnY, "ghosts");
     this.sprite.anchor.set(0.5, 0.5);
     this.game.physics.arcade.enable(this.sprite);
     this.sprite.body.collideWorldBounds = true;
     this.sprite.body.setSize(30, 35, 16, 25);
 
     // Create animations
-    this.sprite.animations.add("up", [9, 10, 11, 10], 6, true);
-    this.sprite.animations.add("right", [6, 7, 8, 7], 6, true);
-    this.sprite.animations.add("left", [3, 4, 5, 4], 6, true);
+    this.sprite.animations.add("up", [36, 37, 38, 37], 6, true);
+    this.sprite.animations.add("right", [24, 25, 26, 25], 6, true);
+    this.sprite.animations.add("left", [12, 13, 14, 13], 6, true);
     this.sprite.animations.add("down", [0, 1, 2, 1], 6, true);
 
-    // Configure wolf
+    // Configure monster
     this.fireRate = 300;
     this.nextFire = this.game.time.now + this.fireRate;
-    this.attackRange = 30;
-    this.damage = 1;
-    this.movementSpeed = 100;
-    this.idealDistance = 10;
-    this.buffer = 10;
-    this.maxHealth = 10;
+    this.attackRange = 40;
+    this.damage = 2;
+    this.movementSpeed = 75;
+    this.idealDistance = 30;
+    this.buffer = 5;
+    this.maxHealth = 50;
     this.health = this.maxHealth;
     this.spotted = false;
+    this.visibleRange = 250;
 
     // Now create health bar
     this.healthBar = new HealthBar(this.game, {
@@ -78,14 +79,7 @@ export default class Wolf {
     if (targetAngle < 0) targetAngle += this.game.math.degToRad(360);
 
     // Skip if we can't see player yet
-    if (!this.spotted) {
-      return;
-    } else {
-      if (!this.hasNoticed) {
-        this.audioManager.play("wolf_notice");
-        this.hasNoticed = true;
-      }
-    }
+    if (!this.spotted) return;
 
     // Determine the direction to target
     var direction = "right";
@@ -200,17 +194,17 @@ export default class Wolf {
   }
 
   faceLeft() {
-    this.sprite.frame = 3;
+    this.sprite.frame = 12;
     this.sprite.animations.stop();
   }
 
   faceRight() {
-    this.sprite.frame = 6;
+    this.sprite.frame = 24;
     this.sprite.animations.stop();
   }
 
   faceUp() {
-    this.sprite.frame = 9;
+    this.sprite.frame = 36;
     this.sprite.animations.stop();
   }
 
@@ -219,16 +213,15 @@ export default class Wolf {
     this.healthBar.setPercent(100 * this.health / this.maxHealth);
 
     // Enemy Strike Sound
-    this.audioManager.play("strikeEnemy", false, 0, 0.5, true);
+    this.audioManager.play("strikeEnemy", false, 0, 0.5);
 
     if (this.health <= 0) {
       this.health = 0;
       sprite.kill();
       this.healthBar.kill();
-      // Death Sound
-      this.audioManager.play("wolf_death", false, 0, 1, false);
     }
 
-    bullet.kill();
+    // Bullets pass through ghosts
+    // bullet.kill();
   }
 }

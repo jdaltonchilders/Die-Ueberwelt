@@ -22,6 +22,15 @@ export default class BossFight extends Phaser.State {
 
     // Load Tilesets
     this.game.load.image("tiles_outside", "assets/images/tiles/outside.png");
+    this.game.load.image(
+      "tiles_outside_custom",
+      "assets/images/tiles/outside.png"
+    );
+    this.game.load.image(
+      "tiles_outside_custom",
+      "assets/images/tiles/outside_custom.png"
+    );
+    this.game.load.image("tiles_sky", "assets/images/tiles/sky.png");
 
     // Load Player
     this.game.load.spritesheet("player", "assets/images/chara2.png", 26, 36);
@@ -39,12 +48,17 @@ export default class BossFight extends Phaser.State {
     // Create the Map
     this.map = this.game.add.tilemap("bossLand");
     this.map.addTilesetImage("outside", "tiles_outside");
+    this.map.addTilesetImage("outside_custom", "tiles_outside_custom");
+    this.map.addTilesetImage("sky", "tiles_sky");
 
     //  Create layers
+    this.sky = this.map.createLayer("Sky");
     this.ground = this.map.createLayer("Ground");
     this.heroBorder = this.map.createLayer("HeroBorder");
-    this.cliff = this.map.createLayer("Cliff");
+    this.islandEdge = this.map.createLayer("IslandEdge");
+    this.bridge = this.map.createLayer("Bridge");
     this.items = this.map.createLayer("Items");
+    this.collisionLayer = this.map.createLayer("CollisionLayer");
 
     // Create Collision Trigger Layer
     this.entranceFromOverworld = this.map.objects.CollisionTrigger.find(
@@ -66,8 +80,8 @@ export default class BossFight extends Phaser.State {
     const maxBoulders = 50;
     this.boulders = [];
     while (this.boulders.length < maxBoulders) {
-      const x = this.game.rnd.between(1, 24) * 32;
-      const y = this.game.rnd.between(2, 24) * 32;
+      const x = this.game.rnd.between(2, 24) * 32;
+      const y = this.game.rnd.between(2, 23) * 32;
       this.boulders.push(new Boulder(this.game, x, y));
     }
 
@@ -91,11 +105,14 @@ export default class BossFight extends Phaser.State {
 
     // Collide with Player
     var mapTileLength = this.map.tiles.length - 1;
-    this.map.setCollisionBetween(1, mapTileLength, true, this.cliff);
+    this.map.setCollisionBetween(1, mapTileLength, true, this.collisionLayer);
     this.map.setCollisionBetween(1, mapTileLength, true, this.items);
 
     // Camera follows player
     this.game.camera.follow(this.playerController.sprite);
+
+    // Create health bar last of all
+    this.playerController.createHealthBar();
   }
 
   update() {
@@ -126,7 +143,10 @@ export default class BossFight extends Phaser.State {
     this.playerController.update();
 
     // Collide with Layers
-    this.game.physics.arcade.collide(this.playerController.sprite, this.cliff);
+    this.game.physics.arcade.collide(
+      this.playerController.sprite,
+      this.collisionLayer
+    );
     this.game.physics.arcade.collide(this.playerController.sprite, this.items);
 
     // Update Player Position
@@ -136,11 +156,6 @@ export default class BossFight extends Phaser.State {
       0,
       0
     );
-  }
-
-  render() {
-    this.game.debug.body(this.bossController.sprite);
-    this.game.debug.body(this.playerController.sprite);
   }
 
   shutdown() {

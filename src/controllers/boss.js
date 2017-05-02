@@ -37,8 +37,8 @@ export default class Boss {
     this.movementSpeed = 150;
     this.idealDistance = 200;
     this.buffer = 50;
-    this.health = 100;
-    this.maxHealth = 100;
+    this.maxHealth = 50;
+    this.health = this.maxHealth;
 
     // Now create bullets groups
     this.waterBullets = this.game.add.group();
@@ -50,7 +50,7 @@ export default class Boss {
     this.waterBullets.setAll("anchor.y", 0.5);
     this.waterBullets.setAll("outOfBoundsKill", true);
     this.waterBullets.setAll("checkWorldBounds", true);
-    this.waterBullets.setAll("damage", 1);
+    this.waterBullets.setAll("damage", 1.5);
     this.waterBullets.callAll(
       "animations.add",
       "animations",
@@ -69,7 +69,7 @@ export default class Boss {
     this.fireBullets.setAll("anchor.y", 0.5);
     this.fireBullets.setAll("outOfBoundsKill", true);
     this.fireBullets.setAll("checkWorldBounds", true);
-    this.fireBullets.setAll("damage", 2);
+    this.fireBullets.setAll("damage", 2.5);
     this.fireBullets.callAll(
       "animations.add",
       "animations",
@@ -273,7 +273,7 @@ export default class Boss {
     this.health -= store.damage;
     this.healthBar.setPercent(100 * this.health / this.maxHealth);
 
-    if (this.health <= 50) {
+    if (this.health <= this.maxHealth / 2) {
       this.phase = 2;
     }
 
@@ -281,6 +281,11 @@ export default class Boss {
       this.health = 0;
       sprite.kill();
       this.healthBar.kill();
+
+      // Update State Information
+      store.previousState = store.currentState;
+      store.currentState = store.nextState = "VictoryScreen";
+      this.game.state.start("VictoryScreen");
     }
 
     bullet.kill();

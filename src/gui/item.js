@@ -47,7 +47,7 @@ export default class Item {
 
   onOverlap(player, sprite) {
     // Call callback if one exists
-    if (this.afterPickup) this.afterPickup();
+    if (this.afterPickup) this.afterPickup(player);
 
     // When overlapped, add this item to their inventory
     if (this.collectible) {

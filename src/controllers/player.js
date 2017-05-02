@@ -46,14 +46,6 @@ export default class Player {
     this.bullets.setAll("outOfBoundsKill", true);
     this.bullets.setAll("checkWorldBounds", true);
 
-    // Now create health bar
-    this.healthBar = new HealthBar(this.game, {
-      x: 125,
-      y: game.height - 20,
-      isFixedToCamera: true
-    });
-    this.healthBar.setPercent(100 * store.health / store.maxHealth);
-
     // Now create item portraits
     var spacing = 16;
     store.inventory.forEach(key => {
@@ -66,6 +58,15 @@ export default class Player {
 
     // Audio
     this.audioManager = new AudioManager(this.game);
+  }
+
+  createHealthBar() {
+    this.healthBar = new HealthBar(this.game, {
+      x: 125,
+      y: this.game.height - 20,
+      isFixedToCamera: true
+    });
+    this.healthBar.setPercent(100 * store.health / store.maxHealth);
   }
 
   update() {
@@ -144,6 +145,12 @@ export default class Player {
         this.nextFire = this.game.time.now + store.fireRate;
       }
     }
+  }
+
+  heal(healing) {
+    store.health += healing;
+    if (store.health > store.maxHealth) store.health = store.maxHealth;
+    this.healthBar.setPercent(100 * store.health / store.maxHealth);
   }
 
   hurt(damage) {

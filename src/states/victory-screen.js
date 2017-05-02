@@ -3,45 +3,52 @@
 import AudioManager from "../utilities/audio-manager";
 import store from "../store";
 
-class DeathScreen extends Phaser.State {
+class VictoryScreen extends Phaser.State {
   preload() {
     // Load Cloud Image
     this.game.load.image("cloud", "assets/images/cloud.png");
-    this.game.load.image("deathImage", "assets/images/deathScreen.png");
+    this.game.load.image("island", "assets/images/titleIsland.png");
+    this.game.load.image("victoryImage", "assets/images/victoryScreen.png");
   }
 
   create() {
     // Audio
     this.audioManager = new AudioManager(this.game);
-    this.audioManager.play("deathBackground", true, 0, 0.2, false);
+    this.audioManager.play("victoryBackground", true, 0, 0.2, false);
 
     // Create Image
-    this.deathImage = this.game.add.image(0, 0, "deathImage");
+    this.victoryImage = this.game.add.image(0, 0, "victoryImage");
 
     // Resize Image (Needs Work)
-    this.deathImage.height = window.innerHeight;
-    this.deathImage.width = window.innerWidth;
-    this.deathImage.smoothed = false;
+    this.victoryImage.height = window.innerHeight;
+    this.victoryImage.width = window.innerWidth;
+    this.victoryImage.smoothed = false;
 
     /**
     // Set Background color
     this.game.stage.backgroundColor = "#55b4ff";
 
+    // Create Floating Island
+    this.floatingIsland = this.game.add.sprite(1400, 1000, "island");
+
+    // Scale Island
+    this.floatingIsland.scale.setTo(0.8, 0.8);
+
     // Create Clouds
     this.cloudOne = this.game.add.sprite(80, 10, "cloud");
     this.cloudTwo = this.game.add.sprite(1100, 60, "cloud");
-    this.cloudFour = this.game.add.sprite(400, 100, "cloud");
+    this.cloudFour = this.game.add.sprite(2850, 1400, "cloud");
     this.cloudSeven = this.game.add.sprite(350, 480, "cloud");
 
     this.cloudThree = this.game.add.sprite(1500, 350, "cloud");
     this.cloudFour = this.game.add.sprite(120, 1050, "cloud");
     this.cloudFive = this.game.add.sprite(475, 900, "cloud");
-    this.cloudSix = this.game.add.sprite(875, 300, "cloud");
-    this.cloudSeven = this.game.add.sprite(1100, 800, "cloud");
-    this.cloudEight = this.game.add.sprite(1600, 950, "cloud");
+    this.cloudSix = this.game.add.sprite(600, 1400, "cloud");
+    this.cloudSeven = this.game.add.sprite(1100, 1100, "cloud");
+    this.cloudEight = this.game.add.sprite(2500, 950, "cloud");
     this.cloudNine = this.game.add.sprite(2000, 135, "cloud");
-    this.cloudTen = this.game.add.sprite(2300, 500, "cloud");
-    this.cloudEleven = this.game.add.sprite(2100, 875, "cloud");
+    this.cloudTen = this.game.add.sprite(2800, 300, "cloud");
+    this.cloudEleven = this.game.add.sprite(2175, 1200, "cloud");
 
     // Title Text
     this.title = {
@@ -52,7 +59,7 @@ class DeathScreen extends Phaser.State {
     };
 
     //  The Title Text is positioned at 0, 100
-    this.titleText = this.game.add.text(0, 0, "You've Failed!", this.title);
+    this.titleText = this.game.add.text(0, -100, "You've Saved the Islands!", this.title);
     this.titleText.setShadow(3, 3, "rgba(0,0,0,0.5)", 2);
 
     //  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
@@ -69,16 +76,16 @@ class DeathScreen extends Phaser.State {
     this.infoText = this.game.add.text(
       0,
       0,
-      "We're recovering your worthless soul.",
+      "Unfortunately we rarely remember our Heroes, but good game all the same.",
       this.info
     );
     this.infoText.setShadow(3, 3, "rgba(0,0,0,0.5)", 2);
 
     //  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
-    this.infoText.setTextBounds(0, 100, window.innerWidth, window.innerHeight);
+    this.infoText.setTextBounds(0, 0, window.innerWidth, window.innerHeight);
 
     // Fix up state info in Store
-    store.previousState = "DeathScreen";
+    store.previousState = store.currentState;
     store.currentState = store.nextState = "HeroIsland";
 
     // Remove One Item from the Player inventory
@@ -89,19 +96,24 @@ class DeathScreen extends Phaser.State {
       // Remove selected item from array
       store.inventory.splice(this.removeInventory, 1);
     }
+
     */
 
     // Reset Player Health
     store.health = store.maxHealth;
+
     // Start Next Game State
     setTimeout(() => {
       // Update State Information
-      store.previousState = "DeathScreen";
-      store.currentState = store.nextState = "HeroIsland";
+      store.previousState = "VictoryScreen";
+      store.currentState = store.nextState = "GameMenu";
 
       // Load the Hero Home State
-      this.game.state.start("HeroIsland");
-    }, 10000);
+      this.game.state.start("GameMenu");
+    }, 20000);
+
+    // Create health bar last of all
+    this.player.createHealthBar();
   }
 
   shutdown() {
@@ -109,4 +121,4 @@ class DeathScreen extends Phaser.State {
   }
 }
 
-export default DeathScreen;
+export default VictoryScreen;
