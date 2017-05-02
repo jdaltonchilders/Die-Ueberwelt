@@ -37,8 +37,7 @@ class GameMenu extends Phaser.State {
     // Set Background color
     this.game.stage.backgroundColor = "#55b4ff";
 
-    /**
-
+/**
     // Create Floating Island
     this.floatingIsland = this.game.add.sprite(150, 300, "island");
 
@@ -83,7 +82,7 @@ class GameMenu extends Phaser.State {
     };
 
     //  The Sub Title Text is positioned at 0, 100
-    this.subTitleText = this.game.add.text(525, 0, "A Tale of Nobody...", this.subTitle);
+    this.subTitleText = this.game.add.text(525, 0, "A Tale of a Nobody...", this.subTitle);
     this.subTitleText.setShadow(3, 3, "rgba(0,0,0,0.5)", 2);
 
     //  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
@@ -118,8 +117,7 @@ class GameMenu extends Phaser.State {
 
     //  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
     this.how2PlayText.setTextBounds(0, 0, window.innerWidth, window.innerHeight);
-
-    */
+*/
   }
 
   update() {
