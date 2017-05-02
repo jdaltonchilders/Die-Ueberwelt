@@ -281,6 +281,11 @@ export default class Boss {
       this.health = 0;
       sprite.kill();
       this.healthBar.kill();
+
+      // Update State Information
+      store.previousState = store.currentState;
+      store.currentState = store.nextState = "VictoryScreen";
+      this.game.state.start("VictoryScreen");
     }
 
     bullet.kill();
