@@ -5,8 +5,9 @@ import HealthBar from "../gui/healthbar";
 import AudioManager from "../utilities/audio-manager";
 
 export default class Boss {
-  constructor(game, x, y) {
+  constructor(game, x, y, boulders) {
     this.game = game;
+    this.boulders = boulders;
 
     const spawnX = x || 0;
     const spawnY = y || 0;
@@ -51,7 +52,7 @@ export default class Boss {
     this.waterBullets.setAll("anchor.y", 0.5);
     this.waterBullets.setAll("outOfBoundsKill", true);
     this.waterBullets.setAll("checkWorldBounds", true);
-    this.waterBullets.setAll("damage", 1.5);
+    this.waterBullets.setAll("damage", 2.5);
     this.waterBullets.callAll(
       "animations.add",
       "animations",
@@ -70,7 +71,7 @@ export default class Boss {
     this.fireBullets.setAll("anchor.y", 0.5);
     this.fireBullets.setAll("outOfBoundsKill", true);
     this.fireBullets.setAll("checkWorldBounds", true);
-    this.fireBullets.setAll("damage", 2.5);
+    this.fireBullets.setAll("damage", 4);
     this.fireBullets.callAll(
       "animations.add",
       "animations",
@@ -98,28 +99,214 @@ export default class Boss {
     const bottomLeft = this.game.math.degToRad(135);
     const bottomRight = this.game.math.degToRad(45);
 
-    // Get angle and distance between target and boss
-    var distance = this.game.math.distance(
+    // Ray casting to determine if we can see the player
+    const ray = new Phaser.Line(
       this.sprite.x,
       this.sprite.y,
       this.target.x,
       this.target.y
     );
-    var targetAngle = this.game.math.angleBetween(
-      this.sprite.x,
-      this.sprite.y,
-      this.target.x,
-      this.target.y
-    );
-    if (targetAngle < 0) targetAngle += this.game.math.degToRad(360);
+    var canReachPlayer = true;
+    const coordinates = ray.coordinatesOnLine();
+    this.boulders.forEach(boulder => {
+      const sprite = boulder.sprite;
+      const bounds = sprite.getBounds();
 
-    // Determine the direction to target
-    var direction = "right";
-    if (targetAngle > bottomRight && targetAngle < bottomLeft)
-      direction = "down";
-    else if (targetAngle > bottomLeft && targetAngle < topLeft)
-      direction = "left";
-    else if (targetAngle > topLeft && targetAngle < topRight) direction = "up";
+      coordinates.forEach(coord => {
+        if (bounds.contains(coord[0], coord[1])) {
+          canReachPlayer = false;
+        }
+      });
+    });
+
+    // Default direction
+    var direction;
+
+    if (!canReachPlayer) {
+      this.ourRays = [
+        new Phaser.Line(
+          this.sprite.x,
+          this.sprite.y,
+          this.sprite.x + 1000,
+          this.sprite.y
+        ),
+        new Phaser.Line(
+          this.sprite.x,
+          this.sprite.y,
+          this.sprite.x + 1000,
+          this.sprite.y + 1000
+        ),
+        new Phaser.Line(
+          this.sprite.x,
+          this.sprite.y,
+          this.sprite.x,
+          this.sprite.y + 1000
+        ),
+        new Phaser.Line(
+          this.sprite.x,
+          this.sprite.y,
+          this.sprite.x - 1000,
+          this.sprite.y + 1000
+        ),
+        new Phaser.Line(
+          this.sprite.x,
+          this.sprite.y,
+          this.sprite.x - 1000,
+          this.sprite.y
+        ),
+        new Phaser.Line(
+          this.sprite.x,
+          this.sprite.y,
+          this.sprite.x - 1000,
+          this.sprite.y - 1000
+        ),
+        new Phaser.Line(
+          this.sprite.x,
+          this.sprite.y,
+          this.sprite.x,
+          this.sprite.y - 1000
+        ),
+        new Phaser.Line(
+          this.sprite.x,
+          this.sprite.y,
+          this.sprite.x + 1000,
+          this.sprite.y - 1000
+        )
+      ];
+
+      this.targetRays = [
+        new Phaser.Line(
+          this.target.x,
+          this.target.y,
+          this.target.x + 1000,
+          this.target.y
+        ),
+        new Phaser.Line(
+          this.target.x,
+          this.target.y,
+          this.target.x + 1000,
+          this.target.y + 1000
+        ),
+        new Phaser.Line(
+          this.target.x,
+          this.target.y,
+          this.target.x,
+          this.target.y + 1000
+        ),
+        new Phaser.Line(
+          this.target.x,
+          this.target.y,
+          this.target.x - 1000,
+          this.target.y + 1000
+        ),
+        new Phaser.Line(
+          this.target.x,
+          this.target.y,
+          this.target.x - 1000,
+          this.target.y
+        ),
+        new Phaser.Line(
+          this.target.x,
+          this.target.y,
+          this.target.x - 1000,
+          this.target.y - 1000
+        ),
+        new Phaser.Line(
+          this.target.x,
+          this.target.y,
+          this.target.x,
+          this.target.y - 1000
+        ),
+        new Phaser.Line(
+          this.target.x,
+          this.sprite.y,
+          this.sprite.x + 1000,
+          this.sprite.y - 1000
+        )
+      ];
+
+      var intersections = [];
+
+      // Intersect rays
+      this.ourRays.forEach(ray => {
+        this.targetRays.forEach(theirRay => {
+          const intersection = ray.intersects(theirRay);
+          if (intersection) intersections.push(intersection);
+        });
+      });
+
+      // if our rays intersected, go there
+      if (intersections.length > 0) {
+        // Determine closest target
+        var closest = intersections[0];
+        var closestDistance = this.game.math.distance(
+          this.target.x,
+          this.target.y,
+          closest[0],
+          closest[1]
+        );
+        intersections.forEach(point => {
+          const distance = this.game.math.distance(
+            this.target.x,
+            this.target.y,
+            point[0],
+            point[1]
+          );
+          if (distance < closestDistance) {
+            closest = point;
+            closestDistance = distance;
+          }
+        });
+
+        const target = closest;
+        // Get angle and distance between target and boss
+        var distance = this.game.math.distance(
+          this.sprite.x,
+          this.sprite.y,
+          target.x,
+          target.y
+        );
+        var targetAngle = this.game.math.angleBetween(
+          this.sprite.x,
+          this.sprite.y,
+          target.x,
+          target.y
+        );
+        if (targetAngle < 0) targetAngle += this.game.math.degToRad(360);
+
+        // Determine the direction to target
+        if (targetAngle > bottomRight && targetAngle < bottomLeft)
+          direction = "down";
+        else if (targetAngle > bottomLeft && targetAngle < topLeft)
+          direction = "left";
+        else if (targetAngle > topLeft && targetAngle < topRight)
+          direction = "up";
+        else direction = "right";
+      }
+    } else {
+      // Get angle and distance between target and boss
+      var distance = this.game.math.distance(
+        this.sprite.x,
+        this.sprite.y,
+        this.target.x,
+        this.target.y
+      );
+      var targetAngle = this.game.math.angleBetween(
+        this.sprite.x,
+        this.sprite.y,
+        this.target.x,
+        this.target.y
+      );
+      if (targetAngle < 0) targetAngle += this.game.math.degToRad(360);
+
+      // Determine the direction to target
+      if (targetAngle > bottomRight && targetAngle < bottomLeft)
+        direction = "down";
+      else if (targetAngle > bottomLeft && targetAngle < topLeft)
+        direction = "left";
+      else if (targetAngle > topLeft && targetAngle < topRight)
+        direction = "up";
+    }
 
     // Move toward player if we need to
     if (distance > this.idealDistance) {
@@ -136,6 +323,23 @@ export default class Boss {
     } else {
       // Stop moving if we're at the right distance
       this.stopMoving();
+
+      var targetAngle = this.game.math.angleBetween(
+        this.sprite.x,
+        this.sprite.y,
+        this.target.x,
+        this.target.y
+      );
+      if (targetAngle < 0) targetAngle += this.game.math.degToRad(360);
+
+      // Determine the direction to target
+      direction = "right";
+      if (targetAngle > bottomRight && targetAngle < bottomLeft)
+        direction = "down";
+      else if (targetAngle > bottomLeft && targetAngle < topLeft)
+        direction = "left";
+      else if (targetAngle > topLeft && targetAngle < topRight)
+        direction = "up";
 
       // Face appropriately
       if (direction === "right") this.faceRight();
@@ -186,8 +390,15 @@ export default class Boss {
       else bullet = this.fireBullets.getFirstExists(false);
 
       if (bullet) {
-        // Set on sprite
-        bullet.reset(this.sprite.x, this.sprite.y + 20);
+        const ray = new Phaser.Line(
+          this.sprite.x,
+          this.sprite.y,
+          this.target.x,
+          this.target.y
+        );
+        const point = ray.coordinatesOnLine(10)[1];
+        bullet.reset(point[0], point[1]);
+        // bullet.reset(this.sprite.x, this.sprite.y + 20);
         bullet.anchor.set(0.5, 0.5);
 
         if (this.phase === 1)
