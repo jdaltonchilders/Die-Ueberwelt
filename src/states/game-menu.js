@@ -37,7 +37,7 @@ class GameMenu extends Phaser.State {
     // Set Background color
     this.game.stage.backgroundColor = "#55b4ff";
 
-/**
+    /**
     // Create Floating Island
     this.floatingIsland = this.game.add.sprite(150, 300, "island");
 
