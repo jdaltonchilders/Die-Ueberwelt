@@ -47,7 +47,7 @@ export default class AudioManager {
     );
     this.game.load.audio(
       "mainBackground",
-      "assets/audio/landscape/the_weight_of_the_world.ogg"
+      "assets/audio/landscape/world_1.ogg"
     );
     this.game.load.audio(
       "forestBackground",
@@ -63,7 +63,7 @@ export default class AudioManager {
     );
     this.game.load.audio(
       "victoryBackground",
-      "assets/audio/landscape/the_weight_of_the_world.ogg"
+      "assets/audio/landscape/world_2.ogg"
     );
     this.game.load.audio(
       "deathBackground",
@@ -85,10 +85,10 @@ export default class AudioManager {
   }
 
   /**
-   * 
+   *
    * @param {string} key
-   * @param {boolean} loop 
-   * @param {number} start 
+   * @param {boolean} loop
+   * @param {number} start
    * @param {number} volume
    * @param {boolen} noDelay Ignore isPlaying status
    */

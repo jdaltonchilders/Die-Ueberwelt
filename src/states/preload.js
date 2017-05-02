@@ -69,7 +69,7 @@ class Preload extends Phaser.State {
     // this.game.state.start('Test');
 
     // For testing: REMEMBER REMOVE FOR MAIN GAME
-    this.game.state.start("HeroHome");
+    // this.game.state.start("HeroHome");
 
     // Create text element
     text = this.game.add.text(
