@@ -40,7 +40,7 @@ export default class DungeonLevelOne extends Phaser.State {
 
     // Create layers
     this.ground = this.map.createLayer("Ground");
-    
+
     this.cliffSides = this.map.createLayer("CliffSides");
     this.door = this.map.createLayer("Doors");
     this.collisionLayer = this.map.createLayer("CollisionLayer");
