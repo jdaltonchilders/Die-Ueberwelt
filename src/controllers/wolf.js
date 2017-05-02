@@ -80,6 +80,11 @@ export default class Wolf {
     // Skip if we can't see player yet
     if (!this.spotted) {
       return;
+    } else {
+      if (!this.hasNoticed) {
+        this.audioManager.play("wolf_notice");
+        this.hasNoticed = true;
+      }
     }
 
     // Determine the direction to target
