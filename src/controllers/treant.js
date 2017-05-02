@@ -32,7 +32,7 @@ export default class Treant {
     this.movementSpeed = 55;
     this.idealDistance = 20;
     this.buffer = 10;
-    this.maxHealth = 40;
+    this.maxHealth = 20;
     this.health = this.maxHealth;
     this.spotted = false;
     this.visibleRange = 350;
