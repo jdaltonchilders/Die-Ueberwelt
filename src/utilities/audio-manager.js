@@ -86,15 +86,30 @@ export default class AudioManager {
 
     // Enemy Audio
     this.game.load.audio("wolf_notice", "assets/audio/action/wolf_notice.ogg");
-    this.game.load.audio("treant_notice", "assets/audio/action/treant_notice.ogg");
-    this.game.load.audio("ghost_notice", "assets/audio/action/ghost_notice.ogg");
+    this.game.load.audio(
+      "treant_notice",
+      "assets/audio/action/treant_notice.ogg"
+    );
+    this.game.load.audio(
+      "ghost_notice",
+      "assets/audio/action/ghost_notice.ogg"
+    );
     this.game.load.audio("wolf_death", "assets/audio/damage/wolf_death.ogg");
-    this.game.load.audio("treant_death", "assets/audio/damage/treant_death.ogg");
+    this.game.load.audio(
+      "treant_death",
+      "assets/audio/damage/treant_death.ogg"
+    );
     this.game.load.audio("ghost_death", "assets/audio/damage/ghost_death.ogg");
 
     // Boss Audio
-    this.game.load.audio("boss_firestrike", "assets/audio/action/boss_firestrike.ogg");
-    this.game.load.audio("boss_waterstrike", "assets/audio/action/boss_waterstrike.ogg");
+    this.game.load.audio(
+      "boss_firestrike",
+      "assets/audio/action/boss_firestrike.ogg"
+    );
+    this.game.load.audio(
+      "boss_waterstrike",
+      "assets/audio/action/boss_waterstrike.ogg"
+    );
     this.game.load.audio("boss_death", "assets/audio/damage/boss_death.ogg");
 
     // Misc Audio
