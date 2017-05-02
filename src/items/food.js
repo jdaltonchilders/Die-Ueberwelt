@@ -3,7 +3,7 @@ import AudioManager from "../utilities/audio-manager";
 import Dialogue from "../utilities/dialogue";
 import store from "../store";
 
-export default (game, x, y, player) => {
+export default (game, x, y, player, houseKey) => {
   var item = new Item(
     game,
     x,
@@ -28,6 +28,9 @@ export default (game, x, y, player) => {
     // Heal the player
     store.health += store.inventory.indexOf("Robe") === -1 ? 20 : 40;
     if (store.health > store.maxHealth) store.health = store.maxHealth;
+
+    // Prevent eating from this house again
+    if (houseKey) store.eatenFromHouses.push(houseKey);
   };
   return item;
 };
