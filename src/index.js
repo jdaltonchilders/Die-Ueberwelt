@@ -23,7 +23,8 @@ import DungeonLevelOne from "./states/dungeon-level-one";
 // Boss Fight State
 import BossFight from "./states/boss-fight";
 
-// Death State
+// Start and End States
+import GameMenu from "./states/game-menu";
 import DeathScreen from "./states/death-screen";
 
 // Rad test state, yo
@@ -56,7 +57,8 @@ class Game extends Phaser.Game {
     // Boss States
     this.state.add("BossFight", BossFight, false);
 
-    // Death State
+    // Start and End State
+    this.state.add("GameMenu", GameMenu, false);
     this.state.add("DeathScreen", DeathScreen, false);
 
     // Ya got a kickin' test state, dawg

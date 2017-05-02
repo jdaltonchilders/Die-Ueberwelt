@@ -1,6 +1,5 @@
 /*jshint esversion: 6 */
 
-import AudioManager from "../utilities/audio-manager";
 import store from "../store";
 import Dialogue from "../utilities/dialogue";
 import DialogueManager from "../utilities/dialogueManager";
@@ -56,10 +55,7 @@ class Preload extends Phaser.State {
   }
 
   create() {
-    // Play Audio
-    this.audioManager = new AudioManager(this.game);
-    this.audioManager.play("introBackground", true, 0, 0.4, false);
-
+    
     // Fix up state info in Store
     store.previousState = "Preload";
     store.currentState = store.nextState = "HeroHome";
