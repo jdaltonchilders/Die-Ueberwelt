@@ -40,6 +40,18 @@ class Preload extends Phaser.State {
       47,
       50
     );
+    this.game.load.spritesheet(
+      "ghosts",
+      "assets/images/monster4.png",
+      60,
+      66
+    );
+    this.game.load.spritesheet(
+      "skulls",
+      "assets/images/monster3.png",
+      64,
+      66
+    );
 
     // Load boss
     this.game.load.spritesheet("boss", "assets/images/elemental.png", 120, 129);
@@ -67,7 +79,7 @@ class Preload extends Phaser.State {
     store.currentState = store.nextState = "HeroHome";
 
     // For testing: REMEMBER REMOVE FOR MAIN GAME
-    // this.game.state.start("BossFight"); return;
+    // this.game.state.start("DungeonLevelOne"); return;
 
     // Create text element
     text = this.game.add.text(
