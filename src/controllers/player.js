@@ -156,7 +156,7 @@ export default class Player {
   hurt(damage) {
     store.health -= damage;
     this.healthBar.setPercent(100 * store.health / store.maxHealth);
-
+    this.audioManager.play("player_ugh", false, 0, 0.6, false);
     if (store.health < 0) {
       store.health = 0;
       this.sprite.kill();
