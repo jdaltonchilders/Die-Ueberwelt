@@ -110,6 +110,9 @@ export default class GreyHome extends Phaser.State {
 
     if (store.inventory.indexOf("Robe") === -1)
       this.item = Robe(this.game, 7 * 32, 6 * 32, this.player.sprite);
+
+    // Create health bar last of all
+    this.player.createHealthBar();
   }
 
   update() {
