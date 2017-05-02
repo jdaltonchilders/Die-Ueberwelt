@@ -33,7 +33,7 @@ export default class BlackHome extends Phaser.State {
   create() {
     // Create Audio Manager
     this.audioManager = new AudioManager(this.game);
-    
+
     // Background
     this.game.stage.backgroundColor = "#000000";
 

@@ -12,6 +12,9 @@ class VictoryScreen extends Phaser.State {
   }
 
   create() {
+    // Set Background color
+    this.game.stage.backgroundColor = "#55b4ff";
+    
     // Audio
     this.audioManager = new AudioManager(this.game);
     this.audioManager.play("victoryBackground", true, 0, 0.2, false);
