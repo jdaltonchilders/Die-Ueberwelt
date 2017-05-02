@@ -22,14 +22,15 @@ export default (game, x, y, player, houseKey) => {
   game.physics.arcade.enable(item.sprite, true);
   item.sprite.body.setSize(64, 64, -16, -16);
   // item.sprite.smoothed = false;
-  item.afterPickup = () => {
+  item.afterPickup = playerController => {
     // Call item pickup sound
     var audioManager = new AudioManager(game);
     audioManager.play("item_pickup", false, 0, 1);
 
     // Heal the player
-    store.health += store.inventory.indexOf("Robe") === -1 ? 15 : 30;
-    if (store.health > store.maxHealth) store.health = store.maxHealth;
+    const healing = store.inventory.indexOf("Robe") === -1 ? 15 : 30;
+    playerController.controller.heal(healing);
+    console.log(playerController, healing);
 
     // Prevent eating from this house again
     if (houseKey) store.eatenFromHouses.push(houseKey);

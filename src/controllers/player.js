@@ -146,6 +146,12 @@ export default class Player {
     }
   }
 
+  heal(healing) {
+    store.health += healing;
+    if (store.health > store.maxHealth) store.health = store.maxHealth;
+    this.healthBar.setPercent(100 * store.health / store.maxHealth);
+  }
+
   hurt(damage) {
     store.health -= damage;
     this.healthBar.setPercent(100 * store.health / store.maxHealth);

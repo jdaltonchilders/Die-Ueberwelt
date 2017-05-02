@@ -32,7 +32,7 @@ export default class Wolf {
     this.movementSpeed = 100;
     this.idealDistance = 10;
     this.buffer = 10;
-    this.maxHealth = 20;
+    this.maxHealth = 10;
     this.health = this.maxHealth;
     this.spotted = false;
     this.visibleRange = 250;
