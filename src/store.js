@@ -4,6 +4,7 @@ export default {
   speed: 100,
   fireRate: 500,
   inventory: [],
+  eatenFromHouses: [],
   damage: 1,
   health: 50,
   maxHealth: 50,

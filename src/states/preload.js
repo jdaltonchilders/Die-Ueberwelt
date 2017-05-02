@@ -24,6 +24,7 @@ class Preload extends Phaser.State {
     this.game.load.image("Staff", "assets/images/staff.png");
     this.game.load.image("Shoes", "assets/images/shoes.png");
     this.game.load.image("Robe", "assets/images/robe.png");
+    this.game.load.spritesheet("Food", "assets/images/food.png", 32, 32);
     this.game.load.image("boulder", "assets/images/boulder.png");
 
     // Load monsters
@@ -64,9 +65,6 @@ class Preload extends Phaser.State {
     // Fix up state info in Store
     store.previousState = "Preload";
     store.currentState = store.nextState = "HeroHome";
-
-    // Start Next Game State
-    // this.game.state.start('Test');
 
     // For testing: REMEMBER REMOVE FOR MAIN GAME
     this.game.state.start("HeroHome");
