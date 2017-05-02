@@ -26,7 +26,7 @@ export default class Boulder {
 
     if (keySpace.isDown) {
       if (
-        (store.inventory.indexOf("Pickaxe") !== -1) &&
+        store.inventory.indexOf("Pickaxe") !== -1 &&
         this.game.physics.arcade.distanceBetween(player, this.sprite) < 50
       ) {
         this.sprite.kill();
