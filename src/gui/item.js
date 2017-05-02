@@ -88,7 +88,7 @@ export default class Item {
       setTimeout(() => {
         playing = false;
       }, 6000 * this.dialogue.texts.length);
-    };
+    }
   }
 
   placePortrait() {

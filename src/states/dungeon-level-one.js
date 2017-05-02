@@ -3,7 +3,8 @@
 import AudioManager from "../utilities/audio-manager";
 import Player from "../controllers/player";
 import Staff from "../items/staff";
-import Wolf from "../controllers/wolf";
+import GhostCaptain from "../controllers/ghost-captain";
+import Ghost from "../controllers/ghost";
 import store from "../store";
 
 export default class DungeonLevelOne extends Phaser.State {
@@ -71,10 +72,14 @@ export default class DungeonLevelOne extends Phaser.State {
 
     // Create the monsters
     this.monsters = [
-      new Wolf(this.game, 200, 500),
-      new Wolf(this.game, 500, 700),
-      new Wolf(this.game, 525, 100),
-      new Wolf(this.game, 800, 500)
+      new GhostCaptain(this.game, 200, 500),
+      new GhostCaptain(this.game, 500, 700),
+      new GhostCaptain(this.game, 525, 100),
+      new GhostCaptain(this.game, 800, 500),
+      new Ghost(this.game, 320, 100),
+      new Ghost(this.game, 375, 675),
+      new Ghost(this.game, 575, 275),
+      new Ghost(this.game, 880, 80)
     ];
 
     // Create the Player
