@@ -32,7 +32,7 @@ export default class Boss {
     this.sprite.animations.add("1_down", [0, 1, 2, 1], 5, true);
 
     // Configure boss
-    this.fireRate = 250;
+    this.fireRate = 450;
     this.nextFire = this.game.time.now + this.fireRate;
     this.bulletSpeed = 400;
     this.movementSpeed = 150;
@@ -190,7 +190,8 @@ export default class Boss {
         bullet.reset(this.sprite.x, this.sprite.y + 20);
         bullet.anchor.set(0.5, 0.5);
 
-        if (this.phase === 1) this.audioManager.play("boss_waterstrike", false, 0, 0.3, false);
+        if (this.phase === 1)
+          this.audioManager.play("boss_waterstrike", false, 0, 0.3, false);
         else this.audioManager.play("boss_firestrike", false, 0, 0.3, false);
 
         // Move bullet toward target
@@ -294,7 +295,7 @@ export default class Boss {
       // Update State Information
       store.previousState = store.currentState;
       store.currentState = store.nextState = "VictoryScreen";
-      
+
       setTimeout(() => this.game.state.start("VictoryScreen"), 5000);
     }
 
