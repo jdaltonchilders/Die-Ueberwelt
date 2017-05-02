@@ -27,6 +27,9 @@ export default class DungeonLevelOne extends Phaser.State {
   }
 
   create() {
+    // Background
+    this.game.stage.backgroundColor = "#000000";
+    
     // Audio
     this.audioManager = new AudioManager(this.game);
     this.audioManager.play("dungeonBackground", true, 0, 0.3, false);

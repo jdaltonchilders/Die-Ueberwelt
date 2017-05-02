@@ -35,6 +35,9 @@ export default class GreyHome extends Phaser.State {
     // Create Audio Manager
     this.audioManager = new AudioManager(this.game);
 
+    // Background
+    this.game.stage.backgroundColor = "#000000";
+
     if (store.previousState !== "HeroIsland") {
       // Play Musics
       this.audioManager.play("mainBackground", true, 0, 0.5, false);

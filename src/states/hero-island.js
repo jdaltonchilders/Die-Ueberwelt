@@ -41,6 +41,9 @@ export default class HeroIsland extends Phaser.State {
       this.audioManager.play("mainBackground", true, 0, 0.2, false);
     }
 
+    // Set Background color
+    this.game.stage.backgroundColor = "#55b4ff";
+
     // Enable the Arcade Physics system
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
