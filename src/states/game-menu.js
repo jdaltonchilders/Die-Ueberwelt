@@ -1,6 +1,7 @@
 /*jshint esversion: 6 */
 
 import AudioManager from "../utilities/audio-manager";
+import store from "../store";
 
 class GameMenu extends Phaser.State {
   preload() {
@@ -26,6 +27,7 @@ class GameMenu extends Phaser.State {
     // Create keys
     this.enter = this.game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
     this.hKey = this.game.input.keyboard.addKey(Phaser.Keyboard.H);
+    this.sKey = this.game.input.keyboard.addKey(Phaser.Keyboard.S);
 
     // Initiate the modal class
     this.reg = {};
@@ -128,6 +130,13 @@ class GameMenu extends Phaser.State {
     // If H Key Pressed Show Modal
     if (this.hKey.isDown) {
       this.showHTPModal();
+    }
+
+    // If S Key to Skip Preload
+    if (this.sKey.isDown) {
+      store.previousState = "Preload";
+      store.currentState = store.nextState = "HeroHome";
+      this.game.state.start("HeroHome");
     }
   }
 
