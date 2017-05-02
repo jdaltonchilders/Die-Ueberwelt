@@ -30,7 +30,7 @@ class VictoryScreen extends Phaser.State {
 
     // Create Floating Island
     this.floatingIsland = this.game.add.sprite(1400, 1000, "island");
-    
+
     // Scale Island
     this.floatingIsland.scale.setTo(0.8, 0.8);
 
@@ -111,6 +111,9 @@ class VictoryScreen extends Phaser.State {
       // Load the Hero Home State
       this.game.state.start("GameMenu");
     }, 20000);
+
+    // Create health bar last of all
+    this.player.createHealthBar();
   }
 
   shutdown() {

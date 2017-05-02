@@ -110,6 +110,9 @@ export default class BossFight extends Phaser.State {
 
     // Camera follows player
     this.game.camera.follow(this.playerController.sprite);
+
+    // Create health bar last of all
+    this.playerController.createHealthBar();
   }
 
   update() {
