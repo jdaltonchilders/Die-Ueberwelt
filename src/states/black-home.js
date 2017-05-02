@@ -91,7 +91,8 @@ export default class BlackHome extends Phaser.State {
       this.returnFromWorldRect.y
     );
 
-    if (store.eatenFromHouses.indexOf("Black") === -1) this.food = new Food(this.game, 64, 100, this.player.sprite, "Black");
+    if (store.eatenFromHouses.indexOf("Black") === -1)
+      this.food = new Food(this.game, 64, 100, this.player.sprite, "Black");
 
     // Collide with Player
     var mapTileLength = this.map.tiles.length - 1;

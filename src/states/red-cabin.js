@@ -91,7 +91,8 @@ export default class RedCabin extends Phaser.State {
       this.returnFromWorldRect.y
     );
 
-    if (store.eatenFromHouses.indexOf("Red") === -1) this.food = new Food(this.game, 64, 200, this.player.sprite, "Red");
+    if (store.eatenFromHouses.indexOf("Red") === -1)
+      this.food = new Food(this.game, 64, 200, this.player.sprite, "Red");
 
     // Collide with Player
     var mapTileLength = this.map.tiles.length - 1;

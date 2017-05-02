@@ -91,7 +91,8 @@ export default class TealCabin extends Phaser.State {
       this.returnFromWorldRect.y
     );
 
-    if (store.eatenFromHouses.indexOf("Teal") === -1) this.food = new Food(this.game, 220, 100, this.player.sprite, "Teal");
+    if (store.eatenFromHouses.indexOf("Teal") === -1)
+      this.food = new Food(this.game, 220, 100, this.player.sprite, "Teal");
 
     // Collide with Player
     var mapTileLength = this.map.tiles.length - 1;

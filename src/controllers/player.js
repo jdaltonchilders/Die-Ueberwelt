@@ -46,7 +46,6 @@ export default class Player {
     this.bullets.setAll("outOfBoundsKill", true);
     this.bullets.setAll("checkWorldBounds", true);
 
-
     // Now create health bar
     this.healthBar = new HealthBar(this.game, {
       x: 125,
@@ -122,7 +121,13 @@ export default class Player {
     if (this.game.time.now > this.nextFire && this.sprite.alive) {
       // Then create the bullet
       let bullet;
-      bullet = this.bullets.getFirstExists(false, null, this.sprite.x, this.sprite.y, store.inventory.indexOf("Staff") === -1 ? "bullet" : "bullet2");
+      bullet = this.bullets.getFirstExists(
+        false,
+        null,
+        this.sprite.x,
+        this.sprite.y,
+        store.inventory.indexOf("Staff") === -1 ? "bullet" : "bullet2"
+      );
 
       if (bullet) {
         // Rotate and move bullet toward mouse pointer
