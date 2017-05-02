@@ -108,6 +108,15 @@ export default class DungeonLevelOne extends Phaser.State {
     // Handle Player Update
     this.player.update();
 
+    // Bullets shouldnt go through walls
+    this.game.physics.arcade.collide(
+      this.collisionLayer, // layer
+      this.player.bullets,
+      (bullet, layer) => {
+        bullet.kill();
+      }
+    );
+
     // Item update
     if (this.item) this.item.update();
 
