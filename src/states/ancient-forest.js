@@ -149,6 +149,23 @@ export default class AncientForest extends Phaser.State {
   }
 
   update() {
+    // Ray casting!
+    // Test if each person can see the ball by casting a ray (a line) towards the ball.
+    // If the ray intersects any walls before it intersects the ball then the wall
+    // is in the way.
+    this.monsters.filter(monster => !monster.spotted).forEach(monster => {
+      var ray = new Phaser.Line(
+        monster.sprite.x,
+        monster.sprite.y,
+        this.player.sprite.x,
+        this.player.sprite.y
+      );
+
+      const tileHits = this.collisionLayer.getRayCastTiles(ray, 4, true, false);
+
+      if (tileHits.length === 0) monster.spotted = true;
+    });
+
     // Handle Player Update
     this.player.update();
 
