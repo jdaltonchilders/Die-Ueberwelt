@@ -37,7 +37,7 @@ class Preload extends Phaser.State {
       this.game.world.centerY,
       "",
       {
-        font: "60px fantasy",
+        font: "100px fantasy",
         fill: "#ecf0f1",
         align: "center",
         wordWrap: true,
