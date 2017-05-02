@@ -1,9 +1,9 @@
 /*jshint esversion: 6 */
 
-import AudioManager from "../utilities/audio-manager";
 import store from "../store";
 import Dialogue from "../utilities/dialogue";
 import DialogueManager from "../utilities/dialogueManager";
+import AudioManager from "../utilities/audio-manager";
 
 var text;
 var dialogueManager;
@@ -64,12 +64,15 @@ class Preload extends Phaser.State {
     this.audioManager = new AudioManager(this.game);
     this.audioManager.play("introBackground", true, 0, 0.4, false);
 
+    // Create keys
+    this.enter = this.game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+
     // Fix up state info in Store
     store.previousState = "Preload";
     store.currentState = store.nextState = "HeroHome";
 
     // For testing: REMEMBER REMOVE FOR MAIN GAME
-    // this.game.state.start("DungeonLevelOne"); return;
+    // this.game.state.start("HeroHome"); return;
 
     // Create text element
     text = this.game.add.text(
