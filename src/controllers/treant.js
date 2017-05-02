@@ -2,6 +2,7 @@
 
 import store from "../store";
 import HealthBar from "../gui/healthbar";
+import AudioManager from "../utilities/audio-manager";
 
 export default class Treant {
   constructor(game, x, y) {
@@ -18,10 +19,10 @@ export default class Treant {
     this.sprite.body.setSize(37, 45, 5, 5);
 
     // Create animations
-    this.sprite.animations.add("up", [ 9, 10, 11, 10 ], 3, true);
-    this.sprite.animations.add("right", [ 6, 7, 8, 7 ], 3, true);
-    this.sprite.animations.add("left", [ 3, 4, 5, 4 ], 3, true);
-    this.sprite.animations.add("down", [ 0, 1, 2, 1 ], 3, true);
+    this.sprite.animations.add("up", [9, 10, 11, 10], 3, true);
+    this.sprite.animations.add("right", [6, 7, 8, 7], 3, true);
+    this.sprite.animations.add("left", [3, 4, 5, 4], 3, true);
+    this.sprite.animations.add("down", [0, 1, 2, 1], 3, true);
 
     // Configure boss
     this.fireRate = 600;
@@ -31,7 +32,7 @@ export default class Treant {
     this.movementSpeed = 55;
     this.idealDistance = 20;
     this.buffer = 10;
-    this.maxHealth = 40;
+    this.maxHealth = 20;
     this.health = this.maxHealth;
     this.spotted = false;
     this.visibleRange = 350;
@@ -45,6 +46,9 @@ export default class Treant {
       height: 8
     });
     this.healthBar.setPercent(100 * this.health / this.maxHealth);
+
+    // Audio
+    this.audioManager = new AudioManager(this.game);
   }
 
   update() {
@@ -75,13 +79,7 @@ export default class Treant {
     if (targetAngle < 0) targetAngle += this.game.math.degToRad(360);
 
     // Skip if we can't see player yet
-    if (!this.spotted) {
-      if (distance < this.visibleRange) {
-        this.spotted = true;
-        console.log("Treant spotted the player!");
-      }
-      return;
-    }
+    if (!this.spotted) return;
 
     // Determine the direction to target
     var direction = "right";
@@ -131,15 +129,14 @@ export default class Treant {
     // If enough time has past since the last bullet firing
     if (
       this.game.time.now > this.nextFire &&
-        this.sprite.alive &&
-        this.target.alive &&
-        this.game.math.distance(
-          this.sprite.x,
-          this.sprite.y,
-          this.target.x,
-          this.target.y
-        ) <
-          this.attackRange
+      this.sprite.alive &&
+      this.target.alive &&
+      this.game.math.distance(
+        this.sprite.x,
+        this.sprite.y,
+        this.target.x,
+        this.target.y
+      ) < this.attackRange
     ) {
       // Then hurt the player (we're melee, not ranged)
       this.target.controller.hurt(this.damage);
@@ -214,6 +211,9 @@ export default class Treant {
   onHit(sprite, bullet) {
     this.health -= store.damage;
     this.healthBar.setPercent(100 * this.health / this.maxHealth);
+
+    // Enemy Strike Sound
+    this.audioManager.play("strikeEnemy", false, 0, 0.5, true);
 
     if (this.health <= 0) {
       this.health = 0;

@@ -2,6 +2,7 @@
 
 import store from "../store";
 import HealthBar from "../gui/healthbar";
+import AudioManager from "../utilities/audio-manager";
 
 export default class Wolf {
   constructor(game, x, y) {
@@ -18,10 +19,10 @@ export default class Wolf {
     this.sprite.body.setSize(30, 35, 16, 25);
 
     // Create animations
-    this.sprite.animations.add("up", [ 9, 10, 11, 10 ], 6, true);
-    this.sprite.animations.add("right", [ 6, 7, 8, 7 ], 6, true);
-    this.sprite.animations.add("left", [ 3, 4, 5, 4 ], 6, true);
-    this.sprite.animations.add("down", [ 0, 1, 2, 1 ], 6, true);
+    this.sprite.animations.add("up", [9, 10, 11, 10], 6, true);
+    this.sprite.animations.add("right", [6, 7, 8, 7], 6, true);
+    this.sprite.animations.add("left", [3, 4, 5, 4], 6, true);
+    this.sprite.animations.add("down", [0, 1, 2, 1], 6, true);
 
     // Configure wolf
     this.fireRate = 300;
@@ -31,10 +32,9 @@ export default class Wolf {
     this.movementSpeed = 100;
     this.idealDistance = 10;
     this.buffer = 10;
-    this.maxHealth = 20;
+    this.maxHealth = 10;
     this.health = this.maxHealth;
     this.spotted = false;
-    this.visibleRange = 250;
 
     // Now create health bar
     this.healthBar = new HealthBar(this.game, {
@@ -45,6 +45,9 @@ export default class Wolf {
       height: 8
     });
     this.healthBar.setPercent(100 * this.health / this.maxHealth);
+
+    // Audio
+    this.audioManager = new AudioManager(this.game);
   }
 
   update() {
@@ -76,11 +79,12 @@ export default class Wolf {
 
     // Skip if we can't see player yet
     if (!this.spotted) {
-      if (distance < this.visibleRange) {
-        this.spotted = true;
-        console.log("Wolf spotted the player!");
-      }
       return;
+    } else {
+      if (!this.hasNoticed) {
+        this.audioManager.play("wolf_notice");
+        this.hasNoticed = true;
+      }
     }
 
     // Determine the direction to target
@@ -131,15 +135,14 @@ export default class Wolf {
     // If enough time has past since the last bullet firing
     if (
       this.game.time.now > this.nextFire &&
-        this.sprite.alive &&
-        this.target.alive &&
-        this.game.math.distance(
-          this.sprite.x,
-          this.sprite.y,
-          this.target.x,
-          this.target.y
-        ) <
-          this.attackRange
+      this.sprite.alive &&
+      this.target.alive &&
+      this.game.math.distance(
+        this.sprite.x,
+        this.sprite.y,
+        this.target.x,
+        this.target.y
+      ) < this.attackRange
     ) {
       // Then hurt the player (we're melee, not ranged)
       this.target.controller.hurt(this.damage);
@@ -215,10 +218,15 @@ export default class Wolf {
     this.health -= store.damage;
     this.healthBar.setPercent(100 * this.health / this.maxHealth);
 
+    // Enemy Strike Sound
+    this.audioManager.play("strikeEnemy", false, 0, 0.5, true);
+
     if (this.health <= 0) {
       this.health = 0;
       sprite.kill();
       this.healthBar.kill();
+      // Death Sound
+      this.audioManager.play("wolf_death", false, 0, 1, false);
     }
 
     bullet.kill();
