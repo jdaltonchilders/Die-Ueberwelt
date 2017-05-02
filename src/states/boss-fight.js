@@ -121,8 +121,8 @@ export default class BossFight extends Phaser.State {
     // Update map objects
     // Lol demo soon
     const bullets = [
-      ...this.bossController.waterBullets.children,
-      ...this.bossController.fireBullets.children,
+      // ...this.bossController.waterBullets.children,
+      // ...this.bossController.fireBullets.children,
       ...this.playerController.bullets.children
     ];
     this.boulders.forEach(boulder => {

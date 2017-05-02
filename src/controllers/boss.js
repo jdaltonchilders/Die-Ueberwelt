@@ -51,7 +51,7 @@ export default class Boss {
     this.waterBullets.setAll("anchor.y", 0.5);
     this.waterBullets.setAll("outOfBoundsKill", true);
     this.waterBullets.setAll("checkWorldBounds", true);
-    this.waterBullets.setAll("damage", 1.5);
+    this.waterBullets.setAll("damage", 2.5);
     this.waterBullets.callAll(
       "animations.add",
       "animations",
@@ -70,7 +70,7 @@ export default class Boss {
     this.fireBullets.setAll("anchor.y", 0.5);
     this.fireBullets.setAll("outOfBoundsKill", true);
     this.fireBullets.setAll("checkWorldBounds", true);
-    this.fireBullets.setAll("damage", 2.5);
+    this.fireBullets.setAll("damage", 4);
     this.fireBullets.callAll(
       "animations.add",
       "animations",
