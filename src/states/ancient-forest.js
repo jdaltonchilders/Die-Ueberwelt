@@ -149,6 +149,20 @@ export default class AncientForest extends Phaser.State {
   }
 
   update() {
+    // Ray casting!
+    this.monsters.filter(monster => !monster.spotted).forEach(monster => {
+      var ray = new Phaser.Line(
+        monster.sprite.x,
+        monster.sprite.y,
+        this.player.sprite.x,
+        this.player.sprite.y
+      );
+
+      const tileHits = this.collisionLayer.getRayCastTiles(ray, 4, true, false);
+
+      if (tileHits.length === 0) monster.spotted = true;
+    });
+
     // Handle Player Update
     this.player.update();
 
