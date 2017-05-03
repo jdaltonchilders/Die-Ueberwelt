@@ -34,6 +34,7 @@ import Test from "./states/test";
 class Game extends Phaser.Game {
   constructor() {
     super(window.innerWidth, window.innerHeight, Phaser.AUTO, "gameArea");
+    
 
     // Add to the State Manager (key, state, autoStart)
     this.state.add("Boot", Boot, false);

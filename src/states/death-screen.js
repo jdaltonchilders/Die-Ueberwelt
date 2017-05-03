@@ -83,7 +83,7 @@ class DeathScreen extends Phaser.State {
     // Fix up state info in Store
     store.previousState = "DeathScreen";
     store.currentState = store.nextState = "HeroIsland";
-
+*/
     // Remove One Item from the Player inventory
     if (store.inventory.length > 0) {
       // Select random item based on the length of the array
@@ -92,7 +92,6 @@ class DeathScreen extends Phaser.State {
       // Remove selected item from array
       store.inventory.splice(this.removeInventory, 1);
     }
-    */
 
     // Reset Player Health
     store.health = store.maxHealth;
